@@ -1,9 +1,5 @@
 package com.zheng.project.android.dribbble.models;
 
-/**
- * Created by zheng on 10/17/2017.
- */
-
 import java.util.Date;
 
 public class Bucket {

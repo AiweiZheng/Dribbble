@@ -11,4 +11,8 @@
     <string name="shot_image_content_description">shot image</string>
 
     <string name="shot_count">{0,choice,0#0 shot|1#1 shot|1&lt;{0} shots}</string>
+    <string name="shot_author_picture">Shot author picture</string>
+    <string name="like">like</string>
+    <string name="bucket">bucket</string>
+    <string name="share">Share</string>
 </resources>

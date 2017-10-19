@@ -6,12 +6,21 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.zheng.project.android.dribbble.MainActivity">
+    tools:context="com.zheng.project.android.dribbble.view.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/main_fragment_container"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar"/>
+
+        <FrameLayout
+            android:id="@+id/main_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
 
 <android.support.design.widget.NavigationView
     android:id="@+id/drawer_nav"

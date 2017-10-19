@@ -1,4 +1,4 @@
-package com.zheng.project.android.dribbble;
+package com.zheng.project.android.dribbble.view;
 
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
@@ -8,16 +8,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.zheng.project.android.dribbble.bucket_list.BucketListFragment;
-import com.zheng.project.android.dribbble.shot_list.ShotListFragment;
+import com.zheng.project.android.dribbble.R;
+import com.zheng.project.android.dribbble.view.bucket_list.BucketListFragment;
+import com.zheng.project.android.dribbble.view.shot_list.ShotListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-
+    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
     @BindView(R.id.drawer_nav) NavigationView navigationView;
     ActionBarDrawerToggle drawerToggle;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 

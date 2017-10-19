@@ -1,6 +1,5 @@
-package com.zheng.project.android.dribbble.bucket_list;
+package com.zheng.project.android.dribbble.view.bucket_list;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;

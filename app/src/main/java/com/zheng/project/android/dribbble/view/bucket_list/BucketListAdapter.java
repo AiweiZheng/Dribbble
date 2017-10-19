@@ -1,7 +1,5 @@
-package com.zheng.project.android.dribbble.bucket_list;
+package com.zheng.project.android.dribbble.view.bucket_list;
 
-
-import android.app.usage.NetworkStats;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
