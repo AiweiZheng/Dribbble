@@ -3,8 +3,8 @@ package com.zheng.project.android.dribbble.view.shot_list;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,9 +64,10 @@ public class ShotListAdapter extends RecyclerView.Adapter{
             ShotViewHolder shotVh = (ShotViewHolder) holder;
             final Shot shot = shots.get(position);
 
-            shotVh.bucketCount.setText(String.valueOf((shot.bucketCount)));
-            shotVh.viewCount.setText(String.valueOf((shot.viewCount)));
-            shotVh.likeCount.setText(String.valueOf((shot.likeCount)));
+            shotVh.shotImage.setImageURI(Uri.parse(shot.getImageUrl()));
+            shotVh.bucketCount.setText(String.valueOf((shot.bucketsCount)));
+            shotVh.viewCount.setText(String.valueOf((shot.viewsCount)));
+            shotVh.likeCount.setText(String.valueOf((shot.likesCount)));
 
             shotVh.cover.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,6 +108,11 @@ public class ShotListAdapter extends RecyclerView.Adapter{
         shots.addAll(newShots);
     }
 
+    public void setData(@NonNull List<Shot> newShots) {
+        shots.clear();
+        shots.addAll(newShots);
+        notifyDataSetChanged();
+    }
     public void setShowLoading(boolean showLoading) {
         if (this.showLoading != showLoading) {
             this.showLoading = showLoading;

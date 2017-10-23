@@ -2,22 +2,25 @@
 
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
         <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-                <ImageView
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+                <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/shot_image"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/shot_image_height"
-                    android:background="@android:color/holo_blue_bright"
+
                     android:scaleType="centerCrop"
                     android:contentDescription="@string/shot_image_content_description"
                     tools:src = "@drawable/shot_image_place_holder"/>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/list_shot_detail_bar_height">
