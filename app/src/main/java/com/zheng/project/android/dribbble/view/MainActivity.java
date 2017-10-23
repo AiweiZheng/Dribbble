@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.main_fragment_container, ShotListFragment.newInstance())
+                    .add(R.id.main_fragment_container,
+                            DataListFragmentFactory.getFragment(DataListFragmentFactory.SHOT_LIST_FRAGMENT))
                     .commit();
         }
     }
@@ -92,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.drawer_menu_item_likes:
                         setTitle(R.string.title_likes);
-                        fragment = ShotListFragment.newInstance();
+                        fragment = DataListFragmentFactory
+                                .getFragment(DataListFragmentFactory.SHOT_LIST_FRAGMENT);
                         break;
 
                     case R.id.drawer_menu_item_buckets:
