@@ -1,4 +1,4 @@
-package com.zheng.project.android.dribbble.base;
+package com.zheng.project.android.dribbble.view.base;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -44,11 +44,13 @@ public abstract class DataListAdapter<T> extends RecyclerView.Adapter{
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        if (position >= data.size() && loadMoreListener != null) {
+        final int viewType = getItemViewType(position);
+
+        if (viewType == VIEW_TYPE_LOADING && loadMoreListener != null) {
             loadMoreListener.onLoadMore();
         }
 
-        if (holder instanceof BaseViewHolder) {
+        if (viewType == VIEW_TYPE_DATA) {
             onBindView((BaseViewHolder) holder, data.get(position));
         }
     }
@@ -74,6 +76,7 @@ public abstract class DataListAdapter<T> extends RecyclerView.Adapter{
 
     public void append(@NonNull List<T> newData) {
         data.addAll(newData);
+        notifyDataSetChanged();
     }
 
     public void setData(@NonNull List<T> newData) {

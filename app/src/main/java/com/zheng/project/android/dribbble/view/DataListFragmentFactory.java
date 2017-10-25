@@ -1,6 +1,6 @@
 package com.zheng.project.android.dribbble.view;
 
-import com.zheng.project.android.dribbble.base.DataListFragment;
+import com.zheng.project.android.dribbble.view.base.DataListFragment;
 import com.zheng.project.android.dribbble.view.shot_list.ShotListFragment;
 
 public class DataListFragmentFactory {

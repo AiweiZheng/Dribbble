@@ -1,4 +1,4 @@
-package com.zheng.project.android.dribbble.base;
+package com.zheng.project.android.dribbble.view.base;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.google.gson.reflect.TypeToken;
 import com.zheng.project.android.dribbble.R;
-import com.zheng.project.android.dribbble.base.BaseViewHolder;
-import com.zheng.project.android.dribbble.base.DataListAdapter;
+import com.zheng.project.android.dribbble.view.base.BaseViewHolder;
+import com.zheng.project.android.dribbble.view.base.DataListAdapter;
 import com.zheng.project.android.dribbble.models.Shot;
 import com.zheng.project.android.dribbble.view.shot_details.ShotActivity;
 import com.zheng.project.android.dribbble.view.shot_details.ShotFragment;
@@ -38,10 +40,16 @@ public class ShotListAdapter extends DataListAdapter<Shot>{
     protected void onBindView(@NonNull final BaseViewHolder vh, @NonNull final Shot data) {
         ShotViewHolder shotVh = (ShotViewHolder) vh;
 
-        shotVh.shotImage.setImageURI(Uri.parse(data.getImageUrl()));
-        shotVh.bucketCount.setText(String.valueOf((data.bucketsCount)));
-        shotVh.viewCount.setText(String.valueOf((data.viewsCount)));
-        shotVh.likeCount.setText(String.valueOf((data.likesCount)));
+        shotVh.bucketCount.setText(String.valueOf((data.buckets_count)));
+        shotVh.viewCount.setText(String.valueOf((data.views_count)));
+        shotVh.likeCount.setText(String.valueOf((data.likes_count)));
+
+        // play gif automatically
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setUri(Uri.parse(data.getImageUrl()))
+                .setAutoPlayAnimations(true)
+                .build();
+        shotVh.shotImage.setController(controller);
 
         shotVh.cover.setOnClickListener(new View.OnClickListener() {
             @Override

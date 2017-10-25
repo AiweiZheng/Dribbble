@@ -1,4 +1,4 @@
-package com.zheng.project.android.dribbble.base;
+package com.zheng.project.android.dribbble.view.base;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;

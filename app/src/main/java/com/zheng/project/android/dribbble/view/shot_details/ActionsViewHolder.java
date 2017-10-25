@@ -5,7 +5,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.zheng.project.android.dribbble.R;
-import com.zheng.project.android.dribbble.base.BaseViewHolder;
+import com.zheng.project.android.dribbble.view.base.BaseViewHolder;
 
 import butterknife.BindView;
 

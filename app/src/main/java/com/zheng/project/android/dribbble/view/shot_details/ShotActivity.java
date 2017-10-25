@@ -3,7 +3,7 @@ package com.zheng.project.android.dribbble.view.shot_details;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
-import com.zheng.project.android.dribbble.base.SingleFragmentActivity;
+import com.zheng.project.android.dribbble.view.base.SingleFragmentActivity;
 
 public class ShotActivity extends SingleFragmentActivity {
 

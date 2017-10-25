@@ -1,8 +1,7 @@
-package com.zheng.project.android.dribbble.base;
+package com.zheng.project.android.dribbble.view.base;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -15,8 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.zheng.project.android.dribbble.DribbboApplication;
 import com.zheng.project.android.dribbble.R;
+import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
+import com.zheng.project.android.dribbble.utils.BackgroundTask;
 
 import java.util.List;
 
@@ -42,8 +42,8 @@ public abstract class DataListFragment<T> extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
             @Override
             public void onRefresh() {
-                new LoadShotTask(true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                Toast.makeText(getContext(), "Refresh", Toast.LENGTH_LONG).show();
+                new LoadDataTask(true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                Toast.makeText(getContext(), "Refresh", Toast.LENGTH_SHORT).show();
             }
         });
         return view;
@@ -60,7 +60,7 @@ public abstract class DataListFragment<T> extends Fragment {
         adapter.loadMoreListener = new DataListAdapter.LoadMoreListener() {
             @Override
             public void onLoadMore() {
-                new LoadShotTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                new LoadDataTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
         };
 
@@ -76,18 +76,17 @@ public abstract class DataListFragment<T> extends Fragment {
     @NonNull
     protected abstract DataListAdapter onCreateAdapter();
 
-    private class LoadShotTask extends AsyncTask<Void, Void, List<T>> {
+    private class LoadDataTask extends BackgroundTask<List<T>> {
 
         private boolean refresh = false;
 
-        public LoadShotTask(boolean refresh) {
+        public LoadDataTask(boolean refresh) {
             this.refresh = refresh;
         }
-        public LoadShotTask(){ this.refresh = false;}
+        public LoadDataTask(){ this.refresh = false;}
 
         @Override
-        protected List<T> doInBackground(Void... voids) {
-
+        protected List<T> executeInBackGround() {
             List<T> moreData;
             if (refresh) {
                 moreData = onRefresh();
@@ -99,7 +98,7 @@ public abstract class DataListFragment<T> extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(List<T> data) {
+        protected void onPost(List<T> data) {
             if (data == null) {
                 Snackbar.make(getView(), "Error!", Snackbar.LENGTH_LONG).show();
                 return;
@@ -110,7 +109,7 @@ public abstract class DataListFragment<T> extends Fragment {
             }
             else { //load more data
                 adapter.append(data);
-                adapter.setShowLoading(data.size() >= DribbboApplication.COUNT_PER_PAGE);
+                adapter.setShowLoading(data.size() >= Dribbble.COUNT_PER_PAGE);
             }
         }
     }

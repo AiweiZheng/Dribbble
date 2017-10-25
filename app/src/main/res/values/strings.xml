@@ -15,4 +15,8 @@
     <string name="like">like</string>
     <string name="bucket">bucket</string>
     <string name="share">Share</string>
+    <string name="activity_login_icon">gribbble login icon</string>
+    <string name="log_into_dribbble_text">Log into dribbble</string>
+    <string name="auth_activity_title">Log into Dribbble</string>
+    <string name="logout">Log out</string>
 </resources>

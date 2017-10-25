@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zheng.project.android.dribbble.R;
-import com.zheng.project.android.dribbble.base.SpaceItemDecoration;
+import com.zheng.project.android.dribbble.view.base.SpaceItemDecoration;
 import com.zheng.project.android.dribbble.models.Bucket;
 
 import java.util.ArrayList;
