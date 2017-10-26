@@ -12,29 +12,26 @@ import com.zheng.project.android.dribbble.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public abstract class SingleFragmentActivity extends AppCompatActivity {
+public abstract class SingleFragmentActivity extends BaseActivity {
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onSavedInstanceStateIsNull() {
+        setFragment(newFragment(), R.id.fragment_container);
+    }
+
+    @Override
+    protected void onCreateView() {
         setContentView(R.layout.activity_single_fragment);
 
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+    }
 
+    @Override
+    protected void onViewCreated() {
         if (isBackEnabled()) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         setTitle(getActivityTitle());
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.fragment_container, newFragment())
-                    .commit();
-        }
     }
 
     @Override

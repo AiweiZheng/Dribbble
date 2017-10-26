@@ -9,5 +9,5 @@ public class Bucket {
     public int shots_count;
     public Date created_at;
 
-    public boolean isChoosing;
+    public boolean isChosen;
 }

@@ -18,37 +18,19 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
+import com.zheng.project.android.dribbble.view.base.BaseActivity;
+import com.zheng.project.android.dribbble.view.base.DataListFragment;
 import com.zheng.project.android.dribbble.view.bucket_list.BucketListFragment;
 import com.zheng.project.android.dribbble.view.shot_list.ShotListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
-    @BindView(R.id.toolbar) Toolbar toolbar;
+public class MainActivity extends BaseActivity {
+
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
     @BindView(R.id.drawer_nav) NavigationView navigationView;
     ActionBarDrawerToggle drawerToggle;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-        setupDrawer();
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.main_fragment_container,
-                            DataListFragmentFactory.getFragment(DataListFragmentFactory.SHOT_LIST_FRAGMENT))
-                    .commit();
-        }
-    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -68,6 +50,24 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSavedInstanceStateIsNull() {
+        setFragment(DataListFragmentFactory.getFragment(DataListFragmentFactory.SHOT_LIST_FRAGMENT),
+                R.id.main_fragment_container);
+    }
+
+    @Override
+    protected void onCreateView() {
+        setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void onViewCreated() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        setupDrawer();
     }
 
     private void setupDrawer() {
@@ -93,28 +93,24 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.drawer_menu_item_home:
-                        fragment = ShotListFragment.newInstance();
+                        fragment = ShotListFragment.newInstance(ShotListFragment.LIST_TYPE_POPULAR);
                         setTitle(R.string.title_home);
                         break;
 
                     case R.id.drawer_menu_item_likes:
                         setTitle(R.string.title_likes);
-                        fragment = DataListFragmentFactory
-                                .getFragment(DataListFragmentFactory.SHOT_LIST_FRAGMENT);
+                        fragment = ShotListFragment.newInstance(ShotListFragment.LIST_TYPE_LIKED);
                         break;
 
                     case R.id.drawer_menu_item_buckets:
                         setTitle(R.string.title_buckets);
-                        fragment = BucketListFragment.newInstance();
+                        fragment = BucketListFragment.newInstance(null, false, null);
                         break;
                 }
                 drawerLayout.closeDrawers();
 
                 if (fragment != null) {
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.main_fragment_container, fragment)
-                            .commit();
+                    setFragment(fragment, R.id.main_fragment_container);
                     return true;
                 }
 

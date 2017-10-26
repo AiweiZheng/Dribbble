@@ -12,6 +12,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.google.gson.reflect.TypeToken;
 import com.zheng.project.android.dribbble.R;
+import com.zheng.project.android.dribbble.utils.AnimatedImageUtils;
 import com.zheng.project.android.dribbble.view.base.BaseViewHolder;
 import com.zheng.project.android.dribbble.view.base.DataListAdapter;
 import com.zheng.project.android.dribbble.models.Shot;
@@ -23,8 +24,8 @@ import java.util.List;
 
 public class ShotListAdapter extends DataListAdapter<Shot>{
 
-    public ShotListAdapter(List<Shot> shots) {
-        super(shots);
+    public ShotListAdapter(@NonNull Context context, List<Shot> shots) {
+        super(context, shots);
     }
 
     @Override
@@ -37,19 +38,14 @@ public class ShotListAdapter extends DataListAdapter<Shot>{
     }
 
     @Override
-    protected void onBindView(@NonNull final BaseViewHolder vh, @NonNull final Shot data) {
+    protected void onBindView(@NonNull final BaseViewHolder vh, int position) {
         ShotViewHolder shotVh = (ShotViewHolder) vh;
+        final Shot shot = data.get(position);
 
-        shotVh.bucketCount.setText(String.valueOf((data.buckets_count)));
-        shotVh.viewCount.setText(String.valueOf((data.views_count)));
-        shotVh.likeCount.setText(String.valueOf((data.likes_count)));
-
-        // play gif automatically
-        DraweeController controller = Fresco.newDraweeControllerBuilder()
-                .setUri(Uri.parse(data.getImageUrl()))
-                .setAutoPlayAnimations(true)
-                .build();
-        shotVh.shotImage.setController(controller);
+        shotVh.bucketCount.setText(String.valueOf((shot.buckets_count)));
+        shotVh.viewCount.setText(String.valueOf((shot.views_count)));
+        shotVh.likeCount.setText(String.valueOf((shot.likes_count)));
+        AnimatedImageUtils.autoPlayAnimations(shot.getImageUrl(), shotVh.shotImage);
 
         shotVh.cover.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,9 +53,9 @@ public class ShotListAdapter extends DataListAdapter<Shot>{
                 Context context = vh.itemView.getContext();
                 Intent intent = new Intent(context, ShotActivity.class);
                 intent.putExtra(ShotFragment.KEY_SHOT,
-                        ModelUtils.toString(data, new TypeToken<Shot>() {
+                        ModelUtils.toString(shot, new TypeToken<Shot>() {
                         }));
-                intent.putExtra(ShotActivity.KEY_SHOT_TITLE, data.title);
+                intent.putExtra(ShotActivity.KEY_SHOT_TITLE, shot.title);
 
                 context.startActivity(intent);
             }

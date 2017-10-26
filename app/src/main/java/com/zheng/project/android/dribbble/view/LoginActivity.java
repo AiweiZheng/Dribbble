@@ -12,6 +12,7 @@ import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.dribbble.auth.Auth;
 import com.zheng.project.android.dribbble.dribbble.auth.AuthActivity;
 import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
+import com.zheng.project.android.dribbble.dribbble.auth.DribbbleException;
 
 import java.io.IOException;
 
@@ -64,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
 
-                    } catch (IOException | JsonSyntaxException e) {
+                    } catch (IOException | DribbbleException e) {
                         e.printStackTrace();
                     }
                 }

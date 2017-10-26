@@ -1,5 +1,6 @@
 package com.zheng.project.android.dribbble.view.base;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zheng.project.android.dribbble.R;
+import com.zheng.project.android.dribbble.models.Bucket;
 
 import java.util.List;
 
@@ -15,12 +17,15 @@ public abstract class DataListAdapter<T> extends RecyclerView.Adapter{
     private static final int VIEW_TYPE_DATA = 0;
     private static final int VIEW_TYPE_LOADING = 1;
 
-    private List<T> data;
+    private Context context;
     private boolean showLoading = false;
+
+    protected List<T> data;
 
     public LoadMoreListener loadMoreListener;
 
-    public DataListAdapter(@NonNull List<T> data) {
+    public DataListAdapter(@NonNull Context context, @NonNull List<T> data) {
+        this.context = context;
         this.data = data;
         this.showLoading = true;
     }
@@ -51,7 +56,7 @@ public abstract class DataListAdapter<T> extends RecyclerView.Adapter{
         }
 
         if (viewType == VIEW_TYPE_DATA) {
-            onBindView((BaseViewHolder) holder, data.get(position));
+            onBindView((BaseViewHolder) holder, position);
         }
     }
 
@@ -79,6 +84,10 @@ public abstract class DataListAdapter<T> extends RecyclerView.Adapter{
         notifyDataSetChanged();
     }
 
+    public void prepend(@NonNull List<T> newData) {
+        data.addAll(0, newData);
+        notifyDataSetChanged();
+    }
     public void setData(@NonNull List<T> newData) {
         data.clear();
         data.addAll(newData);
@@ -91,9 +100,12 @@ public abstract class DataListAdapter<T> extends RecyclerView.Adapter{
         }
     }
 
-    protected abstract BaseViewHolder onCreateView(@NonNull ViewGroup parent);
-    protected abstract void onBindView(@NonNull BaseViewHolder vh, @NonNull T data);
+    protected Context getContext() {
+        return context;
+    }
 
+    protected abstract BaseViewHolder onCreateView(@NonNull ViewGroup parent);
+    protected abstract void onBindView(@NonNull BaseViewHolder vh, int position);
     public interface LoadMoreListener {
         void onLoadMore();
     }
