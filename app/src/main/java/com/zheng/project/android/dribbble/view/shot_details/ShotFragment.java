@@ -44,6 +44,7 @@ public class ShotFragment extends Fragment{
     private static final int REQ_CODE_BUCKET = 100;
 
     private Shot shot;
+    private boolean isLiking;
     private ArrayList<String> collectedBucketIds;
 
     public static ShotFragment newInstance(@NonNull Bundle args) {
@@ -68,10 +69,13 @@ public class ShotFragment extends Fragment{
 
         shot = ModelUtils.toObject(getArguments().getString(KEY_SHOT),
                 new TypeToken<Shot>(){});
+        isLiking = true;
 
         swipeRefreshLayout.setEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new ShotAdapter(shot, this));
+
+        new CheckLikeTask().execute();
         new LoadBucketsTask().execute();
     }
 
@@ -113,6 +117,21 @@ public class ShotFragment extends Fragment{
             intent.putStringArrayListExtra(BucketListFragment.KEY_COLLECTED_BUCKET_IDS,
                     collectedBucketIds);
             startActivityForResult(intent, REQ_CODE_BUCKET);
+        }
+    }
+
+    public void share() {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shot.title + " " + shot.html_url);
+        shareIntent.setType("text/plain");
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_shot)));
+    }
+
+    public void like(@NonNull String shotId, boolean like) {
+        if (!isLiking) {
+            isLiking = true;
+            new LikeTask(shotId, like).execute();
         }
     }
 
@@ -197,6 +216,73 @@ public class ShotFragment extends Fragment{
         @Override
         protected void onFailed(DribbbleException e) {
             Log.error(getView(), e.getMessage());
+        }
+
+        public void execute() {
+            this.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+    }
+
+    private class LikeTask extends BackgroundTask<Void, Void, Void> {
+
+        private String id;
+        private boolean like;
+
+        public LikeTask(String id, boolean like) {
+            this.id = id;
+            this.like = like;
+        }
+
+        @Override
+        protected Void doJob(Void... params) throws DribbbleException {
+            if (like) {
+                Dribbble.likeShot(id);
+            } else {
+                Dribbble.unlikeShot(id);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onSuccess(Void s) {
+            isLiking = false;
+
+            shot.liked = like;
+            shot.likes_count += like ? 1 : -1;
+            recyclerView.getAdapter().notifyDataSetChanged();
+
+            setResult();
+        }
+
+        @Override
+        protected void onFailed(DribbbleException e) {
+            isLiking = false;
+            Log.error(getView(), e.getMessage());
+        }
+
+        public void execute() {
+            this.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+    }
+
+    private class CheckLikeTask extends BackgroundTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doJob(Void... params) throws DribbbleException {
+            return Dribbble.isLikingShot(shot.id);
+        }
+
+        @Override
+        protected void onSuccess(Boolean result) {
+            isLiking = false;
+            shot.liked = result;
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+
+        @Override
+        protected void onFailed(DribbbleException e) {
+            isLiking = false;
+            Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_LONG).show();
         }
 
         public void execute() {
