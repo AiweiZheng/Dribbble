@@ -1,31 +1,35 @@
 package com.zheng.project.android.dribbble.view.shot_list;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.JsonSyntaxException;
-import com.zheng.project.android.dribbble.DribbboApplication;
+import com.google.gson.reflect.TypeToken;
 import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
 import com.zheng.project.android.dribbble.dribbble.auth.DribbbleException;
-import com.zheng.project.android.dribbble.view.base.DataListAdapter;
-import com.zheng.project.android.dribbble.view.base.DataListFragment;
+import com.zheng.project.android.dribbble.utils.ModelUtils;
+import com.zheng.project.android.dribbble.view.base.InfiniteAdapter;
+import com.zheng.project.android.dribbble.view.base.InfiniteFragment;
 import com.zheng.project.android.dribbble.models.Shot;
+import com.zheng.project.android.dribbble.view.shot_details.ShotFragment;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
-public class ShotListFragment extends DataListFragment<Shot> {
+public class ShotListFragment extends InfiniteFragment<Shot> {
 
+    public static final int REQ_CODE_SHOT = 100;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.swipe_refresh_container) SwipeRefreshLayout swipeRefreshLayout;
 
@@ -36,6 +40,7 @@ public class ShotListFragment extends DataListFragment<Shot> {
     public static final int LIST_TYPE_LIKED = 2;
     public static final int LIST_TYPE_BUCKET = 3;
 
+    private ShotListAdapter adapter;
     @NonNull
     public static ShotListFragment newInstance(int listType) {
         Bundle args = new Bundle();
@@ -81,8 +86,9 @@ public class ShotListFragment extends DataListFragment<Shot> {
 
     @NonNull
     @Override
-    protected DataListAdapter createAdapter() {
-        return new ShotListAdapter(getContext(), new ArrayList<Shot>());
+    protected InfiniteAdapter createAdapter() {
+        adapter = new ShotListAdapter(this, new ArrayList<Shot>());
+        return adapter;
     }
 
     @NonNull
@@ -91,5 +97,20 @@ public class ShotListFragment extends DataListFragment<Shot> {
         return getLayoutInflater().inflate(R.layout.fragment_recycler_view, container, false);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQ_CODE_SHOT && resultCode == Activity.RESULT_OK) {
+            Shot updatedShot = ModelUtils.toObject(data.getStringExtra(ShotFragment.KEY_SHOT),
+                    new TypeToken<Shot>(){});
+            for (Shot shot : adapter.getData()) {
+                if (TextUtils.equals(shot.id, updatedShot.id)) {
+                    shot.likes_count = updatedShot.likes_count;
+                    shot.buckets_count = updatedShot.buckets_count;
+                    adapter.notifyDataSetChanged();
+                    return;
+                }
+            }
+        }
+    }
 
 }

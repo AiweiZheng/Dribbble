@@ -8,9 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -19,12 +17,10 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
 import com.zheng.project.android.dribbble.view.base.BaseActivity;
-import com.zheng.project.android.dribbble.view.base.DataListFragment;
 import com.zheng.project.android.dribbble.view.bucket_list.BucketListFragment;
 import com.zheng.project.android.dribbble.view.shot_list.ShotListFragment;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
 

@@ -2,19 +2,16 @@ package com.zheng.project.android.dribbble.view.shot_list;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.interfaces.DraweeController;
 import com.google.gson.reflect.TypeToken;
 import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.utils.AnimatedImageUtils;
 import com.zheng.project.android.dribbble.view.base.BaseViewHolder;
-import com.zheng.project.android.dribbble.view.base.DataListAdapter;
+import com.zheng.project.android.dribbble.view.base.InfiniteAdapter;
 import com.zheng.project.android.dribbble.models.Shot;
 import com.zheng.project.android.dribbble.view.shot_details.ShotActivity;
 import com.zheng.project.android.dribbble.view.shot_details.ShotFragment;
@@ -22,10 +19,13 @@ import com.zheng.project.android.dribbble.utils.ModelUtils;
 
 import java.util.List;
 
-public class ShotListAdapter extends DataListAdapter<Shot>{
+public class ShotListAdapter extends InfiniteAdapter<Shot> {
 
-    public ShotListAdapter(@NonNull Context context, List<Shot> shots) {
-        super(context, shots);
+    private ShotListFragment shotListFragment;
+
+    public ShotListAdapter(@NonNull ShotListFragment shotListFragment, List<Shot> shots) {
+        super(shotListFragment.getContext(), shots);
+        this.shotListFragment = shotListFragment;
     }
 
     @Override
@@ -56,8 +56,7 @@ public class ShotListAdapter extends DataListAdapter<Shot>{
                         ModelUtils.toString(shot, new TypeToken<Shot>() {
                         }));
                 intent.putExtra(ShotActivity.KEY_SHOT_TITLE, shot.title);
-
-                context.startActivity(intent);
+                shotListFragment.startActivityForResult(intent, ShotListFragment.REQ_CODE_SHOT);
             }
         });
     }

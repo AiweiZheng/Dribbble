@@ -22,6 +22,7 @@
         <activity android:name=".view.MainActivity" />
         <activity android:name=".view.shot_details.ShotActivity" />
         <activity android:name=".view.bucket_list.BucketShotListActivity"/>
+        <activity android:name=".view.bucket_list.BucketListActivity"/>
         <activity
             android:name=".dribbble.auth.AuthActivity"
             android:windowSoftInputMode="adjustPan" />

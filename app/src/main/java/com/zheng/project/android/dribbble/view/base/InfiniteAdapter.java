@@ -12,7 +12,7 @@ import com.zheng.project.android.dribbble.models.Bucket;
 
 import java.util.List;
 
-public abstract class DataListAdapter<T> extends RecyclerView.Adapter{
+public abstract class InfiniteAdapter<T> extends RecyclerView.Adapter{
 
     private static final int VIEW_TYPE_DATA = 0;
     private static final int VIEW_TYPE_LOADING = 1;
@@ -24,7 +24,7 @@ public abstract class DataListAdapter<T> extends RecyclerView.Adapter{
 
     public LoadMoreListener loadMoreListener;
 
-    public DataListAdapter(@NonNull Context context, @NonNull List<T> data) {
+    public InfiniteAdapter(@NonNull Context context, @NonNull List<T> data) {
         this.context = context;
         this.data = data;
         this.showLoading = true;
@@ -104,6 +104,9 @@ public abstract class DataListAdapter<T> extends RecyclerView.Adapter{
         return context;
     }
 
+    public List<T> getData() {
+        return data;
+    }
     protected abstract BaseViewHolder onCreateView(@NonNull ViewGroup parent);
     protected abstract void onBindView(@NonNull BaseViewHolder vh, int position);
     public interface LoadMoreListener {

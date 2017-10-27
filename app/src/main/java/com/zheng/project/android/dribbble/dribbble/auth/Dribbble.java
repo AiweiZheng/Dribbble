@@ -13,6 +13,7 @@ import com.zheng.project.android.dribbble.utils.AuthUtils;
 import com.zheng.project.android.dribbble.utils.ModelUtils;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,12 +40,14 @@ public class Dribbble {
 
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_NAME = "name";
+    private static final String KEY_SHOT_ID = "shot_id";
 
     private static final TypeToken<User> USER_TYPE = new TypeToken<User>(){};
     private static final TypeToken<List<Shot>> SHOT_LIST_TYPE = new TypeToken<List<Shot>>(){};
     private static final TypeToken<List<Bucket>> BUCKET_LIST_TYPE = new TypeToken<List<Bucket>>(){};
     private static final TypeToken<Bucket> BUCKET_TYPE = new TypeToken<Bucket>(){};
     private static final TypeToken<List<Like>> LIKE_LIST_TYPE = new TypeToken<List<Like>>(){} ;
+
 
     private static OkHttpClient client = new OkHttpClient();
 
@@ -62,6 +65,13 @@ public class Dribbble {
         return new Request.Builder()
                 .addHeader("Authorization", "Bearer " + accessToken)
                 .url(url);
+    }
+
+    private static void checkStatusCode(Response response,
+                                        int statusCode) throws DribbbleException {
+        if (response.code() != statusCode) {
+            throw new DribbbleException(response.message());
+        }
     }
 
     public static void login(@NonNull Context context,
@@ -102,6 +112,22 @@ public class Dribbble {
                                             RequestBody requestBody) throws DribbbleException {
         Request request = authRequestBuilder(url)
                 .post(requestBody)
+                .build();
+        return makeRequest(request);
+    }
+
+    private static Response makePutRequest(String url,
+                                           RequestBody requestBody) throws DribbbleException {
+        Request request = authRequestBuilder(url)
+                .put(requestBody)
+                .build();
+        return makeRequest(request);
+    }
+
+    private static Response makeDeleteRequest(String url,
+                                              RequestBody requestBody) throws DribbbleException {
+        Request request = authRequestBuilder(url)
+                .delete(requestBody)
                 .build();
         return makeRequest(request);
     }
@@ -167,6 +193,27 @@ public class Dribbble {
         return parseResponse(makeGetRequest(url), BUCKET_LIST_TYPE);
     }
 
+    /**
+     * Will return all the buckets for the logged in user
+     * @return
+     * @throws DribbbleException
+     */
+    public static List<Bucket> getUserBuckets() throws DribbbleException {
+        String url = USER_END_POINT + "/" + "buckets?per_page=" + Integer.MAX_VALUE;
+        return parseResponse(makeGetRequest(url), BUCKET_LIST_TYPE);
+    }
+
+    /**
+     * Will return all the buckets for a certain shot
+     * @param shotId
+     * @return
+     * @throws DribbbleException
+     */
+    public static List<Bucket> getShotBuckets(@NonNull String shotId) throws DribbbleException {
+        String url = SHOTS_END_POINT + "/" + shotId + "/buckets?per_page=" + Integer.MAX_VALUE;
+        return parseResponse(makeGetRequest(url), BUCKET_LIST_TYPE);
+    }
+
     public static List<Shot> getBucketShots(@NonNull String bucketId,
                                             int page) throws DribbbleException {
         String url = BUCKETS_END_POINT + "/" + bucketId + "/shots";
@@ -180,6 +227,28 @@ public class Dribbble {
                 .add(KEY_DESCRIPTION, description)
                 .build();
         return parseResponse(makePostRequest(BUCKETS_END_POINT, formBody), BUCKET_TYPE);
+    }
+
+    public static void addBucketShot(@NonNull String bucketId,
+                                     @NonNull String shotId) throws DribbbleException {
+        String url = BUCKETS_END_POINT + "/" + bucketId + "/shots";
+        FormBody formBody = new FormBody.Builder()
+                .add(KEY_SHOT_ID, shotId)
+                .build();
+
+        Response response = makePutRequest(url, formBody);
+        checkStatusCode(response, HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    public static void removeBucketShot(@NonNull String bucketId,
+                                        @NonNull String shotId) throws DribbbleException {
+        String url = BUCKETS_END_POINT + "/" + bucketId + "/shots";
+        FormBody formBody = new FormBody.Builder()
+                .add(KEY_SHOT_ID, shotId)
+                .build();
+
+        Response response = makeDeleteRequest(url, formBody);
+        checkStatusCode(response, HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     public static List<Like> getLikes(int page) throws DribbbleException {

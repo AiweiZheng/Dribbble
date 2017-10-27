@@ -1,9 +1,13 @@
 package com.zheng.project.android.dribbble.view.shot_details;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +17,7 @@ import com.facebook.drawee.interfaces.DraweeController;
 import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.models.Shot;
 import com.zheng.project.android.dribbble.utils.AnimatedImageUtils;
+import com.zheng.project.android.dribbble.view.shot_list.ShotListFragment;
 
 
 public class ShotAdapter extends RecyclerView.Adapter{
@@ -22,10 +27,13 @@ public class ShotAdapter extends RecyclerView.Adapter{
     private static final int VIEW_TYPE_SHOT_INFO = 2;
 
     private static final int NUM_OF_ELEMENT = 3;
+
+    private ShotFragment shotFragment;
     private Shot shot;
 
-    public ShotAdapter(@NonNull Shot shot) {
+    public ShotAdapter(@NonNull Shot shot, @NonNull ShotFragment shotFragment) {
         this.shot = shot;
+        this.shotFragment = shotFragment;
     }
 
     @Override
@@ -70,6 +78,19 @@ public class ShotAdapter extends RecyclerView.Adapter{
                 actionsViewHolder.likeCount.setText(String.valueOf(shot.likes_count));
                 actionsViewHolder.bucketCount.setText(String.valueOf(shot.buckets_count));
                 actionsViewHolder.viewCount.setText(String.valueOf(shot.views_count));
+
+                actionsViewHolder.bucketButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        shotFragment.bucket();
+                    }
+                });
+
+                Drawable bucketDrawable = shot.bucketed
+                        ? ContextCompat.getDrawable(getContext(), R.drawable.ic_inbox_dribbble_18dp)
+                        : ContextCompat.getDrawable(getContext(), R.drawable.ic_inbox_black_18dp);
+                actionsViewHolder.bucketButton.setImageDrawable(bucketDrawable);
+
                 break;
 
             case VIEW_TYPE_SHOT_INFO:
@@ -78,6 +99,7 @@ public class ShotAdapter extends RecyclerView.Adapter{
                 shotDetailViewHolder.authorName.setText(shot.user.name);
                 shotDetailViewHolder.description.setText(Html.fromHtml(shot.description == null
                                                                        ? "" : shot.description));
+                shotDetailViewHolder.description.setMovementMethod(LinkMovementMethod.getInstance());
                 shotDetailViewHolder.authorPicture.setImageURI(Uri.parse(shot.user.avatar_url));
                 break;
         }
@@ -98,4 +120,9 @@ public class ShotAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemCount() {return NUM_OF_ELEMENT;}
+
+    @NonNull
+    private Context getContext() {
+        return shotFragment.getContext();
+    }
 }

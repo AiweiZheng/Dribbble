@@ -10,17 +10,20 @@ public class Shot {
     public static final String IMAGE_HIDPI = "hidpi";
     private static final Object IMAGE_NORMAL = "normal";
 
+    public String id;
     public String title;
+    public String description;
+    public String html_url;
 
     public int views_count;
     public int likes_count;
     public int buckets_count;
     public Date created_at;
-    public String description;
 
     public HashMap<String, String> images;
     public boolean animated;
     public User user;
+    public boolean bucketed;
 
     @NonNull
     public String getImageUrl() {

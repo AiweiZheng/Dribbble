@@ -11,13 +11,13 @@ import android.view.ViewGroup;
 import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.models.Bucket;
 import com.zheng.project.android.dribbble.view.base.BaseViewHolder;
-import com.zheng.project.android.dribbble.view.base.DataListAdapter;
+import com.zheng.project.android.dribbble.view.base.InfiniteAdapter;
 import com.zheng.project.android.dribbble.view.shot_list.ShotListFragment;
 
 import java.util.List;
 
 
-public class BucketListAdapter extends DataListAdapter<Bucket>{
+public class BucketListAdapter extends InfiniteAdapter<Bucket> {
 
     private boolean isEditingMode;
 

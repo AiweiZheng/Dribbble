@@ -8,6 +8,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,8 +19,8 @@ import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
 import com.zheng.project.android.dribbble.dribbble.auth.DribbbleException;
 import com.zheng.project.android.dribbble.utils.Log;
-import com.zheng.project.android.dribbble.view.base.DataListAdapter;
-import com.zheng.project.android.dribbble.view.base.DataListFragment;
+import com.zheng.project.android.dribbble.view.base.InfiniteAdapter;
+import com.zheng.project.android.dribbble.view.base.InfiniteFragment;
 import com.zheng.project.android.dribbble.models.Bucket;
 
 import java.util.ArrayList;
@@ -27,11 +30,12 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class BucketListFragment extends DataListFragment<Bucket>{
+public class BucketListFragment extends InfiniteFragment<Bucket> {
 
     public static final String KEY_USER_ID = "user_id";
     public static final String KEY_EDITING_MODE = "editing_mode";
     public static final String KEY_COLLECTED_BUCKET_IDS = "collected_bucket_ids";
+    public static final String KEY_CHOSEN_BUCKET_IDS = "chosen_bucket_ids";
 
     private String userId;
     private boolean isEditingMode;
@@ -63,6 +67,7 @@ public class BucketListFragment extends DataListFragment<Bucket>{
         }
     }
 
+
     @NonNull
     @Override
     protected List<Bucket> refreshData() throws DribbbleException {
@@ -83,7 +88,7 @@ public class BucketListFragment extends DataListFragment<Bucket>{
 
     @NonNull
     @Override
-    protected DataListAdapter createAdapter() {
+    protected InfiniteAdapter createAdapter() {
         adapter = new BucketListAdapter(getContext(), new ArrayList<Bucket>(), isEditingMode);
         return adapter;
     }
@@ -132,6 +137,36 @@ public class BucketListFragment extends DataListFragment<Bucket>{
         }
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (isEditingMode) {
+            inflater.inflate(R.menu.bucket_list_choose_mode_menu, menu);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.save) {
+            ArrayList<String> chosenBucketIds = new ArrayList<>();
+            for (Bucket bucket : adapter.getData()) {
+                if (bucket.isChosen) {
+                    chosenBucketIds.add(bucket.id);
+                }
+            }
+
+            Intent result = new Intent();
+            result.putStringArrayListExtra(KEY_CHOSEN_BUCKET_IDS, chosenBucketIds);
+            getActivity().setResult(Activity.RESULT_OK, result);
+            getActivity().finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private class NewBucketTask extends BackgroundTask<Void, Void, Bucket> {
 
@@ -155,7 +190,7 @@ public class BucketListFragment extends DataListFragment<Bucket>{
         }
 
         @Override
-        protected Bucket doJob() throws DribbbleException {
+        protected Bucket doJob(Void... params) throws DribbbleException {
             return  Dribbble.newBucket(name, description);
         }
 
@@ -163,5 +198,4 @@ public class BucketListFragment extends DataListFragment<Bucket>{
             this.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
-
 }

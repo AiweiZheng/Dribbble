@@ -9,6 +9,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -24,13 +26,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public abstract class DataListFragment<T> extends Fragment {
+public abstract class InfiniteFragment<T> extends Fragment {
 
     public static final int REQ_CODE_NEW_BUCKET = 100;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.swipe_refresh_container) SwipeRefreshLayout swipeRefreshLayout;
 
-    private DataListAdapter adapter;
+    private InfiniteAdapter adapter;
 
     @Nullable
     @Override
@@ -46,7 +48,7 @@ public abstract class DataListFragment<T> extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
             @Override
             public void onRefresh() {
-                new LoadDataTask(DataListFragment.this, true).execute();
+                new LoadDataTask(InfiniteFragment.this, true).execute();
                 Toast.makeText(getContext(), "Refresh", Toast.LENGTH_SHORT).show();
             }
         });
@@ -61,10 +63,10 @@ public abstract class DataListFragment<T> extends Fragment {
 
         adapter = createAdapter();
 
-        adapter.loadMoreListener = new DataListAdapter.LoadMoreListener() {
+        adapter.loadMoreListener = new InfiniteAdapter.LoadMoreListener() {
             @Override
             public void onLoadMore() {
-                new LoadDataTask(DataListFragment.this, false).execute();
+                new LoadDataTask(InfiniteFragment.this, false).execute();
             }
         };
 
@@ -76,7 +78,7 @@ public abstract class DataListFragment<T> extends Fragment {
     protected abstract List<T> loadMoreData(int dataSize) throws DribbbleException;
 
     @NonNull
-    protected abstract DataListAdapter createAdapter();
+    protected abstract InfiniteAdapter createAdapter();
 
     @NonNull
     protected abstract View createView(@Nullable ViewGroup container);
@@ -84,16 +86,19 @@ public abstract class DataListFragment<T> extends Fragment {
     @NonNull
     protected void onDataFetched(List<T> newData) {}
 
+    @NonNull
+    protected void createOptionsMenu(Menu menu, MenuInflater inflater) {}
+
     protected void viewCreated(){}
 
     //////////////////////////Load data Async task//////////////////////////////////////
     private class LoadDataTask extends BackgroundTask<Void, Void, List<T>> {
 
-        private DataListFragment dataListFragment;
+        private InfiniteFragment infiniteFragment;
         private boolean refresh = false;
 
-        public LoadDataTask(DataListFragment dataListFragment, boolean refresh) {
-            this.dataListFragment = dataListFragment;
+        public LoadDataTask(InfiniteFragment infiniteFragment, boolean refresh) {
+            this.infiniteFragment = infiniteFragment;
             this.refresh = refresh;
         }
 
@@ -103,12 +108,12 @@ public abstract class DataListFragment<T> extends Fragment {
         }
 
         @Override
-        protected List<T> doJob() throws DribbbleException {
+        protected List<T> doJob(Void... params) throws DribbbleException {
             List<T> moreData;
             if (refresh) {
-                moreData = dataListFragment.refreshData();
+                moreData = infiniteFragment.refreshData();
             } else {
-                moreData = dataListFragment.loadMoreData(dataListFragment.adapter.getDataCount());
+                moreData = infiniteFragment.loadMoreData(infiniteFragment.adapter.getDataCount());
             }
             return moreData;
         }
@@ -116,17 +121,17 @@ public abstract class DataListFragment<T> extends Fragment {
         @Override
         protected void onSuccess(List<T> data) {
             if (data == null) {
-                Log.error(dataListFragment.getView(), "Error when load data").show();
+                Log.error(infiniteFragment.getView(), "Error when load data").show();
                 return;
             }
 
-            dataListFragment.adapter.setShowLoading(data.size() >= Dribbble.COUNT_PER_PAGE);
+            infiniteFragment.adapter.setShowLoading(data.size() >= Dribbble.COUNT_PER_PAGE);
             onDataFetched(data);
             if (refresh) { //refresh
-                dataListFragment.adapter.setData(data);
-                dataListFragment.swipeRefreshLayout.setRefreshing(false);// stop showing the refreshing symbol.
+                infiniteFragment.adapter.setData(data);
+                infiniteFragment.swipeRefreshLayout.setRefreshing(false);// stop showing the refreshing symbol.
             } else { //load more data
-                dataListFragment.adapter.append(data);
+                infiniteFragment.adapter.append(data);
             }
         }
 
