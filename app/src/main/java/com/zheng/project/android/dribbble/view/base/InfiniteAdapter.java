@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zheng.project.android.dribbble.R;
-import com.zheng.project.android.dribbble.models.Bucket;
 
 import java.util.List;
 
@@ -42,6 +41,7 @@ public abstract class InfiniteAdapter<T> extends RecyclerView.Adapter{
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.list_item_loading, parent, false);
                 return new RecyclerView.ViewHolder(view){};
+
             default:
                 return null;
         }

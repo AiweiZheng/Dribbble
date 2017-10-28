@@ -18,7 +18,7 @@ import com.zheng.project.android.dribbble.BackgroundThread.BackgroundTask;
 import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
 import com.zheng.project.android.dribbble.dribbble.auth.DribbbleException;
-import com.zheng.project.android.dribbble.utils.Log;
+import com.zheng.project.android.dribbble.utils.Displayer;
 import com.zheng.project.android.dribbble.view.base.InfiniteAdapter;
 import com.zheng.project.android.dribbble.view.base.InfiniteFragment;
 import com.zheng.project.android.dribbble.models.Bucket;
@@ -47,13 +47,9 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
     public static BucketListFragment newInstance(@Nullable String userId,
                                                  boolean isEditingMode,
                                                  @Nullable ArrayList<String> chosenBucketIds) {
-        Bundle args = new Bundle();
-        args.putString(KEY_USER_ID, userId);
-        args.putBoolean(KEY_EDITING_MODE, isEditingMode);
-        args.putStringArrayList(KEY_COLLECTED_BUCKET_IDS, chosenBucketIds);
 
         BucketListFragment fragment = new BucketListFragment();
-        fragment.setArguments(args);
+        fragment.setArguments(BucketListFragment.constructArgs(userId, isEditingMode, chosenBucketIds));
         return fragment;
     }
 
@@ -66,7 +62,6 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
             }
         }
     }
-
 
     @NonNull
     @Override
@@ -101,13 +96,11 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
 
     @Override
     protected void viewCreated() {
-
-        final Bundle args = getArguments();
-        userId = args.getString(KEY_USER_ID);
-        isEditingMode = args.getBoolean(KEY_EDITING_MODE);
+        userId = readUserIdFromArgs();
+        isEditingMode = readEditingModeFromArgs();
 
         if (isEditingMode) {
-            List<String> chosenBucketIdList = args.getStringArrayList(KEY_COLLECTED_BUCKET_IDS);
+            List<String> chosenBucketIdList = readCollectedBucketsIdFromArgs();
             if (chosenBucketIdList != null) {
                 collectedBucketIdSet = new HashSet<>(chosenBucketIdList);
             }
@@ -116,25 +109,7 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
             collectedBucketIdSet = new HashSet<>();
         }
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NewBucketDialogFragment dialogFragment = NewBucketDialogFragment.newInstance();
-                dialogFragment.setTargetFragment(BucketListFragment.this, REQ_CODE_NEW_BUCKET);
-                dialogFragment.show(getFragmentManager(), NewBucketDialogFragment.TAG);
-            }
-        });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQ_CODE_NEW_BUCKET && resultCode == Activity.RESULT_OK) {
-            String bucketName = data.getStringExtra(NewBucketDialogFragment.KEY_BUCKET_NAME);
-            String bucketDescription = data.getStringExtra(NewBucketDialogFragment.KEY_BUCKET_DESCRIPTION);
-            if (!TextUtils.isEmpty(bucketName)) {
-                new NewBucketTask(bucketName, bucketDescription).execute();
-            }
-        }
+        setFloatingActionBarListener();
     }
 
     @Override
@@ -168,6 +143,60 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQ_CODE_NEW_BUCKET && resultCode == Activity.RESULT_OK) {
+            handleNewBucketTask(data);
+        }
+    }
+
+    private void handleNewBucketTask(Intent data) {
+        String bucketName = data.getStringExtra(NewBucketDialogFragment.KEY_BUCKET_NAME);
+        String bucketDescription = data.getStringExtra(NewBucketDialogFragment.KEY_BUCKET_DESCRIPTION);
+        if (!TextUtils.isEmpty(bucketName)) {
+            new NewBucketTask(bucketName, bucketDescription).execute();
+        }
+    }
+
+    @NonNull
+    private static Bundle constructArgs(String userId,
+                                        boolean isEditingMode,
+                                        ArrayList<String> chosenBucketIds) {
+        Bundle args = new Bundle();
+
+        args.putString(KEY_USER_ID, userId);
+        args.putBoolean(KEY_EDITING_MODE, isEditingMode);
+        args.putStringArrayList(KEY_COLLECTED_BUCKET_IDS, chosenBucketIds);
+
+        return args;
+    }
+
+    private String readUserIdFromArgs() {
+        return getArguments().getString(KEY_USER_ID);
+    }
+
+    private boolean readEditingModeFromArgs() {
+        return getArguments().getBoolean(KEY_EDITING_MODE);
+    }
+
+    private List<String> readCollectedBucketsIdFromArgs() {
+        return getArguments().getStringArrayList(KEY_COLLECTED_BUCKET_IDS);
+    }
+
+    private void setFloatingActionBarListener() {
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewBucketDialogFragment dialogFragment = NewBucketDialogFragment.newInstance();
+                dialogFragment.setTargetFragment(BucketListFragment.this, REQ_CODE_NEW_BUCKET);
+                dialogFragment.show(getFragmentManager(), NewBucketDialogFragment.TAG);
+            }
+        });
+    }
+
+
+    ///////////////////////////////////background task////////////////////////////////////////////
     private class NewBucketTask extends BackgroundTask<Void, Void, Bucket> {
 
         private String name;
@@ -186,7 +215,7 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
 
         @Override
         protected void onFailed(DribbbleException e) {
-            Log.error(getView(), e.getMessage());
+            Displayer.showOnSnackBar(getView(), e.getMessage());
         }
 
         @Override

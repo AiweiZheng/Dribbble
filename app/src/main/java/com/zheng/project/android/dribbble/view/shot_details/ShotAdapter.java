@@ -79,18 +79,34 @@ public class ShotAdapter extends RecyclerView.Adapter{
                 actionsViewHolder.bucketCount.setText(String.valueOf(shot.buckets_count));
                 actionsViewHolder.viewCount.setText(String.valueOf(shot.views_count));
 
+                actionsViewHolder.likeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        shotFragment.like(shot.id, !shot.liked);
+                    }
+                });
                 actionsViewHolder.bucketButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         shotFragment.bucket();
                     }
                 });
+                actionsViewHolder.shareButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        shotFragment.share();
+                    }
+                });
+
+                Drawable likeDrawable = shot.liked
+                        ? ContextCompat.getDrawable(getContext(), R.drawable.ic_favorite_dribbble_18dp)
+                        : ContextCompat.getDrawable(getContext(), R.drawable.ic_favorite_border_black_18dp);
+                actionsViewHolder.likeButton.setImageDrawable(likeDrawable);
 
                 Drawable bucketDrawable = shot.bucketed
                         ? ContextCompat.getDrawable(getContext(), R.drawable.ic_inbox_dribbble_18dp)
                         : ContextCompat.getDrawable(getContext(), R.drawable.ic_inbox_black_18dp);
                 actionsViewHolder.bucketButton.setImageDrawable(bucketDrawable);
-
                 break;
 
             case VIEW_TYPE_SHOT_INFO:

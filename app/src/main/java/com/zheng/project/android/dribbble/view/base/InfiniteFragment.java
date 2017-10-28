@@ -9,17 +9,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
 import com.zheng.project.android.dribbble.BackgroundThread.BackgroundTask;
 import com.zheng.project.android.dribbble.dribbble.auth.DribbbleException;
-import com.zheng.project.android.dribbble.utils.Log;
+import com.zheng.project.android.dribbble.utils.Displayer;
 
 import java.util.List;
 
@@ -42,14 +39,14 @@ public abstract class InfiniteFragment<T> extends Fragment {
 
         View view = createView(container);
         ButterKnife.bind(this, view);
-      //  swipeRefreshLayout.setEnabled(false); //not allow to refresh before first shot load finished.
+        swipeRefreshLayout.setEnabled(false); //not allow to refresh before first shot load finished.
         viewCreated();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
             @Override
             public void onRefresh() {
                 new LoadDataTask(InfiniteFragment.this, true).execute();
-                Toast.makeText(getContext(), "Refresh", Toast.LENGTH_SHORT).show();
+                Displayer.ShowOnToast(getContext(), "Refresh");
             }
         });
         return view;
@@ -86,9 +83,6 @@ public abstract class InfiniteFragment<T> extends Fragment {
     @NonNull
     protected void onDataFetched(List<T> newData) {}
 
-    @NonNull
-    protected void createOptionsMenu(Menu menu, MenuInflater inflater) {}
-
     protected void viewCreated(){}
 
     //////////////////////////Load data Async task//////////////////////////////////////
@@ -121,7 +115,7 @@ public abstract class InfiniteFragment<T> extends Fragment {
         @Override
         protected void onSuccess(List<T> data) {
             if (data == null) {
-                Log.error(infiniteFragment.getView(), "Error when load data").show();
+                Displayer.showOnSnackBar(infiniteFragment.getView(), "Error when load data");
                 return;
             }
 
@@ -131,13 +125,15 @@ public abstract class InfiniteFragment<T> extends Fragment {
                 infiniteFragment.adapter.setData(data);
                 infiniteFragment.swipeRefreshLayout.setRefreshing(false);// stop showing the refreshing symbol.
             } else { //load more data
+                swipeRefreshLayout.setEnabled(true);
                 infiniteFragment.adapter.append(data);
             }
+
         }
 
         @Override
         protected void onFailed(DribbbleException e) {
-            Log.error(getView(), e.getMessage());
+            Displayer.showOnSnackBar(getView(), e.getMessage());
         }
     }
 }

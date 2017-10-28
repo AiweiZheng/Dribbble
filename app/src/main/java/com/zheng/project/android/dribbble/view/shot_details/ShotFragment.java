@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.os.AsyncTaskCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +22,7 @@ import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
 import com.zheng.project.android.dribbble.dribbble.auth.DribbbleException;
 import com.zheng.project.android.dribbble.models.Bucket;
 import com.zheng.project.android.dribbble.models.Shot;
-import com.zheng.project.android.dribbble.utils.Log;
+import com.zheng.project.android.dribbble.utils.Displayer;
 import com.zheng.project.android.dribbble.utils.ModelUtils;
 import com.zheng.project.android.dribbble.view.bucket_list.BucketListActivity;
 import com.zheng.project.android.dribbble.view.bucket_list.BucketListFragment;
@@ -110,7 +109,7 @@ public class ShotFragment extends Fragment{
 
     public void bucket() {
         if (collectedBucketIds == null) {
-            Log.info(getView(), getString(R.string.shot_detail_loading_buckets));
+            Displayer.showOnSnackBar(getView(), getString(R.string.shot_detail_loading_buckets));
         } else {
             Intent intent = new Intent(getContext(), BucketListActivity.class);
             intent.putExtra(BucketListFragment.KEY_EDITING_MODE, true);
@@ -215,7 +214,7 @@ public class ShotFragment extends Fragment{
 
         @Override
         protected void onFailed(DribbbleException e) {
-            Log.error(getView(), e.getMessage());
+            Displayer.showOnSnackBar(getView(), e.getMessage());
         }
 
         public void execute() {
@@ -257,7 +256,7 @@ public class ShotFragment extends Fragment{
         @Override
         protected void onFailed(DribbbleException e) {
             isLiking = false;
-            Log.error(getView(), e.getMessage());
+            Displayer.showOnSnackBar(getView(), e.getMessage());
         }
 
         public void execute() {

@@ -4,7 +4,7 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-public class SpaceItemDecoration extends RecyclerView.ItemDecoration{
+class SpaceItemDecoration extends RecyclerView.ItemDecoration{
     private int space;
 
     public SpaceItemDecoration(int space) {

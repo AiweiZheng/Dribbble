@@ -2,15 +2,9 @@ package com.zheng.project.android.dribbble.view.base;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.zheng.project.android.dribbble.R;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public abstract class SingleFragmentActivity extends BaseActivity {
 

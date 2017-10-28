@@ -1,6 +1,5 @@
 package com.zheng.project.android.dribbble.utils;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 

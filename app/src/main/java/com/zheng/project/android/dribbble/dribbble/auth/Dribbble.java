@@ -47,7 +47,7 @@ public class Dribbble {
     private static final TypeToken<List<Bucket>> BUCKET_LIST_TYPE = new TypeToken<List<Bucket>>(){};
     private static final TypeToken<Bucket> BUCKET_TYPE = new TypeToken<Bucket>(){};
     private static final TypeToken<List<Like>> LIKE_LIST_TYPE = new TypeToken<List<Like>>(){} ;
-
+    private static final TypeToken<Like> LIKE_TYPE = new TypeToken<Like>(){};
 
     private static OkHttpClient client = new OkHttpClient();
 
@@ -132,8 +132,15 @@ public class Dribbble {
         return makeRequest(request);
     }
 
+    private static Response makeDeleteRequest(String url) throws DribbbleException {
+        Request request = authRequestBuilder(url)
+                .delete()
+                .build();
+        return makeRequest(request);
+    }
+
     private static Response makeRequest(Request request) throws DribbbleException {
-        Response response = null;
+        Response response;
         try {
             response = client.newCall(request).execute();
         } catch (IOException e) {
@@ -145,7 +152,7 @@ public class Dribbble {
 
     private static <T> T parseResponse(Response response,
                                        TypeToken<T> typeToken) throws DribbbleException {
-        String responseString = null;
+        String responseString;
         try {
             responseString = response.body().string();
         } catch (IOException e) {
@@ -168,6 +175,33 @@ public class Dribbble {
         return parseResponse(makeGetRequest(USER_END_POINT), USER_TYPE);
     }
 
+    public static Like likeShot(@NonNull String id) throws DribbbleException {
+        String url = SHOTS_END_POINT + "/" + id + "/like";
+        Response response = makePostRequest(url, new FormBody.Builder().build());
+
+        checkStatusCode(response, HttpURLConnection.HTTP_CREATED);
+
+        return parseResponse(response, LIKE_TYPE);
+    }
+
+    public static void unlikeShot(@NonNull String id) throws DribbbleException {
+        String url = SHOTS_END_POINT + "/" + id + "/like";
+        Response response = makeDeleteRequest(url);
+        checkStatusCode(response, HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    public static boolean isLikingShot(@NonNull String id) throws DribbbleException {
+        String url = SHOTS_END_POINT + "/" + id + "/like";
+        Response response = makeGetRequest(url);
+        switch (response.code()) {
+            case HttpURLConnection.HTTP_OK:
+                return true;
+            case HttpURLConnection.HTTP_NOT_FOUND:
+                return false;
+            default:
+                throw new DribbbleException(response.message());
+        }
+    }
     public static List<Shot> getShots(int page) throws DribbbleException {
         String url = SHOTS_END_POINT + "?page=" + page;
         return parseResponse(makeGetRequest(url), SHOT_LIST_TYPE);

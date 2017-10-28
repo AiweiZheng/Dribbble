@@ -22,4 +22,5 @@
     <dimen name="nav_header_user_picture_size">56dp</dimen>
     <dimen name="nav_header_login_btn_margin_left">-8dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="bucket_options_menu_size">48dp</dimen>
 </resources>

@@ -9,8 +9,6 @@ import com.zheng.project.android.dribbble.view.base.BaseViewHolder;
 
 import butterknife.BindView;
 
-
-
 public class ActionsViewHolder extends BaseViewHolder{
     @BindView(R.id.shot_like_count) TextView likeCount;
     @BindView(R.id.shot_view_count) TextView viewCount;

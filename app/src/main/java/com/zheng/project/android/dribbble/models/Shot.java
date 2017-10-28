@@ -24,6 +24,7 @@ public class Shot {
     public boolean animated;
     public User user;
     public boolean bucketed;
+    public boolean liked;
 
     @NonNull
     public String getImageUrl() {

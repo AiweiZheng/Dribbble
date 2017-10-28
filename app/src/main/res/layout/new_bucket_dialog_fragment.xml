@@ -6,11 +6,25 @@
     android:layout_height="match_parent"
     android:padding="@dimen/spacing_medium">
 
-    <EditText
-        android:id="@+id/new_bucket_name"
-        android:layout_width="match_parent"
+    <RelativeLayout
         android:layout_height="wrap_content"
-        android:hint="@string/new_bucket_name"/>
+        android:layout_width="match_parent">
+
+         <EditText
+             android:id="@+id/new_bucket_name"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_alignParentLeft="true"
+             android:hint="@string/new_bucket_name"/>
+
+        <TextView
+            android:id="@+id/bucket_name_required"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/required"
+            style="@style/AppTheme.TextView.1.red" />
+    </RelativeLayout>
 
     <EditText
         android:id="@+id/new_bucket_description"

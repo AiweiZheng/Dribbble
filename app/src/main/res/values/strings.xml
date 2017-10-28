@@ -29,4 +29,6 @@
     <string name="choose_bucket">Choose buckets</string>
     <string name="shot_detail_loading_buckets">Loading buckets, just one second...</string>
     <string name="save">Save</string>
+    <string name="share_shot">Share shot</string>
+    <string name="required">*required</string>
 </resources>
