@@ -76,4 +76,5 @@
     </style>
 
     <color name="text_dark">#aa000000</color>
+    <color name="text_white">#a6a6a6</color>
 </resources>

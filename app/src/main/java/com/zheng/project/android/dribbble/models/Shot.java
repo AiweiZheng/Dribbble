@@ -22,6 +22,8 @@ public class Shot {
 
     public HashMap<String, String> images;
     public boolean animated;
+    public int width;
+    public int height;
     public User user;
     public boolean bucketed;
     public boolean liked;
@@ -37,4 +39,5 @@ public class Shot {
                 : images.get(IMAGE_NORMAL);
         return url == null ? "" : url;
     }
+
 }

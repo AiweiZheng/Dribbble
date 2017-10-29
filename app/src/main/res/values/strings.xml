@@ -32,4 +32,6 @@
     <string name="share_shot">Share shot</string>
     <string name="required">*required</string>
     <string name="bucket_edit">Edit %1$s</string>
+    <string name="GIF">GIF</string>
+    <string name="Fresco_image_full_downloaded">10000</string>
 </resources>

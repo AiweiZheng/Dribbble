@@ -12,13 +12,32 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/shot_image"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="240dp"
-                    fresco:actualImageScaleType="centerCrop"
-                    fresco:placeholderImage="@drawable/shot_image_place_holder"
-                    fresco:placeholderImageScaleType="centerCrop"/>
+                    android:layout_height="wrap_content">
+                        <com.facebook.drawee.view.SimpleDraweeView
+                            android:id="@+id/shot_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="240dp"
+                            android:layout_alignParentTop="true"
+                            fresco:actualImageScaleType="centerCrop"
+                            fresco:placeholderImage="@drawable/shot_image_place_holder"
+                            fresco:placeholderImageScaleType="centerCrop"/>
+
+                        <TextView
+                            android:id="@+id/gif_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_margin="@dimen/spacing_small"
+                            android:paddingLeft="@dimen/spacing_xsmall"
+                            android:paddingRight="@dimen/spacing_xsmall"
+                            android:background="@drawable/round_corner"
+                            style="@style/AppTheme.TextView.2.White"
+                            android:text="@string/GIF"
+                            android:textAllCaps="true"/>
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -55,6 +74,7 @@
                             android:drawableLeft="@drawable/ic_inbox_gray_18dp"
                             android:drawablePadding="@dimen/spacing_xsmall"
                             tools:text="98" />
+
                 </RelativeLayout>
         </LinearLayout>
         <View
