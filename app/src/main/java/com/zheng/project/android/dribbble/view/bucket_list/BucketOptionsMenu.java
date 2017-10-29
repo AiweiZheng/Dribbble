@@ -14,14 +14,16 @@ class BucketOptionsMenu extends  PopupMenu{
     public static BucketOptionsMenu newInstance(@NonNull Context context,
                                                 @NonNull View anchor,
                                                 @NonNull Bucket bucket,
+                                                @NonNull EditBucketListener editBucketListener,
                                                 @NonNull DeleteBucketListener deleteBucketListener) {
 
-        return new BucketOptionsMenu(context, anchor, bucket, deleteBucketListener);
+        return new BucketOptionsMenu(context, anchor, bucket, editBucketListener,deleteBucketListener);
     }
 
     private BucketOptionsMenu(@NonNull Context context,
                               @NonNull View anchor,
                               @NonNull final Bucket bucket,
+                              @NonNull final EditBucketListener editBucketListener,
                               @NonNull final DeleteBucketListener deleteBucketListener) {
         super(context, anchor);
 
@@ -32,7 +34,7 @@ class BucketOptionsMenu extends  PopupMenu{
                 int itemId = item.getItemId();
                 switch (itemId) {
                     case R.id.bucket_edit:
-                        handleEditBucketRequest(bucket);
+                        editBucketListener.onEditBucket(bucket);
                         break;
                     case R.id.bucket_delete:
                         deleteBucketListener.onDeleteBucket(bucket);
@@ -43,12 +45,10 @@ class BucketOptionsMenu extends  PopupMenu{
         });
     }
 
-
-    private void handleEditBucketRequest(Bucket bucket) {
-
-    }
-
     public interface DeleteBucketListener {
         void onDeleteBucket(Bucket bucket);
+    }
+    public interface EditBucketListener {
+        void onEditBucket(Bucket bucket);
     }
 }

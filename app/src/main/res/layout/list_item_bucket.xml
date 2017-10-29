@@ -43,12 +43,12 @@
         <ImageView
             android:id="@+id/bucket_options_menu"
             android:layout_width="@dimen/bucket_options_menu_size"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/bucket_options_menu_size"
             android:src="@drawable/ic_move_vert_black_24dp"
+            android:scaleType="centerInside"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:background="?attr/selectableItemBackground"/>
-
     </RelativeLayout>
 </android.support.v7.widget.CardView>

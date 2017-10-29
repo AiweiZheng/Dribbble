@@ -2,6 +2,8 @@ package com.zheng.project.android.dribbble.view.bucket_list;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -15,8 +17,9 @@ import com.zheng.project.android.dribbble.view.base.BaseAlertDialog;
 
 import butterknife.BindView;
 
-public class NewBucketDialogFragment extends BaseAlertDialog {
+public class BucketDialogFragment extends BaseAlertDialog {
 
+    public static final  String KEY_BUCKET_ID = "bucket_id";
     public static final String KEY_BUCKET_NAME = "bucket_name";
     public static final String KEY_BUCKET_DESCRIPTION = "bucket_description";
     public static final String TAG = "newBucketDialogFragment";
@@ -25,15 +28,22 @@ public class NewBucketDialogFragment extends BaseAlertDialog {
     @BindView(R.id.new_bucket_description) EditText bucketDescription;
     @BindView(R.id.bucket_name_required) TextView requiredText;
 
-    public static NewBucketDialogFragment newInstance() {
-        NewBucketDialogFragment newBucketDialogFragment = new NewBucketDialogFragment();
-        newBucketDialogFragment.setCancelable(false);
-        return newBucketDialogFragment;
+    private boolean isEditMode;
+
+    public static BucketDialogFragment newInstance(@NonNull Bundle args) {
+        BucketDialogFragment bucketDialogFragment = new BucketDialogFragment();
+        bucketDialogFragment.setArguments(args);
+        bucketDialogFragment.setCancelable(false);
+        return bucketDialogFragment;
     }
 
     @Override
     protected void onViewCreated() {
         setBucketNameListener();
+        if (getArguments() != null) {
+            isEditMode = true;
+            setupUI();
+        }
     }
 
     @Override
@@ -43,32 +53,49 @@ public class NewBucketDialogFragment extends BaseAlertDialog {
 
     @Override
     protected String getTitle() {
-        return (String) getText(R.string.new_bucket_title);
+        if (isEditMode) {
+            return getString(R.string.bucket_edit, "'" + bucketName.getText().toString() + "'");
+        }
+        return getString(R.string.new_bucket_title);
     }
 
     @Override
     protected String getPositiveButtonText() {
-        return (String) getText(R.string.new_bucket_create);
+        if (isEditMode) {
+            return getString(R.string.save);
+        }
+        return getString(R.string.new_bucket_create);
     }
 
     @Override
     protected String getNegativeButtonText() {
-        return (String) getText(R.string.new_bucket_cancel);
+        return getString(R.string.new_bucket_cancel);
     }
 
     @Override
     protected void onInputIsValid() {
         Intent result = new Intent();
+        int requestCode = BucketListFragment.REQ_CODE_NEW_BUCKET;
+
+        if (isEditMode) {
+            result.putExtra(KEY_BUCKET_ID, getArguments().getString(KEY_BUCKET_ID));
+            requestCode = BucketListFragment.REQ_CODE_EDIT_BUCKET;
+        }
+
         result.putExtra(KEY_BUCKET_NAME, bucketName.getText().toString());
         result.putExtra(KEY_BUCKET_DESCRIPTION, bucketDescription.getText().toString().trim());
-        getTargetFragment().onActivityResult(BucketListFragment.REQ_CODE_NEW_BUCKET,
-                Activity.RESULT_OK,
-                result);
+        getTargetFragment().onActivityResult(requestCode, Activity.RESULT_OK, result);
     }
 
     @Override
     protected View onCreateView() {
         return LayoutInflater.from(getContext()).inflate(R.layout.new_bucket_dialog_fragment, null);
+    }
+
+    private void setupUI() {
+        bucketName.setText(getArguments().getString(KEY_BUCKET_NAME));
+        bucketName.setSelection(bucketName.getText().length());//put the cursor on the end.
+        bucketDescription.setText(getArguments().getString(KEY_BUCKET_DESCRIPTION));
     }
 
     private void setBucketNameListener() {

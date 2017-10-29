@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zheng.project.android.dribbble.R;
+import com.zheng.project.android.dribbble.models.Bucket;
 
 import java.util.List;
 
@@ -108,6 +109,11 @@ public abstract class InfiniteAdapter<T> extends RecyclerView.Adapter{
     public List<T> getData() {
         return data;
     }
+
+    public void removeData(T item) {
+        data.remove(item);
+    }
+
     protected abstract BaseViewHolder onCreateView(@NonNull ViewGroup parent);
     protected abstract void onBindView(@NonNull BaseViewHolder vh, int position);
 

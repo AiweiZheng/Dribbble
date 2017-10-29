@@ -2,6 +2,8 @@ package com.zheng.project.android.dribbble.view.bucket_list;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.zheng.project.android.dribbble.view.base.ConfirmationDialog;
 
@@ -12,18 +14,13 @@ public class DeleteBucketConfirmationDialog extends ConfirmationDialog {
 
     public static final String TAG = "delete_bucket_confirmation_dialog";
 
-    public static final DeleteBucketConfirmationDialog newInstance(String bucketId, String bucketName) {
-
-        DeleteBucketConfirmationDialog dialog = new DeleteBucketConfirmationDialog(bucketId, bucketName);
+    public static final DeleteBucketConfirmationDialog newInstance(@NonNull Bundle args) {
+        DeleteBucketConfirmationDialog dialog = new DeleteBucketConfirmationDialog();
+        dialog.setArguments(args);
         return dialog;
     }
 
-    private String bucketId;
-    private String bucketName;
-
-    public DeleteBucketConfirmationDialog(String bucketId, String bucketName) {
-        this.bucketId = bucketId;
-        this.bucketName = bucketName;
+    public DeleteBucketConfirmationDialog() {
         message = "Are you sure to delete this bucket?";
     }
 
@@ -35,8 +32,8 @@ public class DeleteBucketConfirmationDialog extends ConfirmationDialog {
     @Override
     protected void onInputIsValid() {
         Intent result = new Intent();
-        result.putExtra(KEY_BUCKET_ID, bucketId);
-        result.putExtra(KEY_BUCKET_NAME, bucketName);
+        result.putExtra(KEY_BUCKET_ID,  getArguments().getString(KEY_BUCKET_ID));
+        result.putExtra(KEY_BUCKET_NAME, getArguments().getString(KEY_BUCKET_NAME));
         getTargetFragment().onActivityResult(BucketListFragment.REQ_CODE_DELETE_BUCKET,
                 Activity.RESULT_OK,
                 result);

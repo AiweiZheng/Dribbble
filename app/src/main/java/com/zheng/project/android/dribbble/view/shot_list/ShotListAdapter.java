@@ -40,7 +40,7 @@ public class ShotListAdapter extends InfiniteAdapter<Shot> {
     @Override
     protected void onBindView(@NonNull final BaseViewHolder vh, int position) {
         ShotViewHolder shotVh = (ShotViewHolder) vh;
-        final Shot shot = data.get(position);
+        final Shot shot = getData().get(position);
 
         shotVh.bucketCount.setText(String.valueOf((shot.buckets_count)));
         shotVh.viewCount.setText(String.valueOf((shot.views_count)));

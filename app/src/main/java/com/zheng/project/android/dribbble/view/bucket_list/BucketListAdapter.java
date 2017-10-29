@@ -23,14 +23,18 @@ import java.util.List;
 public class BucketListAdapter extends InfiniteAdapter<Bucket> {
 
     private boolean isEditingMode;
+    private BucketOptionsMenu.EditBucketListener editBucketListener;
     private BucketOptionsMenu.DeleteBucketListener deleteBucketListener;
 
     public BucketListAdapter(@NonNull Context context,
                              List<Bucket> buckets,
                              boolean isEditingMode,
+                             @NonNull BucketOptionsMenu.EditBucketListener editBucketListener,
                              @NonNull BucketOptionsMenu.DeleteBucketListener deleteBucketListener) {
 
         super(context, buckets);
+
+        this.editBucketListener = editBucketListener;
         this.deleteBucketListener = deleteBucketListener;
         this.isEditingMode = isEditingMode;
     }
@@ -81,6 +85,13 @@ public class BucketListAdapter extends InfiniteAdapter<Bucket> {
         bucketViewHolder.bucketOptionsMenu.setVisibility(View.VISIBLE);
 
         final ImageView optionsMenu = bucketViewHolder.bucketOptionsMenu;
+        bucketViewHolder.bucketLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startBucketShotListActivity(bucket);// display the shots in the bucket;
+            }
+        });
+
         optionsMenu.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -88,14 +99,8 @@ public class BucketListAdapter extends InfiniteAdapter<Bucket> {
                 BucketOptionsMenu.newInstance(getContext(),
                                               optionsMenu,
                                               bucket,
+                                              editBucketListener,
                                               deleteBucketListener).show();//show popup menu
-            }
-        });
-
-        bucketViewHolder.bucketLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startBucketShotListActivity(bucket);// display the shots in the bucket;
             }
         });
     }
@@ -121,14 +126,27 @@ public class BucketListAdapter extends InfiniteAdapter<Bucket> {
     }
 
     public void removeBucket(@NonNull String bucketId) {
+        removeData(findBucket(bucketId));
+        notifyDataSetChanged();
+    }
+
+    public void updateBucket(@NonNull String bucketId, @NonNull String name, @NonNull String description) {
+        Bucket bucket = findBucket(bucketId);
+        bucket.name = name;
+        bucket.description = description;
+        notifyDataSetChanged();
+    }
+
+    @NonNull
+    private Bucket findBucket(@NonNull String bucketId) {
         for (Bucket bucket : getData()) {
             if (bucket.id.equals(bucketId)) {
-                getData().remove(bucket);
-                notifyDataSetChanged();
-                return;
+                return bucket;
             }
         }
+        return null;
     }
+
     private String formatShotCount(int shotCount) {
         return shotCount == 0
                 ? getContext().getString(R.string.shot_count_single, shotCount)

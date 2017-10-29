@@ -14,6 +14,7 @@ import com.zheng.project.android.dribbble.utils.ModelUtils;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -262,6 +263,20 @@ public class Dribbble {
                 .add(KEY_DESCRIPTION, description)
                 .build();
         return parseResponse(makePostRequest(BUCKETS_END_POINT, formBody), BUCKET_TYPE);
+    }
+
+    public static void updateBucket(@NonNull String bucketId,
+                                    @NonNull String name,
+                                    @NonNull String description) throws DribbbleException {
+
+        String url = BUCKETS_END_POINT + "/" + bucketId;
+        FormBody formBody = new FormBody.Builder()
+                .add(KEY_NAME, name)
+                .add(KEY_DESCRIPTION, description)
+                .build();
+
+        Response response = makePutRequest(url, formBody);
+        checkStatusCode(response, HttpURLConnection.HTTP_OK);
     }
 
     public static void deleteBucket(@NonNull String bucketId) throws DribbbleException{

@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 
+import android.support.v7.util.BatchingListUpdateCallback;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,11 +35,13 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
 
     public static final int REQ_CODE_NEW_BUCKET = 100;
     public static final int REQ_CODE_DELETE_BUCKET = 200;
+    public static final int REQ_CODE_EDIT_BUCKET = 300;
 
     public static final String KEY_USER_ID = "user_id";
     public static final String KEY_EDITING_MODE = "editing_mode";
     public static final String KEY_COLLECTED_BUCKET_IDS = "collected_bucket_ids";
     public static final String KEY_CHOSEN_BUCKET_IDS = "chosen_bucket_ids";
+
 
     private String userId;
     private boolean isEditingMode;
@@ -88,14 +91,20 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
     @Override
     protected InfiniteAdapter createAdapter() {
         adapter = new BucketListAdapter(getContext(),
-                                       new ArrayList<Bucket>(),
-                                       isEditingMode,
-                                       new BucketOptionsMenu.DeleteBucketListener() {
-                                            @Override
-                                            public void onDeleteBucket(Bucket bucket) {
-                                               showDeleteBucketDialog(bucket);
-                                            }
-                                       });
+                new ArrayList<Bucket>(),
+                isEditingMode,
+                new BucketOptionsMenu.EditBucketListener() {
+                    @Override
+                    public void onEditBucket(Bucket bucket) {
+                        showEditBucketDialog(bucket.id, bucket.name, bucket.description);
+                    }
+                },
+                new BucketOptionsMenu.DeleteBucketListener() {
+                                                    @Override
+                                                    public void onDeleteBucket(Bucket bucket) {
+                                                       showDeleteBucketDialog(bucket);
+                                                    }
+                                               });
 
         return adapter;
     }
@@ -162,16 +171,26 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
                 case REQ_CODE_NEW_BUCKET:
                     handleNewBucketTask(data);
                     break;
+                case REQ_CODE_EDIT_BUCKET:
+                    handleEditBucketTask(data);
+                    break;
                 case REQ_CODE_DELETE_BUCKET:
                     handleDeleteBucketTask(data);
+                    break;
             }
         }
 
     }
 
+    private void handleEditBucketTask(Intent data) {
+        new UpdateBucketTask(data.getStringExtra(BucketDialogFragment.KEY_BUCKET_ID),
+                data.getStringExtra(BucketDialogFragment.KEY_BUCKET_NAME),
+                data.getStringExtra(BucketDialogFragment.KEY_BUCKET_DESCRIPTION)).execute();
+    }
+
     private void handleNewBucketTask(Intent data) {
-        String bucketName = data.getStringExtra(NewBucketDialogFragment.KEY_BUCKET_NAME);
-        String bucketDescription = data.getStringExtra(NewBucketDialogFragment.KEY_BUCKET_DESCRIPTION);
+        String bucketName = data.getStringExtra(BucketDialogFragment.KEY_BUCKET_NAME);
+        String bucketDescription = data.getStringExtra(BucketDialogFragment.KEY_BUCKET_DESCRIPTION);
         new NewBucketTask(bucketName, bucketDescription).execute();
     }
 
@@ -217,14 +236,32 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
     }
 
     private void showNewBucketDialog() {
-        NewBucketDialogFragment dialogFragment = NewBucketDialogFragment.newInstance();
+        BucketDialogFragment dialogFragment = BucketDialogFragment.newInstance(null);
         dialogFragment.setTargetFragment(BucketListFragment.this, REQ_CODE_NEW_BUCKET);
-        dialogFragment.show(getFragmentManager(), NewBucketDialogFragment.TAG);
+        dialogFragment.show(getFragmentManager(), BucketDialogFragment.TAG);
+    }
+
+    private void showEditBucketDialog(@NonNull String bucketId,
+                                      @NonNull String name,
+                                      @NonNull String description) {
+        Bundle args = new Bundle();
+        args.putString(BucketDialogFragment.KEY_BUCKET_ID, bucketId);
+        args.putString(BucketDialogFragment.KEY_BUCKET_NAME, name);
+        args.putString(BucketDialogFragment.KEY_BUCKET_DESCRIPTION, description);
+
+        BucketDialogFragment dialogFragment = BucketDialogFragment.newInstance(args);
+        dialogFragment.setTargetFragment(BucketListFragment.this, REQ_CODE_EDIT_BUCKET);
+        dialogFragment.show(getFragmentManager(), BucketDialogFragment.TAG);
     }
 
     private void showDeleteBucketDialog(@NonNull Bucket bucket) {
+        Bundle args = new Bundle();
+        args.putString(DeleteBucketConfirmationDialog.KEY_BUCKET_ID, bucket.id);
+        args.putString(DeleteBucketConfirmationDialog.KEY_BUCKET_NAME, bucket.name);
+
         DeleteBucketConfirmationDialog dialogFragment
-                = DeleteBucketConfirmationDialog.newInstance(bucket.id, bucket.name);
+                = DeleteBucketConfirmationDialog.newInstance(args);
+
         dialogFragment.setTargetFragment(BucketListFragment.this, REQ_CODE_DELETE_BUCKET);
         dialogFragment.show(getFragmentManager(), DeleteBucketConfirmationDialog.TAG);
     }
@@ -260,6 +297,40 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
             this.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
+
+    private class UpdateBucketTask extends BackgroundTask<Void, Void, Void> {
+
+        private String bucketId;
+        private String name;
+        private String description;
+
+        public UpdateBucketTask(String bucketId, String name, String description) {
+            this.bucketId = bucketId;
+            this.name = name;
+            this.description = description;
+        }
+
+        @Override
+        protected void onSuccess(Void aVoid) {
+            adapter.updateBucket(bucketId, name, description);
+        }
+
+        @Override
+        protected void onFailed(DribbbleException e) {
+            Displayer.showOnSnackBar(getView(), e.getMessage());
+        }
+
+        @Override
+        protected Void doJob(Void... params) throws DribbbleException {
+            Dribbble.updateBucket(bucketId, name, description);
+            return null;
+        }
+
+        public void execute() {
+            this.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+    }
+
 
     private class DeleteBucketTask extends BackgroundTask<Void, Void, Void> {
 
