@@ -19,6 +19,7 @@ import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
 import com.zheng.project.android.dribbble.view.base.BaseActivity;
 import com.zheng.project.android.dribbble.view.bucket_list.BucketListFragment;
+import com.zheng.project.android.dribbble.view.shot_details.ShotFragment;
 import com.zheng.project.android.dribbble.view.shot_list.ShotListFragment;
 
 import butterknife.BindView;
@@ -52,7 +53,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onSavedInstanceStateIsNull() {
-        setFragment(DataListFragmentFactory.getFragment(DataListFragmentFactory.SHOT_LIST_FRAGMENT),
+        setFragment(ShotListFragment.newInstance(ShotListFragment.LIST_TYPE_POPULAR),
                 R.id.main_fragment_container);
     }
 

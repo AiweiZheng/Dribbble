@@ -41,6 +41,7 @@ public class Dribbble {
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_NAME = "name";
     private static final String KEY_SHOT_ID = "shot_id";
+    private static final String KEY_BUCKET_ID = "bucket_id";
 
     private static final TypeToken<User> USER_TYPE = new TypeToken<User>(){};
     private static final TypeToken<List<Shot>> SHOT_LIST_TYPE = new TypeToken<List<Shot>>(){};
@@ -261,6 +262,12 @@ public class Dribbble {
                 .add(KEY_DESCRIPTION, description)
                 .build();
         return parseResponse(makePostRequest(BUCKETS_END_POINT, formBody), BUCKET_TYPE);
+    }
+
+    public static void deleteBucket(@NonNull String bucketId) throws DribbbleException{
+        String url = BUCKETS_END_POINT + "/" + bucketId;
+        Response response = makeDeleteRequest(url);
+        checkStatusCode(response, HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     public static void addBucketShot(@NonNull String bucketId,

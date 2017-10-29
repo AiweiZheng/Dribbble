@@ -1,13 +1,7 @@
 package com.zheng.project.android.dribbble.view.bucket_list;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -17,11 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.zheng.project.android.dribbble.R;
+import com.zheng.project.android.dribbble.view.base.BaseAlertDialog;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class NewBucketDialogFragment extends DialogFragment {
+public class NewBucketDialogFragment extends BaseAlertDialog {
 
     public static final String KEY_BUCKET_NAME = "bucket_name";
     public static final String KEY_BUCKET_DESCRIPTION = "bucket_description";
@@ -37,69 +31,55 @@ public class NewBucketDialogFragment extends DialogFragment {
         return newBucketDialogFragment;
     }
 
-    @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.new_bucket_dialog_fragment, null);
-        ButterKnife.bind(this, view);
-
+    protected void onViewCreated() {
         setBucketNameListener();
-
-        AlertDialog dialog = getAlertDialogBuilder(view).create();
-        dialog.show();
-
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                if (!isValidInput()) {
-                    return;
-                }
-
-                Intent result = new Intent();
-                result.putExtra(KEY_BUCKET_NAME, bucketName.getText().toString());
-                result.putExtra(KEY_BUCKET_DESCRIPTION, bucketDescription.getText().toString().trim());
-                getTargetFragment().onActivityResult(BucketListFragment.REQ_CODE_NEW_BUCKET,
-                        Activity.RESULT_OK,
-                        result);
-
-                dismiss();
-            }
-        });
-
-        return dialog;
     }
 
-
-    private boolean isValidInput() {
+    @Override
+    protected boolean isValidInput() {
         return !TextUtils.isEmpty(bucketName.getText().toString().trim());
     }
 
-    public AlertDialog.Builder getAlertDialogBuilder(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setView(view)
-                .setTitle(R.string.new_bucket_title)
-                .setPositiveButton(R.string.net_bucket_create, new DialogInterface.OnClickListener() {
+    @Override
+    protected String getTitle() {
+        return (String) getText(R.string.new_bucket_title);
+    }
 
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {}
-                }).setNegativeButton(R.string.new_bucket_cancel, null);
+    @Override
+    protected String getPositiveButtonText() {
+        return (String) getText(R.string.new_bucket_create);
+    }
 
-        return builder;
+    @Override
+    protected String getNegativeButtonText() {
+        return (String) getText(R.string.new_bucket_cancel);
+    }
+
+    @Override
+    protected void onInputIsValid() {
+        Intent result = new Intent();
+        result.putExtra(KEY_BUCKET_NAME, bucketName.getText().toString());
+        result.putExtra(KEY_BUCKET_DESCRIPTION, bucketDescription.getText().toString().trim());
+        getTargetFragment().onActivityResult(BucketListFragment.REQ_CODE_NEW_BUCKET,
+                Activity.RESULT_OK,
+                result);
+    }
+
+    @Override
+    protected View onCreateView() {
+        return LayoutInflater.from(getContext()).inflate(R.layout.new_bucket_dialog_fragment, null);
     }
 
     private void setBucketNameListener() {
 
         bucketName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
-            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void afterTextChanged(Editable editable) {

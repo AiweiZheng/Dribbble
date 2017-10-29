@@ -19,7 +19,7 @@ public abstract class InfiniteAdapter<T> extends RecyclerView.Adapter{
     private Context context;
     private boolean showLoading = false;
 
-    protected List<T> data;
+    private List<T> data;
 
     public LoadMoreListener loadMoreListener;
 
@@ -93,6 +93,7 @@ public abstract class InfiniteAdapter<T> extends RecyclerView.Adapter{
         data.addAll(newData);
         notifyDataSetChanged();
     }
+
     public void setShowLoading(boolean showLoading) {
         if (this.showLoading != showLoading) {
             this.showLoading = showLoading;
@@ -109,6 +110,7 @@ public abstract class InfiniteAdapter<T> extends RecyclerView.Adapter{
     }
     protected abstract BaseViewHolder onCreateView(@NonNull ViewGroup parent);
     protected abstract void onBindView(@NonNull BaseViewHolder vh, int position);
+
     public interface LoadMoreListener {
         void onLoadMore();
     }

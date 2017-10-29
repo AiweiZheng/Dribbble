@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +23,15 @@ import java.util.List;
 public class BucketListAdapter extends InfiniteAdapter<Bucket> {
 
     private boolean isEditingMode;
+    private BucketOptionsMenu.DeleteBucketListener deleteBucketListener;
 
-    public BucketListAdapter(@NonNull Context context, List<Bucket> buckets, boolean isEditingMode) {
+    public BucketListAdapter(@NonNull Context context,
+                             List<Bucket> buckets,
+                             boolean isEditingMode,
+                             @NonNull BucketOptionsMenu.DeleteBucketListener deleteBucketListener) {
+
         super(context, buckets);
+        this.deleteBucketListener = deleteBucketListener;
         this.isEditingMode = isEditingMode;
     }
 
@@ -50,7 +57,7 @@ public class BucketListAdapter extends InfiniteAdapter<Bucket> {
     }
 
     private void bindViewOnEditMode(BucketViewHolder bucketViewHolder, final int position) {
-        final Bucket bucket = data.get(position);
+        final Bucket bucket = getData().get(position);
 
         bindBasicInfo(bucketViewHolder, bucket);
         bucketViewHolder.bucketChosen.setVisibility(View.VISIBLE);
@@ -67,7 +74,7 @@ public class BucketListAdapter extends InfiniteAdapter<Bucket> {
     }
 
     private void bindViewOnViewMode(BucketViewHolder bucketViewHolder, final int position) {
-        final Bucket bucket = data.get(position);
+        final Bucket bucket = getData().get(position);
 
         bindBasicInfo(bucketViewHolder, bucket);
         bucketViewHolder.bucketChosen.setVisibility(View.GONE);
@@ -78,7 +85,10 @@ public class BucketListAdapter extends InfiniteAdapter<Bucket> {
 
             @Override
             public void onClick(View v) {
-                BucketOptionsMenu.getMenu(getContext(), optionsMenu, bucket).show();//showing popup menu
+                BucketOptionsMenu.newInstance(getContext(),
+                                              optionsMenu,
+                                              bucket,
+                                              deleteBucketListener).show();//show popup menu
             }
         });
 
@@ -110,6 +120,15 @@ public class BucketListAdapter extends InfiniteAdapter<Bucket> {
         return ContextCompat.getDrawable(getContext(), R.drawable.ic_check_box_outline_blank_black_24dp);
     }
 
+    public void removeBucket(@NonNull String bucketId) {
+        for (Bucket bucket : getData()) {
+            if (bucket.id.equals(bucketId)) {
+                getData().remove(bucket);
+                notifyDataSetChanged();
+                return;
+            }
+        }
+    }
     private String formatShotCount(int shotCount) {
         return shotCount == 0
                 ? getContext().getString(R.string.shot_count_single, shotCount)

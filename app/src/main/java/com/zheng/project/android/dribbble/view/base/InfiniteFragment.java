@@ -25,7 +25,6 @@ import butterknife.ButterKnife;
 
 public abstract class InfiniteFragment<T> extends Fragment {
 
-    public static final int REQ_CODE_NEW_BUCKET = 100;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.swipe_refresh_container) SwipeRefreshLayout swipeRefreshLayout;
 

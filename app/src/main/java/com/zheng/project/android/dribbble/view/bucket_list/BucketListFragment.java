@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.text.TextUtils;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,6 +31,9 @@ import java.util.List;
 import butterknife.BindView;
 
 public class BucketListFragment extends InfiniteFragment<Bucket> {
+
+    public static final int REQ_CODE_NEW_BUCKET = 100;
+    public static final int REQ_CODE_DELETE_BUCKET = 200;
 
     public static final String KEY_USER_ID = "user_id";
     public static final String KEY_EDITING_MODE = "editing_mode";
@@ -84,7 +87,16 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
     @NonNull
     @Override
     protected InfiniteAdapter createAdapter() {
-        adapter = new BucketListAdapter(getContext(), new ArrayList<Bucket>(), isEditingMode);
+        adapter = new BucketListAdapter(getContext(),
+                                       new ArrayList<Bucket>(),
+                                       isEditingMode,
+                                       new BucketOptionsMenu.DeleteBucketListener() {
+                                            @Override
+                                            public void onDeleteBucket(Bucket bucket) {
+                                               showDeleteBucketDialog(bucket);
+                                            }
+                                       });
+
         return adapter;
     }
 
@@ -145,17 +157,28 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQ_CODE_NEW_BUCKET && resultCode == Activity.RESULT_OK) {
-            handleNewBucketTask(data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case REQ_CODE_NEW_BUCKET:
+                    handleNewBucketTask(data);
+                    break;
+                case REQ_CODE_DELETE_BUCKET:
+                    handleDeleteBucketTask(data);
+            }
         }
+
     }
 
     private void handleNewBucketTask(Intent data) {
         String bucketName = data.getStringExtra(NewBucketDialogFragment.KEY_BUCKET_NAME);
         String bucketDescription = data.getStringExtra(NewBucketDialogFragment.KEY_BUCKET_DESCRIPTION);
-        if (!TextUtils.isEmpty(bucketName)) {
-            new NewBucketTask(bucketName, bucketDescription).execute();
-        }
+        new NewBucketTask(bucketName, bucketDescription).execute();
+    }
+
+    private void handleDeleteBucketTask(Intent data) {
+        String bucketId = data.getStringExtra(DeleteBucketConfirmationDialog.KEY_BUCKET_ID);
+        String bucketName = data.getStringExtra(DeleteBucketConfirmationDialog.KEY_BUCKET_NAME);
+        new DeleteBucketTask(bucketId, bucketName).execute();
     }
 
     @NonNull
@@ -188,13 +211,23 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NewBucketDialogFragment dialogFragment = NewBucketDialogFragment.newInstance();
-                dialogFragment.setTargetFragment(BucketListFragment.this, REQ_CODE_NEW_BUCKET);
-                dialogFragment.show(getFragmentManager(), NewBucketDialogFragment.TAG);
+                showNewBucketDialog();
             }
         });
     }
 
+    private void showNewBucketDialog() {
+        NewBucketDialogFragment dialogFragment = NewBucketDialogFragment.newInstance();
+        dialogFragment.setTargetFragment(BucketListFragment.this, REQ_CODE_NEW_BUCKET);
+        dialogFragment.show(getFragmentManager(), NewBucketDialogFragment.TAG);
+    }
+
+    private void showDeleteBucketDialog(@NonNull Bucket bucket) {
+        DeleteBucketConfirmationDialog dialogFragment
+                = DeleteBucketConfirmationDialog.newInstance(bucket.id, bucket.name);
+        dialogFragment.setTargetFragment(BucketListFragment.this, REQ_CODE_DELETE_BUCKET);
+        dialogFragment.show(getFragmentManager(), DeleteBucketConfirmationDialog.TAG);
+    }
 
     ///////////////////////////////////background task////////////////////////////////////////////
     private class NewBucketTask extends BackgroundTask<Void, Void, Bucket> {
@@ -221,6 +254,38 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
         @Override
         protected Bucket doJob(Void... params) throws DribbbleException {
             return  Dribbble.newBucket(name, description);
+        }
+
+        public void execute() {
+            this.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+    }
+
+    private class DeleteBucketTask extends BackgroundTask<Void, Void, Void> {
+
+        private String bucketId;
+        private String bucketName;
+
+        public DeleteBucketTask (@NonNull String bucketId, @NonNull String bucketName) {
+            this.bucketId = bucketId;
+            this.bucketName = bucketName;
+        }
+        @Override
+        protected void onSuccess(Void aVoid) {
+            adapter.removeBucket(bucketId);
+            Displayer.ShowOnToast(getContext(), "'" + bucketName + "'" + " has been deleted");
+
+        }
+
+        @Override
+        protected void onFailed(DribbbleException e) {
+                Displayer.showOnSnackBar(getView(), e.getMessage());
+        }
+
+        @Override
+        protected Void doJob(Void... params) throws DribbbleException {
+            Dribbble.deleteBucket(bucketId);
+            return null;
         }
 
         public void execute() {
