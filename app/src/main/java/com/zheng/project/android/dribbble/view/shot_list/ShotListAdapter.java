@@ -52,7 +52,6 @@ public class ShotListAdapter extends InfiniteAdapter<Shot> {
         else {
             shotVh.gifText.setVisibility(View.GONE);
         }
-    //   AnimatedImageUtils.autoPlayAnimations(shot.getImageUrl(), shotVh.shotImage);
         shotVh.cover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
