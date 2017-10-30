@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.zheng.project.android.dribbble.view.LoginActivity;
+import com.zheng.project.android.dribbble.view.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +29,8 @@ public class Auth {
 
     private static final String CLIENT_ID = "a33c89a98db7f8766bc32d79e4d374a80f142ba0e29e7341305c1da34524e2cc";
     private static final String CLIENT_SECRET = "3451b015877d7b7102df06a9f854fb5376efff76e992456d270fd3c4b3fae47a";
-    private static final String CLIENT_ACCESS_TOKEN = "be2c0b582cf74cefe94d852519a392ed6c0566ff080fe3480c6fedced69da2ae";
+
+    public static final String CLIENT_ACCESS_TOKEN = "be2c0b582cf74cefe94d852519a392ed6c0566ff080fe3480c6fedced69da2ae";
 
     // see http://developer.dribbble.com/v1/oauth/#scopes
     private static final String SCOPE = "public+write";
@@ -38,7 +40,7 @@ public class Auth {
 
     public static final String REDIRECT_URI = "https://www.google.com/";
 
-    public static void openAuthActivity(@NonNull LoginActivity activity) {
+    public static void openAuthActivity(@NonNull MainActivity activity) {
         Intent intent = new Intent(activity, AuthActivity.class);
         intent.putExtra(AuthActivity.KEY_URL, getAuthorizeUrl());
 

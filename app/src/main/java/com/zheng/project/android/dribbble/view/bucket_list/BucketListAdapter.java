@@ -127,14 +127,13 @@ public class BucketListAdapter extends InfiniteAdapter<Bucket> {
 
     public void removeBucket(@NonNull String bucketId) {
         removeData(findBucket(bucketId));
-        notifyDataSetChanged();
     }
 
     public void updateBucket(@NonNull String bucketId, @NonNull String name, @NonNull String description) {
         Bucket bucket = findBucket(bucketId);
         bucket.name = name;
         bucket.description = description;
-        notifyDataSetChanged();
+        notifyItemChanged(getData().indexOf(bucket));
     }
 
     @NonNull

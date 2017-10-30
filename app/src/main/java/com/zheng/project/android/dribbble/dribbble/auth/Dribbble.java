@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.zheng.project.android.dribbble.models.Bucket;
 import com.zheng.project.android.dribbble.models.Like;
@@ -14,7 +15,6 @@ import com.zheng.project.android.dribbble.utils.ModelUtils;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,15 +64,17 @@ public class Dribbble {
     }
 
     private static Request.Builder authRequestBuilder(String url) {
+        String token = accessToken == null ? Auth.CLIENT_ACCESS_TOKEN : accessToken;
+
         return new Request.Builder()
-                .addHeader("Authorization", "Bearer " + accessToken)
+                .addHeader("Authorization", "Bearer " + token)
                 .url(url);
     }
 
     private static void checkStatusCode(Response response,
                                         int statusCode) throws DribbbleException {
         if (response.code() != statusCode) {
-            throw new DribbbleException(response.message());
+            throw new DribbbleException(response.code() + ": " + response.message());
         }
     }
 
@@ -149,6 +151,7 @@ public class Dribbble {
             throw new DribbbleException(e.getMessage());
         }
         Log.d(TAG, response.header("X-RateLimit-Remaining"));
+        Log.d(TAG, "code: " + response.code());
         return response;
     }
 
@@ -161,7 +164,13 @@ public class Dribbble {
             throw new DribbbleException(e.getMessage());
         }
         Log.d(TAG, responseString);
-        return ModelUtils.toObject(responseString, typeToken);
+
+        try {
+            return ModelUtils.toObject(responseString, typeToken);
+        }
+        catch (JsonSyntaxException e) {
+            throw new DribbbleException(e.getMessage());
+        }
     }
 
     public static boolean isLoggedIn() {
@@ -205,8 +214,33 @@ public class Dribbble {
         }
     }
     public static List<Shot> getShots(int page) throws DribbbleException {
-        String url = SHOTS_END_POINT + "?page=" + page;
-        return parseResponse(makeGetRequest(url), SHOT_LIST_TYPE);
+        Response response = makeGetRequest(SHOTS_END_POINT + "?page=" + page);
+        checkStatusCode(response, HttpURLConnection.HTTP_OK);
+        return parseResponse(response, SHOT_LIST_TYPE);
+    }
+
+    public static List<Shot> getAnimatedShots(int page) throws DribbbleException {
+        Response response = makeGetRequest(SHOTS_END_POINT + "?page=" + page + "&list=animated");
+        checkStatusCode(response, HttpURLConnection.HTTP_OK);
+        return parseResponse(response, SHOT_LIST_TYPE);
+    }
+
+    public static List<Shot> getMostCommentedShots(int page) throws DribbbleException {
+        Response response = makeGetRequest(SHOTS_END_POINT + "?page=" + page + "&sort=comments");
+        checkStatusCode(response, HttpURLConnection.HTTP_OK);
+        return parseResponse(response, SHOT_LIST_TYPE);
+    }
+
+    public static List<Shot> getMostViewedShots(int page) throws DribbbleException {
+        Response response = makeGetRequest(SHOTS_END_POINT + "?page=" + page + "&sort=views");
+        checkStatusCode(response, HttpURLConnection.HTTP_OK);
+        return parseResponse(response, SHOT_LIST_TYPE);
+    }
+
+    public static List<Shot> getMostRecentShots(int page) throws DribbbleException {
+        Response response = makeGetRequest(SHOTS_END_POINT + "?page=" + page + "&sort=recent");
+        checkStatusCode(response, HttpURLConnection.HTTP_OK);
+        return parseResponse(response, SHOT_LIST_TYPE);
     }
 
     public static List<Shot> getLikedShots(int page) throws DribbbleException {
@@ -219,14 +253,16 @@ public class Dribbble {
     }
 
     public static List<Bucket> getUserBuckets(int page) throws DribbbleException {
-        String url = USER_END_POINT + "/" + "buckets?page=" + page;
-        return parseResponse(makeGetRequest(url), BUCKET_LIST_TYPE);
+        Response response = makeGetRequest(USER_END_POINT + "/" + "buckets?page=" + page);
+        checkStatusCode(response, HttpURLConnection.HTTP_OK);
+        return parseResponse(response, BUCKET_LIST_TYPE);
     }
 
     public static List<Bucket> getUserBuckets(@NonNull String userId,
                                               int page) throws DribbbleException {
-        String url = USERS_END_POINT + "/" + userId + "/buckets?page=" + page;
-        return parseResponse(makeGetRequest(url), BUCKET_LIST_TYPE);
+        Response response = makeGetRequest(USERS_END_POINT + "/" + userId + "/buckets?page=" + page);
+        checkStatusCode(response, HttpURLConnection.HTTP_OK);
+        return parseResponse(response, BUCKET_LIST_TYPE);
     }
 
     /**
@@ -235,8 +271,9 @@ public class Dribbble {
      * @throws DribbbleException
      */
     public static List<Bucket> getUserBuckets() throws DribbbleException {
-        String url = USER_END_POINT + "/" + "buckets?per_page=" + Integer.MAX_VALUE;
-        return parseResponse(makeGetRequest(url), BUCKET_LIST_TYPE);
+        Response response = makeGetRequest(USER_END_POINT + "/" + "buckets?per_page=" + Integer.MAX_VALUE);
+        checkStatusCode(response, HttpURLConnection.HTTP_OK);
+        return parseResponse(response, BUCKET_LIST_TYPE);
     }
 
     /**
@@ -246,14 +283,16 @@ public class Dribbble {
      * @throws DribbbleException
      */
     public static List<Bucket> getShotBuckets(@NonNull String shotId) throws DribbbleException {
-        String url = SHOTS_END_POINT + "/" + shotId + "/buckets?per_page=" + Integer.MAX_VALUE;
-        return parseResponse(makeGetRequest(url), BUCKET_LIST_TYPE);
+        Response response = makeGetRequest(SHOTS_END_POINT + "/" + shotId + "/buckets?per_page=" + Integer.MAX_VALUE);
+        checkStatusCode(response, HttpURLConnection.HTTP_OK);
+        return parseResponse(response, BUCKET_LIST_TYPE);
     }
 
     public static List<Shot> getBucketShots(@NonNull String bucketId,
                                             int page) throws DribbbleException {
-        String url = BUCKETS_END_POINT + "/" + bucketId + "/shots";
-        return parseResponse(makeGetRequest(url), SHOT_LIST_TYPE);
+        Response response = makeGetRequest(BUCKETS_END_POINT + "/" + bucketId + "/shots");
+        checkStatusCode(response, HttpURLConnection.HTTP_OK);
+        return parseResponse(response, SHOT_LIST_TYPE);
     }
 
     public static Bucket newBucket(@NonNull String name,
@@ -309,6 +348,8 @@ public class Dribbble {
 
     public static List<Like> getLikes(int page) throws DribbbleException {
         String url = USER_END_POINT + "/likes?page=" + page;
-        return parseResponse(makeGetRequest(url), LIKE_LIST_TYPE);
+        Response response = makeGetRequest(url);
+        checkStatusCode(response, HttpURLConnection.HTTP_OK);
+        return parseResponse(response, LIKE_LIST_TYPE);
     }
 }

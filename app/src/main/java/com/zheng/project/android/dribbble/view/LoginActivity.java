@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
             loginBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Auth.openAuthActivity(LoginActivity.this);
+                  //  Auth.openAuthActivity(LoginActivity.this);
                 }
             });
         }

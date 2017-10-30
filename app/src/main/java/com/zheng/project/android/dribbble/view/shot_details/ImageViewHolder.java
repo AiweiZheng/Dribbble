@@ -12,7 +12,7 @@ import butterknife.BindView;
 
 public class ImageViewHolder extends BaseViewHolder{
     @BindView(R.id.shot_image) public SimpleDraweeView simpleDraweeView;
-    @BindView(R.id.progress_bar) public ProgressBar progressBar;
+  //  @BindView(R.id.progress_bar) public ProgressBar progressBar;
 
     public ImageViewHolder(View itemView) {
         super(itemView);

@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,20 +23,20 @@ import com.zheng.project.android.dribbble.view.shot_details.ShotFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-
 public class ShotListFragment extends InfiniteFragment<Shot> {
 
     public static final int REQ_CODE_SHOT = 100;
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
-    @BindView(R.id.swipe_refresh_container) SwipeRefreshLayout swipeRefreshLayout;
 
     public static final String KEY_LIST_TYPE = "list_type";
     public static final String KEY_BUCKET_ID = "bucket_id";
 
     public static final int LIST_TYPE_POPULAR = 1;
-    public static final int LIST_TYPE_LIKED = 2;
-    public static final int LIST_TYPE_BUCKET = 3;
+    public static final int LIST_TYPE_ANIMATED = 2;
+    public static final int LIST_TYPE_MOST_COMMENTED = 3;
+    public static final int LIST_TYPE_MOST_VIEWED = 4;
+    public static final int LIST_TYPE_MOST_RECENT = 5;
+    public static final int LIST_TYPE_LIKED = 6;
+    public static final int LIST_TYPE_BUCKET = 7;
 
     private ShotListAdapter adapter;
     @NonNull
@@ -65,8 +63,16 @@ public class ShotListFragment extends InfiniteFragment<Shot> {
         switch (listStyle) {
             case LIST_TYPE_POPULAR:
                 return Dribbble.getShots(page);
+            case LIST_TYPE_ANIMATED:
+                return Dribbble.getAnimatedShots(page);
             case LIST_TYPE_LIKED:
                 return Dribbble.getLikedShots(page);
+            case LIST_TYPE_MOST_COMMENTED:
+                return Dribbble.getMostCommentedShots(page);
+            case LIST_TYPE_MOST_VIEWED:
+                return Dribbble.getMostViewedShots(page);
+            case LIST_TYPE_MOST_RECENT:
+                return Dribbble.getMostRecentShots(page);
             case LIST_TYPE_BUCKET:
                 String bucketId = getArguments().getString(KEY_BUCKET_ID);
                 return Dribbble.getBucketShots(bucketId, page);
@@ -80,8 +86,8 @@ public class ShotListFragment extends InfiniteFragment<Shot> {
     }
 
     @Override
-    protected List<Shot> loadMoreData(int dataSize) throws DribbbleException {
-        return fetchData(getArguments().getInt(KEY_LIST_TYPE), dataSize / Dribbble.COUNT_PER_PAGE + 1);
+    protected List<Shot> loadMoreData(int nextPage) throws DribbbleException {
+        return fetchData(getArguments().getInt(KEY_LIST_TYPE), nextPage);
     }
 
     @NonNull

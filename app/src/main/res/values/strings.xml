@@ -34,4 +34,15 @@
     <string name="bucket_edit">Edit %1$s</string>
     <string name="GIF">GIF</string>
     <string name="Fresco_image_full_downloaded">10000</string>
+    <string name="login">Click to log in</string>
+    <string name="not_logged_in_error">Please logged in to %1$s</string>
+    <string name="drawer_menu_item_animated">Animated GIFs</string>
+    <string name="title_animated_gif">Animated GIFs</string>
+    <string name="error_when_loading_data">Error when loading data</string>
+    <string name="drawer_menu_item_most_recent">Most recent</string>
+    <string name="drawer_menu_item_most_viewed">Most viewed</string>
+    <string name="drawer_menu_item_most_commented">Most commented</string>
+    <string name="title_most_commented">Most commented</string>
+    <string name="title_most_recent">Most recent</string>
+    <string name="title_most_viewed">Most viewed</string>
 </resources>

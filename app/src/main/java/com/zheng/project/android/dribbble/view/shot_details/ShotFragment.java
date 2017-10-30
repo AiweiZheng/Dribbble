@@ -108,6 +108,11 @@ public class ShotFragment extends Fragment{
     }
 
     public void bucket() {
+        if (!Dribbble.isLoggedIn()) {
+            Displayer.showOnSnackBar(getView(), formatNotLoggedInMessage("bucket"));
+            return;
+        }
+
         if (collectedBucketIds == null) {
             Displayer.showOnSnackBar(getView(), getString(R.string.shot_detail_loading_buckets));
         } else {
@@ -128,12 +133,21 @@ public class ShotFragment extends Fragment{
     }
 
     public void like(@NonNull String shotId, boolean like) {
+        if (!Dribbble.isLoggedIn()) {
+            Displayer.showOnSnackBar(getView(), formatNotLoggedInMessage("like"));
+            return;
+        }
         if (!isLiking) {
             isLiking = true;
             new LikeTask(shotId, like).execute();
         }
     }
 
+    private String formatNotLoggedInMessage(String action) {
+        return getString(R.string.not_logged_in_error, " '" + action + "'");
+    }
+
+    /*******************************background tasks************************************************/
     private class LoadBucketsTask extends BackgroundTask<Void, Void, List<String>> {
 
         @Override

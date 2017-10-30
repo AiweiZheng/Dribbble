@@ -35,6 +35,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.facebook.fresco:fresco:0.13.0'
     compile 'com.facebook.fresco:animated-gif:0.13.0'
+    compile 'jp.wasabeef:recyclerview-animators:2.2.7'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     testCompile 'junit:junit:4.12'

@@ -9,7 +9,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class ModelUtils {
     private static Gson gson = new Gson();
-    private static String PREF_NAME = "models";
+    private static String PREF_NAME = "models2";
 
     public static void save(Context context, String key, Object object) {
         SharedPreferences sp = context.getApplicationContext().getSharedPreferences(
@@ -30,7 +30,7 @@ public class ModelUtils {
         }
     }
 
-    public static <T> T toObject(String json, TypeToken<T> typeToken) {
+    public static <T> T toObject(String json, TypeToken<T> typeToken) throws JsonSyntaxException {
         return gson.fromJson(json, typeToken.getType());
     }
 

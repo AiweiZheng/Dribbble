@@ -1,6 +1,7 @@
 package com.zheng.project.android.dribbble.view.shot_list;
 
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;

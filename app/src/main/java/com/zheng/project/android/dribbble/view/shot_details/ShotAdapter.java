@@ -70,8 +70,7 @@ public class ShotAdapter extends RecyclerView.Adapter{
         switch (viewType) {
             case VIEW_TYPE_SHOT_IMAGE:
                 ImageViewHolder imageViewHolder = (ImageViewHolder) holder;
-                AnimatedImageUtils.autoPlayAnimations(shot.getImageUrl(),
-                        imageViewHolder.simpleDraweeView, imageViewHolder.progressBar);
+                AnimatedImageUtils.autoPlayAnimations(shot.getImageUrl(), imageViewHolder.simpleDraweeView);
                 break;
 
             case VIEW_TYPE_SHOT_ACTIONS:

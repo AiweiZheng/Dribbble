@@ -14,15 +14,11 @@
     fresco:viewAspectRatio="1.33"
     fresco:placeholderImage="@drawable/shot_image_place_holder"
     fresco:placeholderImageScaleType="fitCenter"
+    fresco:progressBarImage="@drawable/ic_loop_black_24dp"
+    fresco:progressBarAutoRotateInterval = "1000"
     android:contentDescription="@string/shot_image_content_description"/>
 
-    <ProgressBar
-    android:id="@+id/progress_bar"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/activity_auth_progress_bar_height"
-    android:layout_below="@+id/toolbar"
-        android:background="@color/colorPrimary"
-    style="?android:attr/progressBarStyleHorizontal"/>
+   <!--<include layout="@layout/progressbar" />  -->
 </LinearLayout>
 
 

@@ -66,6 +66,9 @@
     <style name="AppTheme.TextView.Clickable.1.White" parent="AppTheme.TextView.Clickable.1">
         <item name="android:textColor">@android:color/white</item>
     </style>
+    <style name="AppTheme.TextView.Clickable.1.White.italic" parent="AppTheme.TextView.Clickable.1.White">
+        <item name="android:textStyle">italic</item>
+    </style>
 
 
     <style name="AppTheme.TextView.Clickable.2" parent="AppTheme.TextView.Clickable">
@@ -76,5 +79,5 @@
     </style>
 
     <color name="text_dark">#aa000000</color>
-    <color name="text_white">#a6a6a6</color>
+    <color name="text_white">#77666666</color>
 </resources>

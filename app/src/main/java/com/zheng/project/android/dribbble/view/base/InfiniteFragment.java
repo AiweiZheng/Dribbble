@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 
 import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
@@ -22,6 +23,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public abstract class InfiniteFragment<T> extends Fragment {
 
@@ -38,6 +42,8 @@ public abstract class InfiniteFragment<T> extends Fragment {
 
         View view = createView(container);
         ButterKnife.bind(this, view);
+
+        setRecyclerViewAnimation();
         swipeRefreshLayout.setEnabled(false); //not allow to refresh before first shot load finished.
         viewCreated();
 
@@ -51,6 +57,16 @@ public abstract class InfiniteFragment<T> extends Fragment {
         return view;
     }
 
+    private void setRecyclerViewAnimation() {
+        int duration = 800;
+        SlideInUpAnimator animator = new SlideInUpAnimator(new OvershootInterpolator(1f));
+        recyclerView.setItemAnimator(animator);
+
+        recyclerView.getItemAnimator().setAddDuration(duration);
+        recyclerView.getItemAnimator().setRemoveDuration(duration);
+        recyclerView.getItemAnimator().setMoveDuration(duration);
+        recyclerView.getItemAnimator().setChangeDuration(duration);
+    }
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -69,6 +85,9 @@ public abstract class InfiniteFragment<T> extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+    protected void scrollToTop() {
+        recyclerView.smoothScrollToPosition(0);
+    }
     protected abstract List<T> refreshData() throws DribbbleException;
 
     protected abstract List<T> loadMoreData(int dataSize) throws DribbbleException;

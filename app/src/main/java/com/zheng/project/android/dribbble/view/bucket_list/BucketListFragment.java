@@ -281,6 +281,7 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
         protected void onSuccess(Bucket bucket) {
             bucket.isChosen = true;
             adapter.prepend(Collections.singletonList(bucket));
+            scrollToTop();
         }
 
         @Override

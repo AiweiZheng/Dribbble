@@ -6,11 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 
 import com.zheng.project.android.dribbble.R;
+import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
 import com.zheng.project.android.dribbble.models.Bucket;
 
 import java.util.List;
+
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 
 public abstract class InfiniteAdapter<T> extends RecyclerView.Adapter{
 
@@ -87,12 +91,18 @@ public abstract class InfiniteAdapter<T> extends RecyclerView.Adapter{
 
     public void prepend(@NonNull List<T> newData) {
         data.addAll(0, newData);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(0, newData.size());
     }
+
     public void setData(@NonNull List<T> newData) {
         data.clear();
         data.addAll(newData);
         notifyDataSetChanged();
+    }
+
+    public void removeData(T item) {
+        notifyItemRemoved(data.indexOf(item));
+        data.remove(item);
     }
 
     public void setShowLoading(boolean showLoading) {
@@ -108,10 +118,6 @@ public abstract class InfiniteAdapter<T> extends RecyclerView.Adapter{
 
     public List<T> getData() {
         return data;
-    }
-
-    public void removeData(T item) {
-        data.remove(item);
     }
 
     protected abstract BaseViewHolder onCreateView(@NonNull ViewGroup parent);
