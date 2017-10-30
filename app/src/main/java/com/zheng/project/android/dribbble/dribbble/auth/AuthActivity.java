@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -28,6 +27,7 @@ public class AuthActivity extends AppCompatActivity {
     @BindView(R.id.webview) WebView webView;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +49,6 @@ public class AuthActivity extends AppCompatActivity {
                     setResult(RESULT_OK, resultIntent);
                     finish();
                 }
-
                 return super.shouldOverrideUrlLoading(view, url);
             }
 
