@@ -4,8 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.zheng.project.android.dribbble.view.LoginActivity;
-import com.zheng.project.android.dribbble.view.MainActivity;
+import com.zheng.project.android.dribbble.view.main.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

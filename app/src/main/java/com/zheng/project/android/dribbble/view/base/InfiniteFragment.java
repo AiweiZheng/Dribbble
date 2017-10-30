@@ -146,7 +146,6 @@ public abstract class InfiniteFragment<T> extends Fragment {
                 swipeRefreshLayout.setEnabled(true);
                 infiniteFragment.adapter.append(data);
             }
-
         }
 
         @Override

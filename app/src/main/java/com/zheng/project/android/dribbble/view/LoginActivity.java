@@ -3,16 +3,15 @@ package com.zheng.project.android.dribbble.view;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.gson.JsonSyntaxException;
 import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.dribbble.auth.Auth;
 import com.zheng.project.android.dribbble.dribbble.auth.AuthActivity;
 import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
 import com.zheng.project.android.dribbble.dribbble.auth.DribbbleException;
+import com.zheng.project.android.dribbble.view.main.MainActivity;
 
 import java.io.IOException;
 

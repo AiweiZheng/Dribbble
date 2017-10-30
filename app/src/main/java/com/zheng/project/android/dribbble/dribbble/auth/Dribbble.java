@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import com.zheng.project.android.dribbble.models.Bucket;
 import com.zheng.project.android.dribbble.models.Like;
 import com.zheng.project.android.dribbble.models.Shot;
+import com.zheng.project.android.dribbble.models.ShotQueryParameter;
 import com.zheng.project.android.dribbble.models.User;
 import com.zheng.project.android.dribbble.utils.AuthUtils;
 import com.zheng.project.android.dribbble.utils.ModelUtils;
@@ -39,10 +40,23 @@ public class Dribbble {
     private static final String SHOTS_END_POINT = API_URL + "shots";
     private static final String BUCKETS_END_POINT = API_URL + "buckets";
 
+    public static final String SHOTS_SORT_BY_DEFAULT = "popularity";
+    public static final String SHOTS_SORT_BY_COMMENTS = "comments";
+    public static final String SHOTS_SORT_BY_VIEWS = "views";
+    public static final String SHOTS_SORT_BY_RECENT= "recent";
+
+    public static final String SHOTS_AT_FROM_NOW = "now";
+    public static final String SHOTS_AT_LAST_WEEK = "week";
+    public static final String SHOTS_AT_LAST_MONTH = "month";
+    public static final String SHOTS_AT_LAST_YEAR = "year";
+    public static final String SHOTS_TILL_NOW = "ever";
+
+    public static final String SHOTS_LIST_TYPE_DEFAULT = "any";
+    public static final String SHOTS_LIST_TYPE_ANIMATED = "animated";
+
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_NAME = "name";
     private static final String KEY_SHOT_ID = "shot_id";
-    private static final String KEY_BUCKET_ID = "bucket_id";
 
     private static final TypeToken<User> USER_TYPE = new TypeToken<User>(){};
     private static final TypeToken<List<Shot>> SHOT_LIST_TYPE = new TypeToken<List<Shot>>(){};
@@ -213,32 +227,46 @@ public class Dribbble {
                 throw new DribbbleException(response.message());
         }
     }
-    public static List<Shot> getShots(int page) throws DribbbleException {
+
+    public static List<Shot> getShots(int page, ShotQueryParameter parameter) throws DribbbleException {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(SHOTS_END_POINT);
+        stringBuilder.append("?page=");
+        stringBuilder.append(page);
+        stringBuilder.append("&list=");
+        stringBuilder.append(parameter.list);
+        stringBuilder.append("&sort=");
+        stringBuilder.append(parameter.sort);
+        stringBuilder.append("&timeframe=");
+        stringBuilder.append(parameter.timeFrame);
+
+        Response response = makeGetRequest(stringBuilder.toString());
+        checkStatusCode(response, HttpURLConnection.HTTP_OK);
+        return parseResponse(response, SHOT_LIST_TYPE);
+    }
+    public static List<Shot> _getShots(int page) throws DribbbleException {
         Response response = makeGetRequest(SHOTS_END_POINT + "?page=" + page);
         checkStatusCode(response, HttpURLConnection.HTTP_OK);
         return parseResponse(response, SHOT_LIST_TYPE);
     }
 
-    public static List<Shot> getAnimatedShots(int page) throws DribbbleException {
+    public static List<Shot> _getAnimatedShots(int page) throws DribbbleException {
         Response response = makeGetRequest(SHOTS_END_POINT + "?page=" + page + "&list=animated");
         checkStatusCode(response, HttpURLConnection.HTTP_OK);
         return parseResponse(response, SHOT_LIST_TYPE);
     }
 
-    public static List<Shot> getMostCommentedShots(int page) throws DribbbleException {
-        Response response = makeGetRequest(SHOTS_END_POINT + "?page=" + page + "&sort=comments");
+    public static List<Shot> _getSortedShots(int page, String sortBy) throws DribbbleException {
+        Response response = makeGetRequest(SHOTS_END_POINT + "?page=" + page + "&sort=" + sortBy);
         checkStatusCode(response, HttpURLConnection.HTTP_OK);
         return parseResponse(response, SHOT_LIST_TYPE);
     }
 
-    public static List<Shot> getMostViewedShots(int page) throws DribbbleException {
-        Response response = makeGetRequest(SHOTS_END_POINT + "?page=" + page + "&sort=views");
-        checkStatusCode(response, HttpURLConnection.HTTP_OK);
-        return parseResponse(response, SHOT_LIST_TYPE);
-    }
+    public static List<Shot> _filterShotsByTime(int page,String sortBy, String timePeriod)
+            throws DribbbleException {
 
-    public static List<Shot> getMostRecentShots(int page) throws DribbbleException {
-        Response response = makeGetRequest(SHOTS_END_POINT + "?page=" + page + "&sort=recent");
+        Response response = makeGetRequest(
+                SHOTS_END_POINT + "?page=" + page + "&sort=" + sortBy + "&timeframe=" + timePeriod);
         checkStatusCode(response, HttpURLConnection.HTTP_OK);
         return parseResponse(response, SHOT_LIST_TYPE);
     }

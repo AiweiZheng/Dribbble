@@ -9,7 +9,7 @@ import android.view.View;
 import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.models.Bucket;
 
-class BucketOptionsMenu extends  PopupMenu{
+class BucketOptionsMenu extends PopupMenu{
 
     public static BucketOptionsMenu newInstance(@NonNull Context context,
                                                 @NonNull View anchor,
@@ -27,7 +27,7 @@ class BucketOptionsMenu extends  PopupMenu{
                               @NonNull final DeleteBucketListener deleteBucketListener) {
         super(context, anchor);
 
-        getMenuInflater().inflate(R.menu.bucket_options_pop_menu, getMenu());
+        getMenuInflater().inflate(R.menu.bucket_options_popup_menu, getMenu());
 
         setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {

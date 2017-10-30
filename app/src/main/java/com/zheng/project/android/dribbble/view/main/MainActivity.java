@@ -1,15 +1,18 @@
-package com.zheng.project.android.dribbble.view;
+package com.zheng.project.android.dribbble.view.main;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -34,13 +37,17 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
     @BindView(R.id.drawer_nav) NavigationView navigationView;
-
-    ActionBarDrawerToggle drawerToggle;
+    private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
+    }
+
+    @Override
+    protected Drawable getOverflowIcon() {
+        return ContextCompat.getDrawable(this, R.drawable.ic_filter_white_24dp);
     }
 
     @Override
@@ -62,6 +69,12 @@ public class MainActivity extends BaseActivity {
         setFragment(ShotListFragment.newInstance(ShotListFragment.LIST_TYPE_POPULAR),
                 R.id.main_fragment_container);
     }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.home_time_filter_menu, menu);
+//        return true;
+//    }
 
     @Override
     protected void onCreateView() {
@@ -117,7 +130,7 @@ public class MainActivity extends BaseActivity {
                         setTitle(R.string.title_animated_gif);
                         break;
                     case R.id.drawer_menu_item_most_commented:
-                        fragment = ShotListFragment.newInstance(ShotListFragment.LIST_TYPE_MOST_COMMENTED);
+                        fragment = ShotListFragment.newInstance(ShotListFragment.LIST_TYPE_MOST_COMMENTS);
                         setTitle(R.string.title_most_commented);
                         break;
                     case R.id.drawer_menu_item_most_recent:

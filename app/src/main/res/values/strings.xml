@@ -45,4 +45,12 @@
     <string name="title_most_commented">Most commented</string>
     <string name="title_most_recent">Most recent</string>
     <string name="title_most_viewed">Most viewed</string>
+    <string name="time_filter_menu_item_home">Now</string>
+    <string name="time_filter_menu_item_now">Now</string>
+    <string name="time_filter_menu_item_last_week">Last week</string>
+    <string name="time_filter_menu_item_last_month">Last month</string>
+    <string name="time_filter_menu_item_last_year">Last year</string>
+    <string name="time_filter_menu_item_most_all_time">All time</string>
+    <string name="filter">Filter</string>
+    <string name="drawer_menu_item_popularity">popularity</string>
 </resources>

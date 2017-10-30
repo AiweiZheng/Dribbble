@@ -1,8 +1,10 @@
 package com.zheng.project.android.dribbble.view.base;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -26,11 +28,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             onSavedInstanceStateIsNull();
         }
+        toolbar.setOverflowIcon(getOverflowIcon());
     }
 
     protected void onViewCreated(){}
     protected void onSavedInstanceStateIsNull(){}
 
+    protected Drawable getOverflowIcon() {
+        return ContextCompat.getDrawable(this, R.drawable.ic_move_vert_black_24dp);
+    }
     protected abstract void onCreateView();
 
     public void setFragment(Fragment fragment, int container) {

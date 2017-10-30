@@ -10,7 +10,13 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
+        <item name="android:actionOverflowButtonStyle">@style/OverflowStyle</item>
+
         <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert</item>
+    </style>
+
+    <style name="OverflowStyle">
+        <item name="android:src">@drawable/ic_filter_white_24dp</item>
     </style>
 
     <style name="AppTheme.Dialog.Alert" parent="Theme.AppCompat.Light.Dialog.Alert">

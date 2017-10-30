@@ -2,18 +2,25 @@ package com.zheng.project.android.dribbble.view.shot_list;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.reflect.TypeToken;
+import com.zheng.project.android.dribbble.BackgroundThread.BackgroundTask;
 import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
 import com.zheng.project.android.dribbble.dribbble.auth.DribbbleException;
+import com.zheng.project.android.dribbble.models.ShotQueryParameter;
+import com.zheng.project.android.dribbble.utils.Displayer;
 import com.zheng.project.android.dribbble.utils.ModelUtils;
 import com.zheng.project.android.dribbble.view.base.InfiniteAdapter;
 import com.zheng.project.android.dribbble.view.base.InfiniteFragment;
@@ -32,12 +39,13 @@ public class ShotListFragment extends InfiniteFragment<Shot> {
 
     public static final int LIST_TYPE_POPULAR = 1;
     public static final int LIST_TYPE_ANIMATED = 2;
-    public static final int LIST_TYPE_MOST_COMMENTED = 3;
+    public static final int LIST_TYPE_MOST_COMMENTS = 3;
     public static final int LIST_TYPE_MOST_VIEWED = 4;
     public static final int LIST_TYPE_MOST_RECENT = 5;
     public static final int LIST_TYPE_LIKED = 6;
     public static final int LIST_TYPE_BUCKET = 7;
 
+    private ShotQueryParameter shotQueryParameter = new ShotQueryParameter();
     private ShotListAdapter adapter;
     @NonNull
     public static ShotListFragment newInstance(int listType) {
@@ -60,20 +68,38 @@ public class ShotListFragment extends InfiniteFragment<Shot> {
     }
 
     private List<Shot> fetchData(int listStyle, int page) throws DribbbleException {
+
+
         switch (listStyle) {
             case LIST_TYPE_POPULAR:
-                return Dribbble.getShots(page);
+                shotQueryParameter.list = Dribbble.SHOTS_LIST_TYPE_DEFAULT;
+                return Dribbble.getShots(page, shotQueryParameter);
+
             case LIST_TYPE_ANIMATED:
-                return Dribbble.getAnimatedShots(page);
-            case LIST_TYPE_LIKED:
-                return Dribbble.getLikedShots(page);
-            case LIST_TYPE_MOST_COMMENTED:
-                return Dribbble.getMostCommentedShots(page);
+                shotQueryParameter.list = Dribbble.SHOTS_LIST_TYPE_ANIMATED;
+                return Dribbble.getShots(page, shotQueryParameter);
+
+            case LIST_TYPE_MOST_COMMENTS:
+                shotQueryParameter.list = Dribbble.SHOTS_LIST_TYPE_DEFAULT;
+                shotQueryParameter.sort = Dribbble.SHOTS_SORT_BY_COMMENTS;
+                return Dribbble.getShots(page, shotQueryParameter);
+
             case LIST_TYPE_MOST_VIEWED:
-                return Dribbble.getMostViewedShots(page);
+                shotQueryParameter.list = Dribbble.SHOTS_LIST_TYPE_DEFAULT;
+                shotQueryParameter.sort = Dribbble.SHOTS_SORT_BY_VIEWS;
+                return Dribbble.getShots(page, shotQueryParameter);
+
             case LIST_TYPE_MOST_RECENT:
-                return Dribbble.getMostRecentShots(page);
+                shotQueryParameter.list = Dribbble.SHOTS_LIST_TYPE_DEFAULT;
+                shotQueryParameter.sort = Dribbble.SHOTS_SORT_BY_RECENT;
+                return Dribbble.getShots(page, shotQueryParameter);
+
+            case LIST_TYPE_LIKED:
+                setHasOptionsMenu(false);
+                return Dribbble.getLikedShots(page);
+
             case LIST_TYPE_BUCKET:
+                setHasOptionsMenu(false);
                 String bucketId = getArguments().getString(KEY_BUCKET_ID);
                 return Dribbble.getBucketShots(bucketId, page);
         }
@@ -90,6 +116,42 @@ public class ShotListFragment extends InfiniteFragment<Shot> {
         return fetchData(getArguments().getInt(KEY_LIST_TYPE), nextPage);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.home_time_filter_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.isChecked()) item.setChecked(false);
+        else item.setChecked(true);
+
+        switch (item.getItemId()) {
+            case R.id.time_filter_menu_item_now:
+                shotQueryParameter.timeFrame = Dribbble.SHOTS_AT_FROM_NOW;
+                new GetShotTask(shotQueryParameter).execute();
+                return true;
+            case R.id.time_filter_menu_item_last_week:
+                shotQueryParameter.timeFrame = Dribbble.SHOTS_AT_LAST_WEEK;
+                new GetShotTask(shotQueryParameter).execute();
+                return true;
+            case R.id.time_filter_menu_item_last_month:
+                shotQueryParameter.timeFrame = Dribbble.SHOTS_AT_LAST_MONTH;
+                new GetShotTask(shotQueryParameter).execute();
+                return true;
+            case R.id.time_filter_menu_item_last_year:
+                shotQueryParameter.timeFrame = Dribbble.SHOTS_AT_LAST_YEAR;
+                new GetShotTask(shotQueryParameter).execute();
+                return true;
+            case R.id.time_filter_menu_item_all_time:
+                shotQueryParameter.timeFrame = Dribbble.SHOTS_TILL_NOW;
+                new GetShotTask(shotQueryParameter).execute();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     @NonNull
     @Override
     protected InfiniteAdapter createAdapter() {
@@ -100,6 +162,7 @@ public class ShotListFragment extends InfiniteFragment<Shot> {
     @NonNull
     @Override
     protected View createView(@Nullable ViewGroup container) {
+        setHasOptionsMenu(true);
         return getLayoutInflater().inflate(R.layout.fragment_recycler_view, container, false);
     }
 
@@ -116,6 +179,35 @@ public class ShotListFragment extends InfiniteFragment<Shot> {
                     return;
                 }
             }
+        }
+    }
+
+    /*********************************backGround tasks***************************************/
+    private class GetShotTask extends BackgroundTask<Void, Void, List<Shot>> {
+
+        ShotQueryParameter parameter;
+
+        public GetShotTask(ShotQueryParameter parameter) {
+            this.parameter = parameter;
+        }
+
+        @Override
+        protected void onSuccess(List<Shot> shots) {
+            adapter.setData(shots);
+        }
+
+        @Override
+        protected void onFailed(DribbbleException e) {
+            Displayer.showOnSnackBar(getView(), e.getMessage());
+        }
+
+        @Override
+        protected List<Shot> doJob(Void... params) throws DribbbleException {
+            return   Dribbble.getShots(0, shotQueryParameter);
+        }
+
+        public void execute() {
+            this.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 }

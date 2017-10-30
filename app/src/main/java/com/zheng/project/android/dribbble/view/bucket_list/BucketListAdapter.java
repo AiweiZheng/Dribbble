@@ -84,7 +84,6 @@ public class BucketListAdapter extends InfiniteAdapter<Bucket> {
         bucketViewHolder.bucketChosen.setVisibility(View.GONE);
         bucketViewHolder.bucketOptionsMenu.setVisibility(View.VISIBLE);
 
-        final ImageView optionsMenu = bucketViewHolder.bucketOptionsMenu;
         bucketViewHolder.bucketLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,6 +91,7 @@ public class BucketListAdapter extends InfiniteAdapter<Bucket> {
             }
         });
 
+        final ImageView optionsMenu = bucketViewHolder.bucketOptionsMenu;
         optionsMenu.setOnClickListener(new View.OnClickListener() {
 
             @Override

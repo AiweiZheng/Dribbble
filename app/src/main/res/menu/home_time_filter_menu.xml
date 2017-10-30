@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--<item-->
+        <!--android:id="@+id/home_time_filter"-->
+        <!--android:title="@string/filter"-->
+        <!--android:icon="@drawable/ic_filter_white_24dp"-->
+        <!--app:showAsAction="always"/>-->
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/time_filter_menu_item_now"
+            android:title="@string/time_filter_menu_item_now"
+            android:checked="true"
+            app:showAsAction="never"/>
+        <item
+            android:id="@+id/time_filter_menu_item_last_week"
+            android:title="@string/time_filter_menu_item_last_week"
+            app:showAsAction="never"/>
+        <item
+            android:id="@+id/time_filter_menu_item_last_month"
+            android:title="@string/time_filter_menu_item_last_month"
+            app:showAsAction="never"/>
+        <item
+            android:id="@+id/time_filter_menu_item_last_year"
+            android:title="@string/time_filter_menu_item_last_year"
+            app:showAsAction="never"/>
+        <item
+            android:id="@+id/time_filter_menu_item_all_time"
+            android:title="@string/time_filter_menu_item_most_all_time"
+            app:showAsAction="never"/>
+    </group>
+</menu>

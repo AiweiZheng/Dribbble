@@ -4,26 +4,22 @@
     <item
         android:id="@+id/drawer_menu_item_home"
         android:checked="true"
-        android:title="@string/drawer_menu_item_home"
-        android:icon="@drawable/ic_home_black_18dp"/>
+        android:title="@string/drawer_menu_item_popularity"
+        android:icon="@drawable/ic_stars_black_18dp"/>
     <item
         android:id="@+id/drawer_menu_item_animated"
-        android:checked="true"
         android:title="@string/drawer_menu_item_animated"
         android:icon="@drawable/ic_movie_black_18dp"/>
     <item
         android:id="@+id/drawer_menu_item_most_recent"
-        android:checked="true"
         android:title="@string/drawer_menu_item_most_recent"
         android:icon="@drawable/ic_query_builder_black_18dp"/>
     <item
         android:id="@+id/drawer_menu_item_most_viewed"
-        android:checked="true"
         android:title="@string/drawer_menu_item_most_viewed"
         android:icon="@drawable/ic_visibility_black_18dp"/>
     <item
         android:id="@+id/drawer_menu_item_most_commented"
-        android:checked="true"
         android:title="@string/drawer_menu_item_most_commented"
         android:icon="@drawable/ic_comment_black_18dp"/>
 </group>
