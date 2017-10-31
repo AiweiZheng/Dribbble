@@ -44,6 +44,7 @@ public class ShotListFragment extends InfiniteFragment<Shot> {
     public static final int LIST_TYPE_MOST_RECENT = 5;
     public static final int LIST_TYPE_LIKED = 6;
     public static final int LIST_TYPE_BUCKET = 7;
+    public static final int LIST_TYPE_My_FOLLOWING = 8;
 
     private ShotQueryParameter shotQueryParameter = new ShotQueryParameter();
     private ShotListAdapter adapter;
@@ -102,6 +103,9 @@ public class ShotListFragment extends InfiniteFragment<Shot> {
                 setHasOptionsMenu(false);
                 String bucketId = getArguments().getString(KEY_BUCKET_ID);
                 return Dribbble.getBucketShots(bucketId, page);
+            case LIST_TYPE_My_FOLLOWING:
+                setHasOptionsMenu(false);
+                return Dribbble.getFollowingShot(page);
         }
         return null;
     }

@@ -3,7 +3,7 @@
     <color name="colorPrimary">#EA4C89</color>
     <color name="colorPrimaryDark">#C23D70</color>
     <color name="colorAccent">#666</color>
-
+    <color name="divider">#e6e6e6</color>
     <color name="place_holder_bg">#33000000</color>
     <color name="bucket_name_text_color">#cc000000</color>
 

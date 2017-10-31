@@ -1,6 +1,7 @@
 package com.zheng.project.android.dribbble.view.shot_details;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -12,13 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.interfaces.DraweeController;
+import com.google.gson.reflect.TypeToken;
 import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.models.Shot;
+import com.zheng.project.android.dribbble.models.User;
 import com.zheng.project.android.dribbble.utils.AnimatedImageUtils;
-import com.zheng.project.android.dribbble.view.shot_list.ShotListFragment;
-
+import com.zheng.project.android.dribbble.utils.ModelUtils;
+import com.zheng.project.android.dribbble.view.user.UserInfoActivity;
+import com.zheng.project.android.dribbble.view.user.UserInfoFragment;
 
 public class ShotAdapter extends RecyclerView.Adapter{
 
@@ -117,6 +119,17 @@ public class ShotAdapter extends RecyclerView.Adapter{
                                                                        ? "" : shot.description));
                 shotDetailViewHolder.description.setMovementMethod(LinkMovementMethod.getInstance());
                 shotDetailViewHolder.authorPicture.setImageURI(Uri.parse(shot.user.avatar_url));
+
+                shotDetailViewHolder.authorPicture.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getContext(), UserInfoActivity.class);
+                        intent.putExtra(UserInfoFragment.KEY_USER,
+                                ModelUtils.toString(shot.user, new TypeToken<User>(){}));
+                        getContext().startActivity(intent);
+                    }
+                });
                 break;
         }
     }

@@ -147,7 +147,7 @@ public class BucketListAdapter extends InfiniteAdapter<Bucket> {
     }
 
     private String formatShotCount(int shotCount) {
-        return shotCount == 0
+        return shotCount <= 1
                 ? getContext().getString(R.string.shot_count_single, shotCount)
                 : getContext().getString(R.string.shot_count_plural, shotCount);
     }

@@ -16,7 +16,6 @@ public abstract class SingleFragmentActivity extends BaseActivity {
     @Override
     protected void onCreateView() {
         setContentView(R.layout.activity_single_fragment);
-
     }
 
     @Override

@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 <group android:checkableBehavior="single">
     <item
-        android:id="@+id/drawer_menu_item_home"
+        android:id="@+id/drawer_menu_item_popularity"
         android:checked="true"
         android:title="@string/drawer_menu_item_popularity"
         android:icon="@drawable/ic_stars_black_18dp"/>
@@ -26,6 +26,10 @@
 
 <group android:id="@+id/second_group"
        android:checkableBehavior="single">
+    <item
+        android:id="@+id/drawer_menu_item_following"
+        android:title="@string/drawer_menu_item_following"
+        android:icon="@drawable/ic_star_black_18dp"/>
     <item
         android:id="@+id/drawer_menu_item_likes"
         android:title="@string/drawer_menu_item_likes"

@@ -51,7 +51,7 @@ public abstract class InfiniteFragment<T> extends Fragment {
             @Override
             public void onRefresh() {
                 new LoadDataTask(InfiniteFragment.this, true).execute();
-                Displayer.ShowOnToast(getContext(), "Refresh");
+                Displayer.ShowOnToast(getContext(), getString(R.string.refresh));
             }
         });
         return view;

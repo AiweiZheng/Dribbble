@@ -70,12 +70,6 @@ public class MainActivity extends BaseActivity {
                 R.id.main_fragment_container);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.home_time_filter_menu, menu);
-//        return true;
-//    }
-
     @Override
     protected void onCreateView() {
         setContentView(R.layout.activity_main);
@@ -121,7 +115,7 @@ public class MainActivity extends BaseActivity {
                 Fragment fragment = null;
 
                 switch (item.getItemId()) {
-                    case R.id.drawer_menu_item_home:
+                    case R.id.drawer_menu_item_popularity:
                         fragment = ShotListFragment.newInstance(ShotListFragment.LIST_TYPE_POPULAR);
                         setTitle(R.string.title_home);
                         break;
@@ -140,6 +134,10 @@ public class MainActivity extends BaseActivity {
                     case R.id.drawer_menu_item_most_viewed:
                         fragment = ShotListFragment.newInstance(ShotListFragment.LIST_TYPE_MOST_VIEWED);
                         setTitle(R.string.title_most_viewed);
+                        break;
+                    case R.id.drawer_menu_item_following:
+                        fragment = ShotListFragment.newInstance(ShotListFragment.LIST_TYPE_My_FOLLOWING);
+                        setTitle(R.string.my_following_shots);
                         break;
                     case R.id.drawer_menu_item_likes:
                         setTitle(R.string.title_likes);

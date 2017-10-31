@@ -26,8 +26,19 @@
     <string name="new_bucket_cancel">Cancel</string>
     <string name="shot_count_single">%1$d shot</string>
     <string name="shot_count_plural">%1$d shots</string>
+    <string name="project_count_single">%1$d project</string>
+    <string name="project_count_plural">%1$d projects</string>
+    <string name="follower_count_single">%1$d follower</string>
+    <string name="follower_count_plural">%1$d followers</string>
+    <string name="following_count_single">%1$d following</string>
+    <string name="following_count_plural">%1$d followings</string>
+    <string name="bucket_count_single">%1$d bucket</string>
+    <string name="bucket_count_plural">%1$d buckets</string>
+    <string name="like_count_single">%1$d like</string>
+    <string name="like_count_plural">%1$d likes</string>
     <string name="choose_bucket">Choose buckets</string>
     <string name="shot_detail_loading_buckets">Loading buckets, just one second...</string>
+    <string name="user_detail_checking_following">Checking following status, just one second...</string>
     <string name="save">Save</string>
     <string name="share_shot">Share shot</string>
     <string name="required">*required</string>
@@ -52,5 +63,11 @@
     <string name="time_filter_menu_item_last_year">Last year</string>
     <string name="time_filter_menu_item_most_all_time">All time</string>
     <string name="filter">Filter</string>
-    <string name="drawer_menu_item_popularity">popularity</string>
+    <string name="drawer_menu_item_popularity">Most popular</string>
+    <string name="title_popular">Popular</string>
+    <string name="refresh">Refresh</string>
+    <string name="follow">Follow</string>
+    <string name="following">UN-Follow</string>
+    <string name="drawer_menu_item_following">My Following</string>
+    <string name="my_following_shots">My following shots</string>
 </resources>

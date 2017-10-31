@@ -39,6 +39,7 @@ public class AuthActivity extends AppCompatActivity {
         setTitle(getString(R.string.auth_activity_title));
 
         progressBar.setMax(100);
+        webView.clearCache(true);
         webView.setWebViewClient(new WebViewClient() {
 
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

@@ -3,6 +3,7 @@ package com.zheng.project.android.dribbble.dribbble.auth;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.webkit.CookieManager;
 
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -101,9 +102,14 @@ public class Dribbble {
         storeUser(context, user);
     }
 
+
     public static void logout(@NonNull Context context) {
         storeAccessToken(context, null);
         storeUser(context, null);
+
+        CookieManager cm = CookieManager.getInstance();
+        cm.removeSessionCookie();
+        cm.removeAllCookie();
 
         accessToken = null;
         user = null;
@@ -134,6 +140,10 @@ public class Dribbble {
         return makeRequest(request);
     }
 
+    private static Response makePutRequest(String url) throws DribbbleException {
+        Request request = authRequestBuilder(url).build();
+        return makeRequest(request);
+    }
     private static Response makePutRequest(String url,
                                            RequestBody requestBody) throws DribbbleException {
         Request request = authRequestBuilder(url)
@@ -164,8 +174,8 @@ public class Dribbble {
         } catch (IOException e) {
             throw new DribbbleException(e.getMessage());
         }
-        Log.d(TAG, response.header("X-RateLimit-Remaining"));
-        Log.d(TAG, "code: " + response.code());
+//        Log.d(TAG, response.header("X-RateLimit-Remaining"));
+  //      Log.d(TAG, "code: " + response.code());
         return response;
     }
 
@@ -198,6 +208,25 @@ public class Dribbble {
 
     public static User getUser() throws DribbbleException {
         return parseResponse(makeGetRequest(USER_END_POINT), USER_TYPE);
+    }
+
+    public static boolean isFollowing(String otherId) throws DribbbleException {
+        String url = USERS_END_POINT + "/" + getUser().id + "/following/"+otherId;
+        Response response = makeGetRequest(url);
+        return response.code() == HttpURLConnection.HTTP_NO_CONTENT;
+    }
+
+    public static void follow(String otherId) throws DribbbleException {
+        String url = USERS_END_POINT + "/" + otherId +"/follow";
+        FormBody formBody = new FormBody.Builder().build();
+        Response response = makePutRequest(url, formBody);
+        checkStatusCode(response, HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    public static void unfollow(String otherId) throws DribbbleException {
+        String url = USERS_END_POINT + "/" + otherId +"/follow";
+        Response response = makeDeleteRequest(url);
+        checkStatusCode(response, HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     public static Like likeShot(@NonNull String id) throws DribbbleException {
@@ -241,6 +270,14 @@ public class Dribbble {
         stringBuilder.append(parameter.timeFrame);
 
         Response response = makeGetRequest(stringBuilder.toString());
+        checkStatusCode(response, HttpURLConnection.HTTP_OK);
+        return parseResponse(response, SHOT_LIST_TYPE);
+    }
+
+    public static List<Shot> getFollowingShot(int page) throws DribbbleException {
+         ///user/following/shots
+        String url = USER_END_POINT + "/following/shots?page=" +page;
+        Response response = makeGetRequest(url);
         checkStatusCode(response, HttpURLConnection.HTTP_OK);
         return parseResponse(response, SHOT_LIST_TYPE);
     }
