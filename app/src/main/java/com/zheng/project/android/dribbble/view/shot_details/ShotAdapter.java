@@ -2,6 +2,7 @@ package com.zheng.project.android.dribbble.view.shot_details;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -18,6 +19,7 @@ import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.models.Shot;
 import com.zheng.project.android.dribbble.models.User;
 import com.zheng.project.android.dribbble.utils.AnimatedImageUtils;
+import com.zheng.project.android.dribbble.utils.DateUtils;
 import com.zheng.project.android.dribbble.utils.ModelUtils;
 import com.zheng.project.android.dribbble.view.user.UserInfoActivity;
 import com.zheng.project.android.dribbble.view.user.UserInfoFragment;
@@ -113,11 +115,12 @@ public class ShotAdapter extends RecyclerView.Adapter{
 
             case VIEW_TYPE_SHOT_INFO:
                 InfoViewHolder shotDetailViewHolder = (InfoViewHolder) holder;
-                shotDetailViewHolder.title.setText(shot.title);
                 shotDetailViewHolder.authorName.setText(shot.user.name);
+                shotDetailViewHolder.createdAt.setText(DateUtils.timeAgo(shot.created_at));
                 shotDetailViewHolder.description.setText(Html.fromHtml(shot.description == null
                                                                        ? "" : shot.description));
                 shotDetailViewHolder.description.setMovementMethod(LinkMovementMethod.getInstance());
+
                 shotDetailViewHolder.authorPicture.setImageURI(Uri.parse(shot.user.avatar_url));
 
                 shotDetailViewHolder.authorPicture.setOnClickListener(new View.OnClickListener() {

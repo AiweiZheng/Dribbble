@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -88,6 +89,8 @@ public class UserInfoFragment extends Fragment{
         name.setText(author.name);
         location.setText(author.location);
         bio.setText(Html.fromHtml(author.bio == null ? "" : author.bio));
+        bio.setMovementMethod(LinkMovementMethod.getInstance());
+
         projectCount.setText(formatProjectsCount(author.projects_count));
         followerCount.setText(formatFollowersCount(author.followers_count));
         followingCount.setText(formatFollowingCount(author.followings_count));

@@ -27,6 +27,7 @@ import com.zheng.project.android.dribbble.dribbble.auth.DribbbleException;
 import com.zheng.project.android.dribbble.utils.Displayer;
 import com.zheng.project.android.dribbble.view.base.BaseActivity;
 import com.zheng.project.android.dribbble.view.bucket_list.BucketListFragment;
+import com.zheng.project.android.dribbble.view.settings.ThemeFragment;
 import com.zheng.project.android.dribbble.view.shot_list.ShotListFragment;
 
 import java.io.IOException;
@@ -146,6 +147,10 @@ public class MainActivity extends BaseActivity {
                     case R.id.drawer_menu_item_buckets:
                         setTitle(R.string.title_buckets);
                         fragment = BucketListFragment.newInstance(null, false, null);
+                        break;
+                    case R.id.drawer_menu_item_themes:
+                        setTitle(R.string.title_themes);
+                        fragment = ThemeFragment.newInstance();
                         break;
                 }
                 drawerLayout.closeDrawers();

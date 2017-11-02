@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.zheng.project.android.dribbble.R;
+import com.zheng.project.android.dribbble.view.settings.ThemeControl;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,8 +19,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        ThemeControl.onActivityCreateSetTheme(this);
 
+        super.onCreate(savedInstanceState);
         onCreateView();
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
