@@ -45,7 +45,7 @@
     <string name="bucket_edit">Edit %1$s</string>
     <string name="GIF">GIF</string>
     <string name="Fresco_image_full_downloaded">10000</string>
-    <string name="login">Click to log in</string>
+    <string name="login">Tap to log in</string>
     <string name="not_logged_in_error">Please logged in to %1$s</string>
     <string name="drawer_menu_item_animated">Animated GIFs</string>
     <string name="title_animated_gif">Animated GIFs</string>
@@ -70,4 +70,18 @@
     <string name="following">UN-Follow</string>
     <string name="drawer_menu_item_following">My Following</string>
     <string name="my_following_shots">My following shots</string>
+    <string name="drawer_menu_item_themes">Themes</string>
+    <string name="title_themes">Choose a theme</string>
+    <string name="Select_theme">Select theme</string>
+    <string name="theme_default">Default</string>
+    <string name="theme_blue">blue</string>
+    <string name="theme_yellow">yellow</string>
+    <string name="theme_green">green</string>
+    <string name="theme_purple">purple</string>
+    <string name="theme_teal">teal</string>
+    <string name="theme_default_content_description">default theme</string>
+    <string name="theme_blue_content_description">blue theme</string>
+    <string name="theme_yellow_content_description">yellow theme</string>
+    <string name="theme_night_mode">Night Mode</string>
+    <string name="comment_author_picture">comment author picture</string>
 </resources>

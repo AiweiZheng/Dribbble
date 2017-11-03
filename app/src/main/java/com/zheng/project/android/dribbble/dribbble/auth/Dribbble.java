@@ -8,6 +8,7 @@ import android.webkit.CookieManager;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.zheng.project.android.dribbble.models.Bucket;
+import com.zheng.project.android.dribbble.models.Comment;
 import com.zheng.project.android.dribbble.models.Like;
 import com.zheng.project.android.dribbble.models.Shot;
 import com.zheng.project.android.dribbble.models.ShotQueryParameter;
@@ -65,6 +66,7 @@ public class Dribbble {
     private static final TypeToken<Bucket> BUCKET_TYPE = new TypeToken<Bucket>(){};
     private static final TypeToken<List<Like>> LIKE_LIST_TYPE = new TypeToken<List<Like>>(){} ;
     private static final TypeToken<Like> LIKE_TYPE = new TypeToken<Like>(){};
+    private static final TypeToken<List<Comment>> COMMENT_LIST_TYPE = new TypeToken<List<Comment>>(){};
 
     private static OkHttpClient client = new OkHttpClient();
 
@@ -281,32 +283,6 @@ public class Dribbble {
         checkStatusCode(response, HttpURLConnection.HTTP_OK);
         return parseResponse(response, SHOT_LIST_TYPE);
     }
-    public static List<Shot> _getShots(int page) throws DribbbleException {
-        Response response = makeGetRequest(SHOTS_END_POINT + "?page=" + page);
-        checkStatusCode(response, HttpURLConnection.HTTP_OK);
-        return parseResponse(response, SHOT_LIST_TYPE);
-    }
-
-    public static List<Shot> _getAnimatedShots(int page) throws DribbbleException {
-        Response response = makeGetRequest(SHOTS_END_POINT + "?page=" + page + "&list=animated");
-        checkStatusCode(response, HttpURLConnection.HTTP_OK);
-        return parseResponse(response, SHOT_LIST_TYPE);
-    }
-
-    public static List<Shot> _getSortedShots(int page, String sortBy) throws DribbbleException {
-        Response response = makeGetRequest(SHOTS_END_POINT + "?page=" + page + "&sort=" + sortBy);
-        checkStatusCode(response, HttpURLConnection.HTTP_OK);
-        return parseResponse(response, SHOT_LIST_TYPE);
-    }
-
-    public static List<Shot> _filterShotsByTime(int page,String sortBy, String timePeriod)
-            throws DribbbleException {
-
-        Response response = makeGetRequest(
-                SHOTS_END_POINT + "?page=" + page + "&sort=" + sortBy + "&timeframe=" + timePeriod);
-        checkStatusCode(response, HttpURLConnection.HTTP_OK);
-        return parseResponse(response, SHOT_LIST_TYPE);
-    }
 
     public static List<Shot> getLikedShots(int page) throws DribbbleException {
         List<Like> likes = getLikes(page);
@@ -315,6 +291,13 @@ public class Dribbble {
             likedShots.add(like.shot);
         }
         return likedShots;
+    }
+
+    public static List<Comment> getComments(String shotId, int page) throws DribbbleException {
+        //GET /shots/:shot/comments
+        Response response = makeGetRequest(SHOTS_END_POINT + "/" + shotId + "/comments?page=" + page);
+        checkStatusCode(response, HttpURLConnection.HTTP_OK);
+        return parseResponse(response, COMMENT_LIST_TYPE);
     }
 
     public static List<Bucket> getUserBuckets(int page) throws DribbbleException {

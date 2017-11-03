@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="infoContentActivityRootbackground" format="reference" />
+    <attr name="backgroundItem" format="reference" />
+    <attr name="backgroundTintItem" format="reference" />
+    <attr name="drawerHeaderImageItem" format="reference" />
+    <attr name="shotActionsBackgroundItem" format="reference"/>
+    <attr name="textColorItem" format="reference"/>
+</resources>

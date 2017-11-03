@@ -1,30 +1,241 @@
 <resources>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-
         <item name="android:actionOverflowButtonStyle">@style/OverflowStyle</item>
-
-        <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert</item>
     </style>
 
     <style name="OverflowStyle">
         <item name="android:src">@drawable/ic_filter_white_24dp</item>
     </style>
 
-    <style name="AppTheme.Dialog.Alert" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:textColorPrimary">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <!--day theme-->
+    <style name="Theme.day" parent="AppTheme">
+        <!--<item name="infoContentActivityRootbackground">@style/Theme.day.infoContentActivityRootbackground</item>-->
+        <!--<item name="shotActionsBackgroundItem">@style/Theme.day.shotActionsBackground</item>-->
     </style>
 
-    <style name="AppTheme.TextView" />
+    <style name="AppTheme.Dialog.day.Alert" parent="Theme.AppCompat.Dialog.Alert"/>
+
+    <style name="Theme.day.infoContentActivityRootbackground">
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="Theme.day.shotActionsBackground">
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+
+    <!--night theme-->
+    <style name="Theme.night" parent="AppTheme">
+        <item name="infoContentActivityRootbackground">@style/Theme.night.infoContentActivityRootbackground</item>
+        <item name="backgroundItem">@style/Theme.night.background</item>
+        <item name="shotActionsBackgroundItem">@style/Theme.night.shotActionsBackground</item>
+        <item name="backgroundTintItem">@style/Theme.night.backgroundTint</item>
+        <item name="drawerHeaderImageItem">@style/Theme.night.drawerHeaderImage</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Night.Alert" parent="Theme.AppCompat.DayNight.Dialog.Alert"/>
+
+    <style name="Theme.night.background">
+        <item name="android:background">@color/colorPrimaryDark_night</item>
+    </style>
+
+    <style name="Theme.night.infoContentActivityRootbackground">
+        <item name="android:background">@color/colorPrimary_night</item>
+    </style>
+
+    <style name="Theme.night.drawerHeaderImage">
+        <item name="android:background">@drawable/header_night</item>
+    </style>
+
+    <style name="Theme.night.shotActionsBackground">
+        <item name="android:background">@android:color/darker_gray</item>
+    </style>
+
+    <style name="Theme.night.backgroundTint">
+        <item name="backgroundTint">@color/colorPrimaryDark_night</item>
+    </style>
+
+    <!--red (default day) theme-->
+    <style name="AppTheme.red" parent="Theme.day">
+        <item name="colorPrimary">@color/colorPrimary_default</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_default</item>
+        <item name="colorAccent">@color/colorAccent_default</item>
+        <item name="backgroundItem">@style/AppTheme.red.background</item>
+        <item name="backgroundTintItem">@style/AppTheme.red.backgroundTint</item>
+        <item name="drawerHeaderImageItem">@style/AppTheme.red.drawerHeaderImage</item>
+
+        <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert.red</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Alert.red" parent="AppTheme.Dialog.day.Alert">
+        <item name="android:textColorPrimary">@color/colorPrimary_default</item>
+        <item name="colorAccent">@color/colorAccent_default</item>
+    </style>
+
+    <style name="AppTheme.red.background">
+        <item name="android:background">@color/colorPrimary_default</item>
+    </style>
+
+    <style name="AppTheme.red.backgroundTint">
+        <item name="backgroundTint">@color/colorPrimary_default</item>
+    </style>
+
+    <style name="AppTheme.red.drawerHeaderImage">
+        <item name="android:background">@drawable/header_red</item>
+    </style>
+
+    <!--Blue theme-->
+    <style name="AppTheme.blue" parent="Theme.day">
+        <item name="colorPrimary">@color/colorPrimary_blue</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_blue</item>
+        <item name="colorAccent">@color/colorAccent_blue</item>
+        <item name="backgroundItem">@style/AppTheme.blue.background</item>
+        <item name="backgroundTintItem">@style/AppTheme.blue.backgroundTint</item>
+        <item name="drawerHeaderImageItem">@style/AppTheme.blue.drawerHeaderImage</item>
+
+        <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert.blue</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Alert.blue" parent="AppTheme.Dialog.day.Alert">
+        <item name="android:textColorPrimary">@color/colorPrimary_blue</item>
+        <item name="colorAccent">@color/colorAccent_blue</item>
+    </style>
+
+    <style name="AppTheme.blue.background">
+        <item name="android:background">@color/colorPrimary_blue</item>
+    </style>
+
+    <style name="AppTheme.blue.backgroundTint">
+        <item name="backgroundTint">@color/colorPrimary_blue</item>
+    </style>
+
+    <style name="AppTheme.blue.drawerHeaderImage">
+        <item name="android:background">@drawable/header_blue</item>
+    </style>
+
+    <!--yellow theme-->
+    <style name="AppTheme.yellow" parent="Theme.day">
+        <item name="colorPrimary">@color/colorPrimary_yellow</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_yellow</item>
+        <item name="colorAccent">@color/colorAccent_yellow</item>
+        <item name="backgroundItem">@style/AppTheme.yellow.background</item>
+        <item name="backgroundTintItem">@style/AppTheme.yellow.backgroundTint</item>
+        <item name="drawerHeaderImageItem">@style/AppTheme.yellow.drawerHeaderImage</item>
+
+        <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert.yellow</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Alert.yellow" parent="AppTheme.Dialog.day.Alert">
+        <item name="android:textColorPrimary">@color/colorPrimary_yellow</item>
+        <item name="colorAccent">@color/colorAccent_yellow</item>
+    </style>
+
+    <style name="AppTheme.yellow.background">
+        <item name="android:background">@color/colorPrimary_yellow</item>
+    </style>
+
+    <style name="AppTheme.yellow.backgroundTint">
+        <item name="backgroundTint">@color/colorPrimary_yellow</item>
+    </style>
+
+    <style name="AppTheme.yellow.drawerHeaderImage">
+        <item name="android:background">@drawable/header_yellow</item>
+    </style>
+
+    <!--green theme-->
+    <style name="AppTheme.green" parent="Theme.day">
+        <item name="colorPrimary">@color/colorPrimary_green</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_green</item>
+        <item name="colorAccent">@color/colorAccent_green</item>
+        <item name="backgroundItem">@style/AppTheme.green.background</item>
+        <item name="backgroundTintItem">@style/AppTheme.green.backgroundTint</item>
+        <item name="drawerHeaderImageItem">@style/AppTheme.green.drawerHeaderImage</item>
+
+        <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert.green</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Alert.green" parent="AppTheme.Dialog.day.Alert">
+        <item name="android:textColorPrimary">@color/colorPrimary_green</item>
+        <item name="colorAccent">@color/colorAccent_green</item>
+    </style>
+
+    <style name="AppTheme.green.background">
+        <item name="android:background">@color/colorPrimary_green</item>
+    </style>
+
+    <style name="AppTheme.green.backgroundTint">
+        <item name="backgroundTint">@color/colorPrimary_green</item>
+    </style>
+
+    <style name="AppTheme.green.drawerHeaderImage">
+        <item name="android:background">@drawable/header_green</item>
+    </style>
+
+    <!--purple theme-->
+    <style name="AppTheme.purple" parent="Theme.day">
+        <item name="colorPrimary">@color/colorPrimary_purple</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_purple</item>
+        <item name="colorAccent">@color/colorAccent_purple</item>
+        <item name="backgroundItem">@style/AppTheme.purple.background</item>
+        <item name="backgroundTintItem">@style/AppTheme.purple.backgroundTint</item>
+        <item name="drawerHeaderImageItem">@style/AppTheme.purple.drawerHeaderImage</item>
+
+        <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert.purple</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Alert.purple" parent="AppTheme.Dialog.day.Alert">
+        <item name="android:textColorPrimary">@color/colorPrimary_purple</item>
+        <item name="colorAccent">@color/colorAccent_purple</item>
+    </style>
+
+    <style name="AppTheme.purple.background">
+        <item name="android:background">@color/colorPrimary_purple</item>
+    </style>
+
+    <style name="AppTheme.purple.backgroundTint">
+        <item name="backgroundTint">@color/colorPrimary_purple</item>
+    </style>
+
+    <style name="AppTheme.purple.drawerHeaderImage">
+        <item name="android:background">@drawable/header_purple</item>
+    </style>
+
+    <!--teal theme-->
+    <style name="AppTheme.teal" parent="Theme.day">
+        <item name="colorPrimary">@color/colorPrimary_teal</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_teal</item>
+        <item name="colorAccent">@color/colorAccent_teal</item>
+        <item name="backgroundItem">@style/AppTheme.teal.background</item>
+        <item name="backgroundTintItem">@style/AppTheme.teal.backgroundTint</item>
+        <item name="drawerHeaderImageItem">@style/AppTheme.teal.drawerHeaderImage</item>
+
+        <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert.teal</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Alert.teal" parent="AppTheme.Dialog.day.Alert">
+        <item name="android:textColorPrimary">@color/colorPrimary_teal</item>
+        <item name="colorAccent">@color/colorAccent_teal</item>
+    </style>
+
+    <style name="AppTheme.teal.background">
+        <item name="android:background">@color/colorPrimary_teal</item>
+    </style>
+
+    <style name="AppTheme.teal.backgroundTint">
+        <item name="backgroundTint">@color/colorPrimary_teal</item>
+    </style>
+
+    <style name="AppTheme.teal.drawerHeaderImage">
+        <item name="android:background">@drawable/header_teal</item>
+    </style>
+
+    <style name="AppTheme.TextView"/>
 
     <style name="AppTheme.TextView.1" parent="AppTheme.TextView">
         <item name="android:textSize">15sp</item>
@@ -62,7 +273,7 @@
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:padding">@dimen/spacing_small</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorPrimary_default</item>
         <item name="android:textStyle">bold</item>
     </style>
 

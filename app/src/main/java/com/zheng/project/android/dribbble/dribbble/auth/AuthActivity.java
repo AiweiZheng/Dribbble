@@ -3,9 +3,6 @@ package com.zheng.project.android.dribbble.dribbble.auth;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -14,27 +11,25 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.zheng.project.android.dribbble.R;
+import com.zheng.project.android.dribbble.view.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class AuthActivity extends AppCompatActivity {
+public class AuthActivity extends BaseActivity {
 
     public static final String KEY_URL = "url";
     public static final String KEY_CODE = "code";
 
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.webview) WebView webView;
-    @BindView(R.id.toolbar) Toolbar toolbar;
 
-    @SuppressWarnings("deprecation")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreateView() {
         setContentView(R.layout.activity_auth);
-        ButterKnife.bind(this);
+    }
 
-        setSupportActionBar(toolbar);
+    @Override
+    protected void onViewCreated() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getString(R.string.auth_activity_title));
 
@@ -74,6 +69,7 @@ public class AuthActivity extends AppCompatActivity {
 
         String url = getIntent().getStringExtra(KEY_URL);
         webView.loadUrl(url);
+
     }
 
     @Override

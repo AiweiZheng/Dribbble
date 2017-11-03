@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_small">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/comment_author_picture"
+            android:layout_width="@dimen/comment_author_picture_size"
+            android:layout_height="@dimen/comment_author_picture_size"
+            android:layout_marginRight="@dimen/spacing_medium"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            fresco:placeholderImageScaleType="fitCenter"
+            fresco:placeholderImage="@drawable/user_picture_placeholder"
+            fresco:roundAsCircle="true"
+            android:src="@drawable/user_picture_placeholder"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/comment_author_picture"/>
+        <RelativeLayout
+            android:id="@+id/comment_author_name_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spacing_medium"
+            android:layout_alignTop="@id/comment_author_picture"
+            android:layout_toRightOf="@id/comment_author_picture">
+            <TextView
+                android:id="@+id/comment_author_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/AppTheme.TextView.2"
+                tools:text="Shot author"/>
+            <TextView
+                android:id="@+id/comment_created_at"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/comment_author_name"
+                android:layout_marginLeft="@dimen/spacing_medium"
+                android:layout_toRightOf="@id/comment_author_name"
+                tools:text="11/15/2017" />
+            <TextView
+                android:id="@+id/comment_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_below="@id/comment_author_name"
+                tools:text="Shot description\nShot description\nShot description\nShot description" />
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

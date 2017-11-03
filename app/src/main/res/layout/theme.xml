@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Select_theme"
+        android:textAllCaps="true"
+        android:padding="@dimen/spacing_medium"
+        style="@style/AppTheme.TextView.2.Dark">
+    </TextView>
+
+    <TextView
+        android:id="@+id/theme_default"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/theme_default"
+        android:padding="@dimen/spacing_medium"
+        style="@style/AppTheme.TextView.Clickable.2.White"
+        android:textAlignment="center"
+        android:contentDescription="@string/theme_default_content_description"
+        android:background="@color/colorPrimary_default"/>
+
+    <TextView
+        android:id="@+id/theme_blue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/theme_blue"
+        android:padding="@dimen/spacing_medium"
+        style="@style/AppTheme.TextView.Clickable.2.White"
+        android:textAlignment="center"
+        android:contentDescription="@string/theme_blue_content_description"
+        android:background="@color/colorPrimary_blue"/>
+
+    <TextView
+        android:id="@+id/theme_yellow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/theme_yellow"
+        style="@style/AppTheme.TextView.Clickable.2.White"
+        android:textAlignment="center"
+        android:padding="@dimen/spacing_medium"
+        android:contentDescription="@string/theme_yellow_content_description"
+        android:background="@color/colorPrimary_yellow"/>
+
+    <TextView
+        android:id="@+id/theme_green"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/theme_green"
+        style="@style/AppTheme.TextView.Clickable.2.White"
+        android:textAlignment="center"
+        android:padding="@dimen/spacing_medium"
+        android:background="@color/colorPrimary_green"/>
+
+    <TextView
+        android:id="@+id/theme_purple"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/theme_purple"
+        style="@style/AppTheme.TextView.Clickable.2.White"
+        android:textAlignment="center"
+        android:padding="@dimen/spacing_medium"
+        android:background="@color/colorPrimary_purple"/>
+
+    <TextView
+        android:id="@+id/theme_teal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/theme_teal"
+        style="@style/AppTheme.TextView.Clickable.2.White"
+        android:textAlignment="center"
+        android:padding="@dimen/spacing_medium"
+        android:background="@color/colorPrimary_teal"/>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/theme_night_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/theme_night_mode"
+        style="@style/AppTheme.TextView.Clickable.2.White"
+        android:textAlignment="center"
+        android:padding="@dimen/spacing_medium"
+        android:background="@color/colorPrimaryDark_night"/>
+
+</LinearLayout>

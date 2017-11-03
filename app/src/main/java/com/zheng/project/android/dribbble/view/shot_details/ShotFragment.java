@@ -36,10 +36,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ShotFragment extends Fragment{
+
+
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.swipe_refresh_container) SwipeRefreshLayout swipeRefreshLayout;
 
     public static final String KEY_SHOT = "shot";
+    public static final String KEY_SHOT_ID ="shot_id";
+    public static final String KEY_SHOT_TITLE = "shot_title";
+    public static final String KEY_SHOT_COMMENTS_COUNT = "shot_comments_count";
     private static final int REQ_CODE_BUCKET = 100;
 
     private Shot shot;

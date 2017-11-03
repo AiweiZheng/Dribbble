@@ -70,7 +70,6 @@ public class ShotListFragment extends InfiniteFragment<Shot> {
 
     private List<Shot> fetchData(int listStyle, int page) throws DribbbleException {
 
-
         switch (listStyle) {
             case LIST_TYPE_POPULAR:
                 shotQueryParameter.list = Dribbble.SHOTS_LIST_TYPE_DEFAULT;

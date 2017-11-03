@@ -17,6 +17,7 @@ public class Shot {
 
     public int views_count;
     public int likes_count;
+    public int comments_count;
     public int buckets_count;
     public Date created_at;
 

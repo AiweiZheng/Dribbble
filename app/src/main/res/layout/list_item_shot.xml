@@ -42,6 +42,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    style="?attr/shotActionsBackgroundItem"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/list_shot_detail_bar_height">
                         <TextView
@@ -51,7 +52,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/spacing_large"
                             android:layout_toLeftOf="@+id/shot_like_count"
-                            android:drawableLeft="@drawable/ic_visibility_gray_18dp"
+                            android:drawableLeft="@drawable/ic_visibility_black_18dp"
                             android:drawablePadding="@dimen/spacing_xsmall"
                             tools:text="68" />
 

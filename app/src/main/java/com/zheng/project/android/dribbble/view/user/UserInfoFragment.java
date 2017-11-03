@@ -23,6 +23,7 @@ import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
 import com.zheng.project.android.dribbble.dribbble.auth.DribbbleException;
 import com.zheng.project.android.dribbble.models.User;
 import com.zheng.project.android.dribbble.utils.Displayer;
+import com.zheng.project.android.dribbble.utils.HtmlUtils;
 import com.zheng.project.android.dribbble.utils.ModelUtils;
 
 import butterknife.BindView;
@@ -88,8 +89,7 @@ public class UserInfoFragment extends Fragment{
         picture.setImageURI(Uri.parse(author.avatar_url));
         name.setText(author.name);
         location.setText(author.location);
-        bio.setText(Html.fromHtml(author.bio == null ? "" : author.bio));
-        bio.setMovementMethod(LinkMovementMethod.getInstance());
+        HtmlUtils.setHtmlText(bio, author.bio, true);
 
         projectCount.setText(formatProjectsCount(author.projects_count));
         followerCount.setText(formatFollowersCount(author.followers_count));

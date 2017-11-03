@@ -28,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_small"
+        android:autoLink="email"
         tools:text="Let's create something unique together"/>
     <View
         android:layout_width="fill_parent"

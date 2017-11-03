@@ -24,6 +24,7 @@ public class ThemeFragment extends Fragment{
     @BindView(R.id.theme_green) TextView greenTheme;
     @BindView(R.id.theme_purple) TextView purpleTheme;
     @BindView(R.id.theme_teal) TextView tealTheme;
+    @BindView(R.id.theme_night_mode) TextView nightTheme;
 
     private Animation animation;
     private int selectedTheme;
@@ -109,6 +110,14 @@ public class ThemeFragment extends Fragment{
                 themeChanged(tealTheme, ThemeControl.THEME_TEAL);
             }
         });
+
+        nightTheme.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                themeChanged(nightTheme, ThemeControl.THEME_NIGHT);
+            }
+        });
     }
     private TextView getThemeView(int theme) {
         TextView selectedTheme;
@@ -131,6 +140,9 @@ public class ThemeFragment extends Fragment{
                break;
            case ThemeControl.THEME_TEAL:
                selectedTheme = tealTheme;
+               break;
+           case ThemeControl.THEME_NIGHT:
+               selectedTheme = nightTheme;
                break;
            default:
                selectedTheme = defaultTheme;

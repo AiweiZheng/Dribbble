@@ -9,7 +9,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class ModelUtils {
     private static Gson gson = new Gson();
-    private static String PREF_NAME = "models2";
+    private static String PREF_NAME = "models";
 
     public static void save(Context context, String key, Object object) {
         SharedPreferences sp = context.getApplicationContext().getSharedPreferences(

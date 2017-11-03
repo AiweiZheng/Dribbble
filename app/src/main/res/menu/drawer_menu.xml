@@ -38,6 +38,10 @@
         android:id="@+id/drawer_menu_item_buckets"
         android:title="@string/drawer_menu_item_buckets"
         android:icon="@drawable/ic_inbox_black_18dp"/>
+    <item
+        android:id="@+id/drawer_menu_item_themes"
+        android:title="@string/drawer_menu_item_themes"
+        android:icon="@drawable/ic_settings_black_18dp"/>
 </group>
 
 </menu>

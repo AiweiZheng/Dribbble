@@ -2,18 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    style="?attr/shotActionsBackgroundItem"
     android:paddingTop="@dimen/spacing_medium"
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
-        android:id="@+id/shot_view_count"
+        android:id="@+id/shot_comment_count"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
         android:paddingTop="@dimen/shot_action_drawable_top_icon_padding"
         android:paddingBottom="@dimen/shot_action_drawable_top_icon_padding"
-        android:drawableTop="@drawable/ic_visibility_black_18dp"
+        android:drawableTop="@drawable/ic_comment_black_18dp"
+        android:background="?attr/selectableItemBackground"
         android:drawablePadding="@dimen/shot_action_drawable_top_icon_padding"
         tools:text="1000" />
 

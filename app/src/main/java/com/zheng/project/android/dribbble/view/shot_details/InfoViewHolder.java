@@ -12,6 +12,7 @@ import butterknife.BindView;
 
 public class InfoViewHolder extends BaseViewHolder{
     @BindView(R.id.shot_created_at) TextView createdAt;
+    @BindView(R.id.shot_view_count) TextView viewCount;
     @BindView(R.id.shot_description) TextView description;
     @BindView(R.id.shot_author_picture) SimpleDraweeView authorPicture;
     @BindView(R.id.shot_author_name) TextView authorName;

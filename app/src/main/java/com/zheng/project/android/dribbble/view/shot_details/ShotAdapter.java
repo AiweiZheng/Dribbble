@@ -2,7 +2,6 @@ package com.zheng.project.android.dribbble.view.shot_details;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -20,7 +19,9 @@ import com.zheng.project.android.dribbble.models.Shot;
 import com.zheng.project.android.dribbble.models.User;
 import com.zheng.project.android.dribbble.utils.AnimatedImageUtils;
 import com.zheng.project.android.dribbble.utils.DateUtils;
+import com.zheng.project.android.dribbble.utils.HtmlUtils;
 import com.zheng.project.android.dribbble.utils.ModelUtils;
+import com.zheng.project.android.dribbble.view.comment.CommentActivity;
 import com.zheng.project.android.dribbble.view.user.UserInfoActivity;
 import com.zheng.project.android.dribbble.view.user.UserInfoFragment;
 
@@ -81,7 +82,19 @@ public class ShotAdapter extends RecyclerView.Adapter{
                 ActionsViewHolder actionsViewHolder = (ActionsViewHolder) holder;
                 actionsViewHolder.likeCount.setText(String.valueOf(shot.likes_count));
                 actionsViewHolder.bucketCount.setText(String.valueOf(shot.buckets_count));
-                actionsViewHolder.viewCount.setText(String.valueOf(shot.views_count));
+                actionsViewHolder.commentButton.setText(String.valueOf(shot.comments_count));
+
+                actionsViewHolder.commentButton.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getContext(), CommentActivity.class);
+                        intent.putExtra(ShotFragment.KEY_SHOT_ID, shot.id);
+                        intent.putExtra(ShotFragment.KEY_SHOT_TITLE, shot.title);
+                        intent.putExtra(ShotFragment.KEY_SHOT_COMMENTS_COUNT, shot.comments_count);
+                        getContext().startActivity(intent);
+                    }
+                });
 
                 actionsViewHolder.likeButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -117,10 +130,9 @@ public class ShotAdapter extends RecyclerView.Adapter{
                 InfoViewHolder shotDetailViewHolder = (InfoViewHolder) holder;
                 shotDetailViewHolder.authorName.setText(shot.user.name);
                 shotDetailViewHolder.createdAt.setText(DateUtils.timeAgo(shot.created_at));
-                shotDetailViewHolder.description.setText(Html.fromHtml(shot.description == null
-                                                                       ? "" : shot.description));
-                shotDetailViewHolder.description.setMovementMethod(LinkMovementMethod.getInstance());
+                shotDetailViewHolder.viewCount.setText(String.valueOf(shot.views_count));
 
+                HtmlUtils.setHtmlText(shotDetailViewHolder.description, shot.description, true);
                 shotDetailViewHolder.authorPicture.setImageURI(Uri.parse(shot.user.avatar_url));
 
                 shotDetailViewHolder.authorPicture.setOnClickListener(new View.OnClickListener() {

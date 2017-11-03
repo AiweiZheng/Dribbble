@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#EA4C89</color>
-    <color name="colorPrimaryDark">#C23D70</color>
-    <color name="colorAccent">#666</color>
+    <color name="colorPrimary_default">#EA4C89</color>
+    <color name="colorPrimaryDark_default">#C23D70</color>
+    <color name="colorAccent_default">#666</color>
+
+    <color name="colorPrimary_blue">#1431ea</color>
+    <color name="colorPrimaryDark_blue">#0e22a4</color>
+    <color name="colorAccent_blue">#666</color>
+
+    <color name="colorPrimary_yellow">#f7af24</color>
+    <color name="colorPrimaryDark_yellow">#c58607</color>
+    <color name="colorAccent_yellow">#666</color>
+
+    <color name="colorPrimary_green">#25dc40</color>
+    <color name="colorPrimaryDark_green">#199a2c</color>
+    <color name="colorAccent_green">#666</color>
+
+    <color name="colorPrimary_purple">#ab01fd</color>
+    <color name="colorPrimaryDark_purple">#7701b2</color>
+    <color name="colorAccent_purple">#666</color>
+
+    <color name="colorPrimary_teal">#1eb78e</color>
+    <color name="colorPrimaryDark_teal">#158466</color>
+    <color name="colorAccent_teal">#666</color>
+
+    <color name="colorPrimary_night">#262626</color>
+    <color name="colorPrimaryDark_night">#000</color>
+    <color name="colorAccent_night">#fff</color>
+
     <color name="divider">#e6e6e6</color>
     <color name="place_holder_bg">#33000000</color>
     <color name="bucket_name_text_color">#cc000000</color>

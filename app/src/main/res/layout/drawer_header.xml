@@ -9,7 +9,7 @@
     android:paddingBottom="@dimen/spacing_medium"
     android:paddingLeft="@dimen/spacing_medium"
     android:paddingRight="@dimen/spacing_medium"
-    android:background="@drawable/header_theme2">
+    style="?attr/drawerHeaderImageItem">
 
     <RelativeLayout
         android:id="@+id/layout_for_loggedIn_user"

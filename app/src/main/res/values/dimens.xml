@@ -16,11 +16,12 @@
     <dimen name="shot_action_icon_size">32dp</dimen>
     <dimen name="loading_progress_bar_size">24dp</dimen>
     <dimen name="loading_item_height">36dp</dimen>
-    <dimen name="nav_header_height">172dp</dimen>
+    <dimen name="nav_header_height">150dp</dimen>
     <dimen name="activity_auth_progress_bar_height">2dp</dimen>
-    <dimen name="nav_header_padding">100dp</dimen>
+    <dimen name="nav_header_padding">70dp</dimen>
     <dimen name="nav_header_user_picture_size">56dp</dimen>
     <dimen name="nav_header_login_btn_margin_left">-8dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="bucket_options_menu_size">48dp</dimen>
+    <dimen name="comment_author_picture_size">48dp</dimen>
 </resources>

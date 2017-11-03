@@ -3,7 +3,10 @@ package com.zheng.project.android.dribbble.view.settings;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.google.gson.reflect.TypeToken;
+import com.zheng.project.android.dribbble.DribbboApplication;
 import com.zheng.project.android.dribbble.R;
+import com.zheng.project.android.dribbble.utils.ModelUtils;
 
 public class ThemeControl {
 
@@ -15,9 +18,21 @@ public class ThemeControl {
     public final static int THEME_GREEN = 3;
     public final static int THEME_PURPLE = 4;
     public final static int THEME_TEAL = 5;
+    public final static int THEME_NIGHT = 6;
+
+    private static final String KEY_THEME = "theme";
+
+    static {
+        Integer savedModel = ModelUtils.read(DribbboApplication.getInstance(),
+                                         KEY_THEME,
+                                         new TypeToken<Integer>(){});
+        theme = savedModel == null ? 0 : savedModel;
+    }
 
     public static void changeToTheme(Activity activity, int theme) {
         ThemeControl.theme = theme;
+        ModelUtils.save(DribbboApplication.getInstance(), KEY_THEME, theme);
+
         activity.finish();
         activity.startActivity(new Intent(activity, activity.getClass()));
     }
@@ -25,6 +40,7 @@ public class ThemeControl {
     public static int getTheme() {
         return theme;
     }
+
     /** Set the theme of the activity, according to the configuration. */
     public static void onActivityCreateSetTheme(Activity activity) {
         switch (theme) {
@@ -47,7 +63,9 @@ public class ThemeControl {
             case THEME_TEAL:
                 activity.setTheme(R.style.AppTheme_teal);
                 break;
+            case THEME_NIGHT:
+                activity.setTheme(R.style.Theme_night);
+                break;
         }
     }
-
 }
