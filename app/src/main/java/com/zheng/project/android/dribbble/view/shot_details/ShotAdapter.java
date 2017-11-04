@@ -132,7 +132,7 @@ public class ShotAdapter extends RecyclerView.Adapter{
                 shotDetailViewHolder.createdAt.setText(DateUtils.timeAgo(shot.created_at));
                 shotDetailViewHolder.viewCount.setText(String.valueOf(shot.views_count));
 
-                HtmlUtils.setHtmlText(shotDetailViewHolder.description, shot.description, true);
+                HtmlUtils.setHtmlText(shotDetailViewHolder.description, shot.description, false);
                 shotDetailViewHolder.authorPicture.setImageURI(Uri.parse(shot.user.avatar_url));
 
                 shotDetailViewHolder.authorPicture.setOnClickListener(new View.OnClickListener() {

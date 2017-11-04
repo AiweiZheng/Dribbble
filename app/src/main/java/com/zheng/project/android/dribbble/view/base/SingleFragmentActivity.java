@@ -25,6 +25,7 @@ public abstract class SingleFragmentActivity extends BaseActivity {
         }
 
         setTitle(getActivityTitle());
+
     }
 
     @Override

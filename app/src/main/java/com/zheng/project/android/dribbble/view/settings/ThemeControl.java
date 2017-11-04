@@ -63,9 +63,6 @@ public class ThemeControl {
             case THEME_TEAL:
                 activity.setTheme(R.style.AppTheme_teal);
                 break;
-            case THEME_NIGHT:
-                activity.setTheme(R.style.Theme_night);
-                break;
         }
     }
 }

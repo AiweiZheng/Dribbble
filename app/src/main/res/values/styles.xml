@@ -29,37 +29,37 @@
     </style>
 
 
-    <!--night theme-->
-    <style name="Theme.night" parent="AppTheme">
-        <item name="infoContentActivityRootbackground">@style/Theme.night.infoContentActivityRootbackground</item>
-        <item name="backgroundItem">@style/Theme.night.background</item>
-        <item name="shotActionsBackgroundItem">@style/Theme.night.shotActionsBackground</item>
-        <item name="backgroundTintItem">@style/Theme.night.backgroundTint</item>
-        <item name="drawerHeaderImageItem">@style/Theme.night.drawerHeaderImage</item>
-        <item name="android:textColor">@android:color/white</item>
-    </style>
+    <!--&lt;!&ndash;night theme&ndash;&gt;-->
+    <!--<style name="Theme.night" parent="AppTheme">-->
+        <!--<item name="infoContentActivityRootbackground">@style/Theme.night.infoContentActivityRootbackground</item>-->
+        <!--<item name="backgroundItem">@style/Theme.night.background</item>-->
+        <!--<item name="shotActionsBackgroundItem">@style/Theme.night.shotActionsBackground</item>-->
+        <!--<item name="backgroundTintItem">@style/Theme.night.backgroundTint</item>-->
+        <!--<item name="drawerHeaderImageItem">@style/Theme.night.drawerHeaderImage</item>-->
+        <!--<item name="android:textColor">@android:color/white</item>-->
+    <!--</style>-->
 
-    <style name="AppTheme.Dialog.Night.Alert" parent="Theme.AppCompat.DayNight.Dialog.Alert"/>
+    <!--<style name="AppTheme.Dialog.Night.Alert" parent="Theme.AppCompat.DayNight.Dialog.Alert"/>-->
 
-    <style name="Theme.night.background">
-        <item name="android:background">@color/colorPrimaryDark_night</item>
-    </style>
+    <!--<style name="Theme.night.background">-->
+        <!--<item name="android:background">@color/colorPrimaryDark_night</item>-->
+    <!--</style>-->
 
-    <style name="Theme.night.infoContentActivityRootbackground">
-        <item name="android:background">@color/colorPrimary_night</item>
-    </style>
+    <!--<style name="Theme.night.infoContentActivityRootbackground">-->
+        <!--<item name="android:background">@color/colorPrimary_night</item>-->
+    <!--</style>-->
 
-    <style name="Theme.night.drawerHeaderImage">
-        <item name="android:background">@drawable/header_night</item>
-    </style>
+    <!--<style name="Theme.night.drawerHeaderImage">-->
+        <!--<item name="android:background">@mipmap/header_night</item>-->
+    <!--</style>-->
 
-    <style name="Theme.night.shotActionsBackground">
-        <item name="android:background">@android:color/darker_gray</item>
-    </style>
+    <!--<style name="Theme.night.shotActionsBackground">-->
+        <!--<item name="android:background">@android:color/darker_gray</item>-->
+    <!--</style>-->
 
-    <style name="Theme.night.backgroundTint">
-        <item name="backgroundTint">@color/colorPrimaryDark_night</item>
-    </style>
+    <!--<style name="Theme.night.backgroundTint">-->
+        <!--<item name="backgroundTint">@color/colorPrimaryDark_night</item>-->
+    <!--</style>-->
 
     <!--red (default day) theme-->
     <style name="AppTheme.red" parent="Theme.day">
@@ -73,7 +73,7 @@
         <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert.red</item>
     </style>
 
-    <style name="AppTheme.Dialog.Alert.red" parent="AppTheme.Dialog.day.Alert">
+    <style name="AppTheme.Dialog.Alert.red" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColorPrimary">@color/colorPrimary_default</item>
         <item name="colorAccent">@color/colorAccent_default</item>
     </style>
@@ -87,7 +87,7 @@
     </style>
 
     <style name="AppTheme.red.drawerHeaderImage">
-        <item name="android:background">@drawable/header_red</item>
+        <item name="android:background">@mipmap/header_red</item>
     </style>
 
     <!--Blue theme-->
@@ -102,7 +102,7 @@
         <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert.blue</item>
     </style>
 
-    <style name="AppTheme.Dialog.Alert.blue" parent="AppTheme.Dialog.day.Alert">
+    <style name="AppTheme.Dialog.Alert.blue" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColorPrimary">@color/colorPrimary_blue</item>
         <item name="colorAccent">@color/colorAccent_blue</item>
     </style>
@@ -116,7 +116,7 @@
     </style>
 
     <style name="AppTheme.blue.drawerHeaderImage">
-        <item name="android:background">@drawable/header_blue</item>
+        <item name="android:background">@mipmap/header_blue</item>
     </style>
 
     <!--yellow theme-->
@@ -131,7 +131,7 @@
         <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert.yellow</item>
     </style>
 
-    <style name="AppTheme.Dialog.Alert.yellow" parent="AppTheme.Dialog.day.Alert">
+    <style name="AppTheme.Dialog.Alert.yellow" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColorPrimary">@color/colorPrimary_yellow</item>
         <item name="colorAccent">@color/colorAccent_yellow</item>
     </style>
@@ -145,7 +145,7 @@
     </style>
 
     <style name="AppTheme.yellow.drawerHeaderImage">
-        <item name="android:background">@drawable/header_yellow</item>
+        <item name="android:background">@mipmap/header_yellow</item>
     </style>
 
     <!--green theme-->
@@ -160,7 +160,7 @@
         <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert.green</item>
     </style>
 
-    <style name="AppTheme.Dialog.Alert.green" parent="AppTheme.Dialog.day.Alert">
+    <style name="AppTheme.Dialog.Alert.green" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColorPrimary">@color/colorPrimary_green</item>
         <item name="colorAccent">@color/colorAccent_green</item>
     </style>
@@ -174,7 +174,7 @@
     </style>
 
     <style name="AppTheme.green.drawerHeaderImage">
-        <item name="android:background">@drawable/header_green</item>
+        <item name="android:background">@mipmap/header_green</item>
     </style>
 
     <!--purple theme-->
@@ -189,7 +189,7 @@
         <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert.purple</item>
     </style>
 
-    <style name="AppTheme.Dialog.Alert.purple" parent="AppTheme.Dialog.day.Alert">
+    <style name="AppTheme.Dialog.Alert.purple" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColorPrimary">@color/colorPrimary_purple</item>
         <item name="colorAccent">@color/colorAccent_purple</item>
     </style>
@@ -203,7 +203,7 @@
     </style>
 
     <style name="AppTheme.purple.drawerHeaderImage">
-        <item name="android:background">@drawable/header_purple</item>
+        <item name="android:background">@mipmap/header_purple</item>
     </style>
 
     <!--teal theme-->
@@ -218,7 +218,7 @@
         <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert.teal</item>
     </style>
 
-    <style name="AppTheme.Dialog.Alert.teal" parent="AppTheme.Dialog.day.Alert">
+    <style name="AppTheme.Dialog.Alert.teal" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColorPrimary">@color/colorPrimary_teal</item>
         <item name="colorAccent">@color/colorAccent_teal</item>
     </style>
@@ -232,7 +232,7 @@
     </style>
 
     <style name="AppTheme.teal.drawerHeaderImage">
-        <item name="android:background">@drawable/header_teal</item>
+        <item name="android:background">@mipmap/header_teal</item>
     </style>
 
     <style name="AppTheme.TextView"/>

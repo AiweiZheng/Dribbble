@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Dribbble</string>
+    <string name="app_name">Gribbble</string>
     <string name="drawer_menu_item_home">Home</string>
     <string name="drawer_menu_item_likes">Likes</string>
     <string name="drawer_menu_item_buckets">Buckets</string>
-    <string name="title_home">Dribbble</string>
+    <string name="title_home">Gribbble</string>
     <string name="title_likes">Likes</string>
     <string name="title_buckets">Buckets</string>
     <string name="open_drawer">Open drawer</string>
@@ -15,9 +15,9 @@
     <string name="like">like</string>
     <string name="bucket">bucket</string>
     <string name="share">Share</string>
-    <string name="activity_login_icon">gribbble login icon</string>
-    <string name="log_into_dribbble_text">Log into dribbble</string>
-    <string name="auth_activity_title">Log into Dribbble</string>
+    <string name="activity_login_icon">Gribbble login icon</string>
+    <string name="log_into_dribbble_text">Log into Gribbble</string>
+    <string name="auth_activity_title">Log into Gribbble</string>
     <string name="logout">Log out</string>
     <string name="new_bucket_name">Bucket name</string>
     <string name="new_bucket_description">Bucket description</string>
@@ -84,4 +84,6 @@
     <string name="theme_yellow_content_description">yellow theme</string>
     <string name="theme_night_mode">Night Mode</string>
     <string name="comment_author_picture">comment author picture</string>
+    <string name="comments">Comments</string>
+    <string name="shots">shots</string>
 </resources>

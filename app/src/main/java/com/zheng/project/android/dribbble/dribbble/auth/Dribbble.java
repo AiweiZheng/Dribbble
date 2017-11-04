@@ -7,6 +7,7 @@ import android.webkit.CookieManager;
 
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.zheng.project.android.dribbble.DribbboApplication;
 import com.zheng.project.android.dribbble.models.Bucket;
 import com.zheng.project.android.dribbble.models.Comment;
 import com.zheng.project.android.dribbble.models.Like;
@@ -279,6 +280,14 @@ public class Dribbble {
     public static List<Shot> getFollowingShot(int page) throws DribbbleException {
          ///user/following/shots
         String url = USER_END_POINT + "/following/shots?page=" +page;
+        Response response = makeGetRequest(url);
+        checkStatusCode(response, HttpURLConnection.HTTP_OK);
+        return parseResponse(response, SHOT_LIST_TYPE);
+    }
+
+    public static List<Shot> getUserShot(String userId, int page) throws DribbbleException {
+        //GET /users/:user/shots
+        String url = USERS_END_POINT + "/" + userId + "/shots?page=" +page;
         Response response = makeGetRequest(url);
         checkStatusCode(response, HttpURLConnection.HTTP_OK);
         return parseResponse(response, SHOT_LIST_TYPE);

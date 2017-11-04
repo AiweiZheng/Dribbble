@@ -31,11 +31,12 @@ public abstract class BaseActivity extends AppCompatActivity {
             onSavedInstanceStateIsNull();
         }
         toolbar.setOverflowIcon(getOverflowIcon());
+        toolbar.setSubtitle(getSubtitle());
     }
 
     protected void onViewCreated(){}
     protected void onSavedInstanceStateIsNull(){}
-
+    protected String getSubtitle() {return "";}
     protected Drawable getOverflowIcon() {
         return ContextCompat.getDrawable(this, R.drawable.ic_move_vert_black_24dp);
     }

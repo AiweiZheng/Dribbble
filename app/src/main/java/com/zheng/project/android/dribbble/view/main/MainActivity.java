@@ -12,7 +12,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -80,9 +79,13 @@ public class MainActivity extends BaseActivity {
     protected void onViewCreated() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        Dribbble.init(this);
 
+        Dribbble.init(this);
         setupDrawer();
+
+        if (!Dribbble.isLoggedIn()) {
+            Auth.openAuthActivity(this);
+        }
     }
 
     @Override

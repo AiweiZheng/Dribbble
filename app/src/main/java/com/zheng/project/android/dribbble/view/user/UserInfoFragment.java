@@ -1,12 +1,11 @@
 package com.zheng.project.android.dribbble.view.user;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,6 +41,9 @@ public class UserInfoFragment extends Fragment{
     @BindView(R.id.user_detail_user_picture) SimpleDraweeView picture;
 
     public static final String KEY_USER = "author";
+    public static final String KEY_AUTHOR_NAME = "author_name";
+    public static final String KEY_AUTHOR_ID = "author_id";
+    public static final String KEY_AUTHOR_SHOT_COUNT = "author_shot_count";
 
     private User author;
     private boolean isCheckingFollowing;
@@ -95,6 +97,19 @@ public class UserInfoFragment extends Fragment{
         followerCount.setText(formatFollowersCount(author.followers_count));
         followingCount.setText(formatFollowingCount(author.followings_count));
         shotCount.setText(formatShotsCount(author.shots_count));
+
+        shotCount.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), UserShotActivity.class);
+                intent.putExtra(KEY_AUTHOR_ID, author.id);
+                intent.putExtra(KEY_AUTHOR_NAME, author.name);
+                intent.putExtra(KEY_USER, ModelUtils.toString(author, new TypeToken<User>(){}));
+                startActivity(intent);
+            }
+        });
+
         bucketCount.setText(formatBucketsCount(author.buckets_count));
         likeCount.setText(formatLikesCount(author.likes_count));
     }

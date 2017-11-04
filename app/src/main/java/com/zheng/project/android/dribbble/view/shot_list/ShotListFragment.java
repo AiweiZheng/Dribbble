@@ -20,12 +20,14 @@ import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
 import com.zheng.project.android.dribbble.dribbble.auth.DribbbleException;
 import com.zheng.project.android.dribbble.models.ShotQueryParameter;
+import com.zheng.project.android.dribbble.models.User;
 import com.zheng.project.android.dribbble.utils.Displayer;
 import com.zheng.project.android.dribbble.utils.ModelUtils;
 import com.zheng.project.android.dribbble.view.base.InfiniteAdapter;
 import com.zheng.project.android.dribbble.view.base.InfiniteFragment;
 import com.zheng.project.android.dribbble.models.Shot;
 import com.zheng.project.android.dribbble.view.shot_details.ShotFragment;
+import com.zheng.project.android.dribbble.view.user.UserInfoFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +47,7 @@ public class ShotListFragment extends InfiniteFragment<Shot> {
     public static final int LIST_TYPE_LIKED = 6;
     public static final int LIST_TYPE_BUCKET = 7;
     public static final int LIST_TYPE_My_FOLLOWING = 8;
-
+    public static final int LIST_TYPE_AUTHOR_SHOTS = 9;
     private ShotQueryParameter shotQueryParameter = new ShotQueryParameter();
     private ShotListAdapter adapter;
     @NonNull
@@ -62,6 +64,16 @@ public class ShotListFragment extends InfiniteFragment<Shot> {
         Bundle args = new Bundle();
         args.putInt(KEY_LIST_TYPE, LIST_TYPE_BUCKET);
         args.putString(KEY_BUCKET_ID, bucketId);
+
+        ShotListFragment fragment = new ShotListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static Fragment newUserShotListInstance(String user) {
+        Bundle args = new Bundle();
+        args.putInt(KEY_LIST_TYPE, LIST_TYPE_AUTHOR_SHOTS);
+        args.putString(UserInfoFragment.KEY_USER, user);
 
         ShotListFragment fragment = new ShotListFragment();
         fragment.setArguments(args);
@@ -105,6 +117,11 @@ public class ShotListFragment extends InfiniteFragment<Shot> {
             case LIST_TYPE_My_FOLLOWING:
                 setHasOptionsMenu(false);
                 return Dribbble.getFollowingShot(page);
+            case LIST_TYPE_AUTHOR_SHOTS:
+                setHasOptionsMenu(false);
+                User author = ModelUtils.toObject(getArguments().getString(UserInfoFragment.KEY_USER),
+                        new TypeToken<User>(){});
+                return attachAuthorToShot(author, Dribbble.getUserShot(author.id, page));
         }
         return null;
     }
@@ -183,6 +200,15 @@ public class ShotListFragment extends InfiniteFragment<Shot> {
                 }
             }
         }
+    }
+
+    /*Called by LIST_TYPE_AUTHOR_SHOTS, because Dribbble API will not return author info when
+    * call "GET /users/:user/shots"*/
+    private List<Shot> attachAuthorToShot(User author, List<Shot> shots) {
+        for (Shot shot : shots) {
+            shot.user = author;
+        }
+        return shots;
     }
 
     /*********************************backGround tasks***************************************/

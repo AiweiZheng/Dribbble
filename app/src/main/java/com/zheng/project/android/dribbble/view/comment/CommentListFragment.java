@@ -31,11 +31,6 @@ public class CommentListFragment extends InfiniteFragment<Comment> {
         return Dribbble.getComments(getArguments().getString(ShotFragment.KEY_SHOT_ID), 0);
     }
 
-//
-//    @Override
-//    protected int getItemSpace() {
-//        return 0;
-//    }
 
     @Override
     protected List<Comment> loadMoreData(int dataSize) throws DribbbleException {

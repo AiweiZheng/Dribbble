@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 
 import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
@@ -22,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public abstract class InfiniteFragment<T> extends Fragment {
 
@@ -39,6 +41,7 @@ public abstract class InfiniteFragment<T> extends Fragment {
         View view = createView(container);
         ButterKnife.bind(this, view);
 
+        setRecyclerViewAnimation();
         swipeRefreshLayout.setEnabled(false); //not allow to refresh before first shot load finished.
         viewCreated();
 
@@ -67,6 +70,17 @@ public abstract class InfiniteFragment<T> extends Fragment {
         };
 
         recyclerView.setAdapter(adapter);
+    }
+
+    private void setRecyclerViewAnimation() {
+        int duration = 800;
+        SlideInUpAnimator animator = new SlideInUpAnimator(new OvershootInterpolator(1f));
+        recyclerView.setItemAnimator(animator);
+
+        recyclerView.getItemAnimator().setAddDuration(duration);
+        recyclerView.getItemAnimator().setRemoveDuration(duration);
+        recyclerView.getItemAnimator().setMoveDuration(duration);
+        recyclerView.getItemAnimator().setChangeDuration(duration);
     }
 
     protected void scrollToTop() {
@@ -102,7 +116,6 @@ public abstract class InfiniteFragment<T> extends Fragment {
             this.infiniteFragment = infiniteFragment;
             this.refresh = refresh;
         }
-
 
         public void execute() {
             this.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
