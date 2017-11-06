@@ -6,15 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
-
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import com.zheng.project.android.dribbble.R;
-import com.zheng.project.android.dribbble.dribbble.auth.Dribbble;
-import com.zheng.project.android.dribbble.models.Bucket;
-
 import java.util.List;
-
-import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 
 public abstract class InfiniteAdapter<T> extends RecyclerView.Adapter{
 
@@ -63,6 +58,10 @@ public abstract class InfiniteAdapter<T> extends RecyclerView.Adapter{
         if (viewType == VIEW_TYPE_DATA) {
             onBindView((BaseViewHolder) holder, position);
         }
+        if (getDisplayWithAnimation()) {
+            Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.item_animation_bottom_to_top);
+            holder.itemView.startAnimation(animation);
+        }
     }
 
     @Override
@@ -72,6 +71,14 @@ public abstract class InfiniteAdapter<T> extends RecyclerView.Adapter{
         }
         else {
             return VIEW_TYPE_LOADING;
+        }
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(final RecyclerView.ViewHolder holder)
+    {
+        if (holder instanceof  BaseViewHolder) {
+            ((BaseViewHolder)holder).clearAnimation();
         }
     }
 
@@ -122,6 +129,10 @@ public abstract class InfiniteAdapter<T> extends RecyclerView.Adapter{
 
     protected abstract BaseViewHolder onCreateView(@NonNull ViewGroup parent);
     protected abstract void onBindView(@NonNull BaseViewHolder vh, int position);
+
+    protected boolean getDisplayWithAnimation() {
+        return true;
+    }
 
     public interface LoadMoreListener {
         void onLoadMore();

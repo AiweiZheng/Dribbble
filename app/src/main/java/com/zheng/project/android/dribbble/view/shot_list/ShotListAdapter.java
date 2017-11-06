@@ -1,9 +1,14 @@
 package com.zheng.project.android.dribbble.view.shot_list;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
+import android.support.transition.Slide;
+import android.support.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,13 +38,12 @@ public class ShotListAdapter extends InfiniteAdapter<Shot> {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_shot, parent, false);
 
-        ShotViewHolder shotViewHolder = new ShotViewHolder(view);
-        return shotViewHolder;
+        return new ShotViewHolder(view);
     }
 
     @Override
     protected void onBindView(@NonNull final BaseViewHolder vh, int position) {
-        ShotViewHolder shotVh = (ShotViewHolder) vh;
+        final ShotViewHolder shotVh = (ShotViewHolder) vh;
         final Shot shot = getData().get(position);
 
         shotVh.bucketCount.setText(String.valueOf((shot.buckets_count)));
@@ -64,5 +68,18 @@ public class ShotListAdapter extends InfiniteAdapter<Shot> {
                 shotListFragment.startActivityForResult(intent, ShotListFragment.REQ_CODE_SHOT);
             }
         });
+
+       // shotListFragment.resetAnimation();
+     //   shotListFragment.scheduleLayoutAnimation();
+
+//        ConstraintLayout constraintLayout = ((ShotViewHolder) vh).itemView.findViewById(R.id.shot_constraintLayout);
+//
+//        ConstraintSet constraintSet2 = new ConstraintSet();
+//        constraintSet2.clone(constraintLayout);
+//        constraintSet2.centerVertically(R.id.shot_image, 0);
+//
+//        TransitionManager.beginDelayedTransition(constraintLayout,  new Slide());
+//        shotVh.shotImage.setVisibility(View.VISIBLE);
+//        constraintSet2.applyTo(constraintLayout);
     }
 }

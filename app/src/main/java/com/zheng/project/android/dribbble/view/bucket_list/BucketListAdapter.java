@@ -40,6 +40,11 @@ public class BucketListAdapter extends InfiniteAdapter<Bucket> {
     }
 
     @Override
+    protected boolean getDisplayWithAnimation() {
+        return false;
+    }
+
+    @Override
     protected BaseViewHolder onCreateView(@NonNull ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_bucket, parent, false);

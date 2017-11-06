@@ -86,4 +86,5 @@
     <string name="comment_author_picture">comment author picture</string>
     <string name="comments">Comments</string>
     <string name="shots">shots</string>
+    <string name="image_details">Image details</string>
 </resources>

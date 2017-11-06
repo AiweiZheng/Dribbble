@@ -10,4 +10,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
+
+    public void clearAnimation()
+    {
+        itemView.clearAnimation();
+    }
 }

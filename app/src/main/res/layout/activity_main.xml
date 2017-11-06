@@ -16,6 +16,12 @@
 
         <include layout="@layout/toolbar"/>
 
+        <!--<ImageView-->
+            <!--android:id="@+id/ic_download_iv"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="120dp"-->
+            <!--app:srcCompat="@drawable/ic_download_animation"/>-->
+
         <FrameLayout
             android:id="@+id/main_fragment_container"
             android:layout_width="match_parent"

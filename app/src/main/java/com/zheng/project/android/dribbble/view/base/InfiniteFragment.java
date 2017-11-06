@@ -141,6 +141,7 @@ public abstract class InfiniteFragment<T> extends Fragment {
 
             infiniteFragment.adapter.setShowLoading(data.size() >= Dribbble.COUNT_PER_PAGE);
             onDataFetched(data);
+        //    resetAnimation();
             if (refresh) { //refresh
                 infiniteFragment.adapter.setData(data);
                 infiniteFragment.swipeRefreshLayout.setRefreshing(false);// stop showing the refreshing symbol.
@@ -148,6 +149,8 @@ public abstract class InfiniteFragment<T> extends Fragment {
                 swipeRefreshLayout.setEnabled(true);
                 infiniteFragment.adapter.append(data);
             }
+
+           // scheduleLayoutAnimation();
         }
 
         @Override

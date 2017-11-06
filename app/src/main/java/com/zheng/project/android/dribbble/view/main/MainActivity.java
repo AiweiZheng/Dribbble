@@ -2,6 +2,7 @@ package com.zheng.project.android.dribbble.view.main;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -86,6 +88,12 @@ public class MainActivity extends BaseActivity {
         if (!Dribbble.isLoggedIn()) {
             Auth.openAuthActivity(this);
         }
+
+//        ImageView mIcDownloadAnimator = (ImageView) findViewById(R.id.ic_download_iv);
+//        Drawable drawable = mIcDownloadAnimator.getDrawable();
+//        if (drawable instanceof Animatable) {
+//            ((Animatable) drawable).start();
+//        }
     }
 
     @Override

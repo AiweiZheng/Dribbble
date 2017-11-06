@@ -48,6 +48,7 @@ public class ShotListFragment extends InfiniteFragment<Shot> {
     public static final int LIST_TYPE_BUCKET = 7;
     public static final int LIST_TYPE_My_FOLLOWING = 8;
     public static final int LIST_TYPE_AUTHOR_SHOTS = 9;
+
     private ShotQueryParameter shotQueryParameter = new ShotQueryParameter();
     private ShotListAdapter adapter;
     @NonNull
@@ -70,11 +71,10 @@ public class ShotListFragment extends InfiniteFragment<Shot> {
         return fragment;
     }
 
-    public static Fragment newUserShotListInstance(String user) {
+    public static Fragment newUserShotListInstance(User user) {
         Bundle args = new Bundle();
         args.putInt(KEY_LIST_TYPE, LIST_TYPE_AUTHOR_SHOTS);
-        args.putString(UserInfoFragment.KEY_USER, user);
-
+        args.putString(UserInfoFragment.KEY_USER, ModelUtils.toString(user, new TypeToken<User>(){}));
         ShotListFragment fragment = new ShotListFragment();
         fragment.setArguments(args);
         return fragment;

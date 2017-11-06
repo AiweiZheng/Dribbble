@@ -7,8 +7,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +74,16 @@ public class ShotAdapter extends RecyclerView.Adapter{
             case VIEW_TYPE_SHOT_IMAGE:
                 ImageViewHolder imageViewHolder = (ImageViewHolder) holder;
                 AnimatedImageUtils.autoPlayAnimations(shot.getImageUrl(), imageViewHolder.simpleDraweeView);
+
+                imageViewHolder.simpleDraweeView.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getContext(), ZoomActivity.class);
+                        intent.putExtra(ZoomFragment.KEY_SHOT_IMAGE_URL, shot.getImageUrl());
+                        getContext().startActivity(intent);
+                    }
+                });
                 break;
 
             case VIEW_TYPE_SHOT_ACTIONS:
