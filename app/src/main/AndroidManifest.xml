@@ -14,22 +14,25 @@
         android:theme="@style/AppTheme">
         <activity android:name=".view.main.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"
+                    android:theme="@style/AppTheme.Main"/>
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <!-- <activity android:name=".view.MainActivity" /> -->
-        <activity android:name=".view.shot_details.ShotActivity" />
+        <activity android:name=".view.shot_details.ShotActivity"
+            android:theme="@style/AppTheme.Detail"/>
         <activity android:name=".view.bucket_list.BucketShotListActivity" />
         <activity android:name=".view.bucket_list.BucketListActivity" />
-        <activity android:name=".view.user.UserInfoActivity" />
+        <activity android:name=".view.user.UserInfoActivity"
+                  android:theme="@style/AppTheme.Detail"/>
         <activity android:name=".view.user.UserShotActivity" />
         <activity android:name=".view.comment.CommentActivity" />
         <activity
             android:name=".dribbble.auth.AuthActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".view.shot_details.ZoomActivity"></activity>
+        <activity android:name=".view.shot_details.ZoomActivity" />
     </application>
 
 </manifest>
