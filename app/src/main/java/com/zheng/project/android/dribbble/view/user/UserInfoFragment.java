@@ -3,18 +3,21 @@ package com.zheng.project.android.dribbble.view.user;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.transition.Transition;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.zheng.project.android.dribbble.BackgroundThread.BackgroundTask;
 import com.zheng.project.android.dribbble.R;
@@ -24,6 +27,9 @@ import com.zheng.project.android.dribbble.models.User;
 import com.zheng.project.android.dribbble.utils.Displayer;
 import com.zheng.project.android.dribbble.utils.HtmlUtils;
 import com.zheng.project.android.dribbble.utils.ModelUtils;
+import com.zheng.project.android.dribbble.view.base.CustomTransitionListener;
+import com.zheng.project.android.dribbble.view.base.TranslateDraweeView;
+import com.zheng.project.android.dribbble.view.shot_details.ShotAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,7 +44,8 @@ public class UserInfoFragment extends Fragment{
     @BindView(R.id.user_detail_shots_count) TextView shotCount;
     @BindView(R.id.user_detail_name) TextView name;
     @BindView(R.id.user_detail_project_count) TextView projectCount;
-    @BindView(R.id.user_detail_user_picture) SimpleDraweeView picture;
+    @BindView(R.id.user_detail_user_picture) TranslateDraweeView picture;
+    @BindView(R.id.user_detail_layout) LinearLayout detailLayout;
 
     public static final String KEY_USER = "author";
 
@@ -69,9 +76,11 @@ public class UserInfoFragment extends Fragment{
             }
             else {
                 if (isFollowing) {
+                    toggleAnimation(true, item);
                     new UnfollowAuthorTask(author.id, item).execute();
                 }
                 else {
+                    toggleAnimation(true, item);
                     new FollowAuthorTask(author.id, item).execute();
                 }
             }
@@ -84,8 +93,29 @@ public class UserInfoFragment extends Fragment{
         setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getActivity().getWindow().getEnterTransition().addListener(new CustomTransitionListener() {
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public void onTransitionEnd(Transition transition) {
+                    getActivity().getWindow().getEnterTransition().removeListener(this);
+                    detailLayout.animate().scaleX(1).scaleY(1);
+                }
+                @Override
+                public void onTransitionStart(Transition transition) {
+                    detailLayout.animate().scaleX(0).scaleY(0);
+                }
+            });
+        }
+
         author = ModelUtils.toObject(getArguments().getString(KEY_USER), new TypeToken<User>(){});
         picture.setImageURI(Uri.parse(author.avatar_url));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            String imageTransitionName = getArguments().getString(ShotAdapter.SHARED_ELEMENT_USER_PICTURE);
+            picture.setTransitionName(imageTransitionName);
+        }
+
         name.setText(author.name);
         location.setText(author.location);
         HtmlUtils.setHtmlText(bio, author.bio, true);
@@ -154,6 +184,22 @@ public class UserInfoFragment extends Fragment{
             followItem.setTitle(getString(R.string.follow));
         }
     }
+
+    private void toggleAnimation(boolean isStart, MenuItem item) {
+//        if (isStart) {
+//            Drawable drawable  = getResources().getDrawable(R.drawable.ic_download_animation);
+//            item.setIcon(drawable);
+//            ((Animatable) drawable).start();
+//        }
+//        else {
+//            Drawable drawable = item.getIcon();
+//            if (drawable instanceof Animatable) {
+//                ((Animatable) drawable).stop();
+//                item.setIcon(null);
+//            }
+//        }
+    }
+
     /**************************************background task******************************/
     private class CheckIfFollowingAuthorTask extends BackgroundTask<Void, Void, Boolean> {
 
@@ -199,12 +245,14 @@ public class UserInfoFragment extends Fragment{
         @Override
         protected void onSuccess(Void aVoid) {
             isCheckingFollowing = false;
+            toggleAnimation(false, followItem);
             updateFollowAuthorItemTitle(true, followItem);
         }
 
         @Override
         protected void onFailed(DribbbleException e) {
             isCheckingFollowing = false;
+            toggleAnimation(false, followItem);
             Displayer.showOnSnackBar(getView(), e.getMessage());
         }
 
@@ -232,12 +280,14 @@ public class UserInfoFragment extends Fragment{
         @Override
         protected void onSuccess(Void aVoid) {
             isCheckingFollowing = false;
+            toggleAnimation(false, followItem);
             updateFollowAuthorItemTitle(false, followItem);
         }
 
         @Override
         protected void onFailed(DribbbleException e) {
             isCheckingFollowing = false;
+            toggleAnimation(false, followItem);
             Displayer.showOnSnackBar(getView(), e.getMessage());
         }
 

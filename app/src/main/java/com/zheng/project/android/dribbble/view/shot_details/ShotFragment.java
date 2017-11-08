@@ -114,7 +114,7 @@ public class ShotFragment extends Fragment{
 
     public void bucket() {
         if (!Dribbble.isLoggedIn()) {
-            Displayer.showOnSnackBar(getView(), formatNotLoggedInMessage("bucket"));
+            Displayer.showOnSnackBar(getView(), formatNotLoggedInMessage(getString(R.string.bucket)));
             return;
         }
 
@@ -139,7 +139,7 @@ public class ShotFragment extends Fragment{
 
     public void like(@NonNull String shotId, boolean like) {
         if (!Dribbble.isLoggedIn()) {
-            Displayer.showOnSnackBar(getView(), formatNotLoggedInMessage("like"));
+            Displayer.showOnSnackBar(getView(), formatNotLoggedInMessage(getString(R.string.like)));
             return;
         }
         if (!isLiking) {

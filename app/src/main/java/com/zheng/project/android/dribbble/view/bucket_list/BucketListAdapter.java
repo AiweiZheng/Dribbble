@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,7 +70,10 @@ public class BucketListAdapter extends InfiniteAdapter<Bucket> {
         bindBasicInfo(bucketViewHolder, bucket);
         bucketViewHolder.bucketChosen.setVisibility(View.VISIBLE);
         bucketViewHolder.bucketOptionsMenu.setVisibility(View.GONE);
-        bucketViewHolder.bucketChosen.setImageDrawable(getBucketChosenImage(bucket.isChosen));
+        //bucketViewHolder.bucketChosen.setImageDrawable(getBucketChosenImage(bucket.isChosen));
+
+        final int[] stateSet = {android.R.attr.state_checked * (bucket.isChosen ? 1 : -1)};
+        bucketViewHolder.bucketChosen.setImageState(stateSet, true);
 
         bucketViewHolder.bucketLayout.setOnClickListener(new View.OnClickListener() {
             @Override

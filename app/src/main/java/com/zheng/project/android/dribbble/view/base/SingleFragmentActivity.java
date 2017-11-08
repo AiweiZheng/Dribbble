@@ -31,7 +31,7 @@ public abstract class SingleFragmentActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (isBackEnabled() && item.getItemId() == android.R.id.home) {
-            finish();
+            supportFinishAfterTransition();
             return true;
         }
         return super.onOptionsItemSelected(item);

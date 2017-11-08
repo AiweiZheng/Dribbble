@@ -2,7 +2,6 @@ package com.zheng.project.android.dribbble.view.main;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -89,6 +88,15 @@ public class MainActivity extends BaseActivity {
             Auth.openAuthActivity(this);
         }
 
+
+//        checkBoxView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                isChecked = !isChecked;
+//                final int[] stateSet = {android.R.attr.state_checked * (isChecked ? 1 : -1)};
+//                checkBoxView.setImageState(stateSet, true);
+//            }
+//        });
 //        ImageView mIcDownloadAnimator = (ImageView) findViewById(R.id.ic_download_iv);
 //        Drawable drawable = mIcDownloadAnimator.getDrawable();
 //        if (drawable instanceof Animatable) {

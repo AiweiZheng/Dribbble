@@ -73,7 +73,7 @@ public abstract class InfiniteFragment<T> extends Fragment {
     }
 
     private void setRecyclerViewAnimation() {
-        int duration = 800;
+        int duration = getContext().getResources().getInteger(R.integer.anim_duration_medium);
         SlideInUpAnimator animator = new SlideInUpAnimator(new OvershootInterpolator(1f));
         recyclerView.setItemAnimator(animator);
 
@@ -141,7 +141,6 @@ public abstract class InfiniteFragment<T> extends Fragment {
 
             infiniteFragment.adapter.setShowLoading(data.size() >= Dribbble.COUNT_PER_PAGE);
             onDataFetched(data);
-        //    resetAnimation();
             if (refresh) { //refresh
                 infiniteFragment.adapter.setData(data);
                 infiniteFragment.swipeRefreshLayout.setRefreshing(false);// stop showing the refreshing symbol.
@@ -149,8 +148,6 @@ public abstract class InfiniteFragment<T> extends Fragment {
                 swipeRefreshLayout.setEnabled(true);
                 infiniteFragment.adapter.append(data);
             }
-
-           // scheduleLayoutAnimation();
         }
 
         @Override

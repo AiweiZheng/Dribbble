@@ -1,19 +1,17 @@
 package com.zheng.project.android.dribbble.view.shot_list;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
-import android.support.transition.Slide;
-import android.support.transition.TransitionManager;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.Picasso;
 import com.zheng.project.android.dribbble.R;
 import com.zheng.project.android.dribbble.view.base.BaseViewHolder;
 import com.zheng.project.android.dribbble.view.base.InfiniteAdapter;
@@ -26,6 +24,7 @@ import java.util.List;
 
 public class ShotListAdapter extends InfiniteAdapter<Shot> {
 
+    public static final String TRANSITION_SHARED_ITEM_NAME_SHOT_IMAGE = "shared_item_shot_image";
     private ShotListFragment shotListFragment;
 
     public ShotListAdapter(@NonNull ShotListFragment shotListFragment, List<Shot> shots) {
@@ -49,37 +48,46 @@ public class ShotListAdapter extends InfiniteAdapter<Shot> {
         shotVh.bucketCount.setText(String.valueOf((shot.buckets_count)));
         shotVh.viewCount.setText(String.valueOf((shot.views_count)));
         shotVh.likeCount.setText(String.valueOf((shot.likes_count)));
-        shotVh.shotImage.setImageURI(Uri.parse(shot.getImageUrl()));
+
+        Picasso.with(shotVh.itemView.getContext())
+                .load(shot.getImageUrl())
+                .noFade()
+                .into(shotVh.shotImage);
+
         if (shot.animated) {
             shotVh.gifText.setVisibility(View.VISIBLE);
         }
         else {
             shotVh.gifText.setVisibility(View.GONE);
         }
+
+        ViewCompat.setTransitionName(shotVh.shotImage, shot.title);
+
         shotVh.cover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Context context = vh.itemView.getContext();
                 Intent intent = new Intent(context, ShotActivity.class);
                 intent.putExtra(ShotFragment.KEY_SHOT,
                         ModelUtils.toString(shot, new TypeToken<Shot>() {
                         }));
+                intent.putExtra(TRANSITION_SHARED_ITEM_NAME_SHOT_IMAGE, ViewCompat.getTransitionName(shotVh.shotImage));
                 intent.putExtra(ShotActivity.KEY_SHOT_TITLE, shot.title);
-                shotListFragment.startActivityForResult(intent, ShotListFragment.REQ_CODE_SHOT);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        shotListFragment.getActivity(),
+                        shotVh.shotImage,
+                        ViewCompat.getTransitionName(shotVh.shotImage));
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    shotListFragment.startActivity(intent, options.toBundle());
+                }
+                else {
+                    shotListFragment.startActivity(intent);
+                }
+
             }
         });
 
-       // shotListFragment.resetAnimation();
-     //   shotListFragment.scheduleLayoutAnimation();
-
-//        ConstraintLayout constraintLayout = ((ShotViewHolder) vh).itemView.findViewById(R.id.shot_constraintLayout);
-//
-//        ConstraintSet constraintSet2 = new ConstraintSet();
-//        constraintSet2.clone(constraintLayout);
-//        constraintSet2.centerVertically(R.id.shot_image, 0);
-//
-//        TransitionManager.beginDelayedTransition(constraintLayout,  new Slide());
-//        shotVh.shotImage.setVisibility(View.VISIBLE);
-//        constraintSet2.applyTo(constraintLayout);
     }
 }

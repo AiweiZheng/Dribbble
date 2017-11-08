@@ -13,7 +13,6 @@ public class ActionsViewHolder extends BaseViewHolder{
     @BindView(R.id.shot_like_count) TextView likeCount;
     @BindView(R.id.shot_comment_count) TextView commentButton;
     @BindView(R.id.shot_bucket_count) TextView bucketCount;
-    @BindView(R.id.shot_action_like) ImageButton likeButton;
     @BindView(R.id.shot_action_bucket) ImageButton bucketButton;
     @BindView(R.id.shot_action_share) TextView shareButton;
 
