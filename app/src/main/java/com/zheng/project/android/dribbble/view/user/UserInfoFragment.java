@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.reflect.TypeToken;
 import com.zheng.project.android.dribbble.BackgroundThread.BackgroundTask;
 import com.zheng.project.android.dribbble.R;
@@ -44,7 +45,7 @@ public class UserInfoFragment extends Fragment{
     @BindView(R.id.user_detail_shots_count) TextView shotCount;
     @BindView(R.id.user_detail_name) TextView name;
     @BindView(R.id.user_detail_project_count) TextView projectCount;
-    @BindView(R.id.user_detail_user_picture) TranslateDraweeView picture;
+    @BindView(R.id.user_detail_user_picture) SimpleDraweeView picture;
     @BindView(R.id.user_detail_layout) LinearLayout detailLayout;
 
     public static final String KEY_USER = "author";

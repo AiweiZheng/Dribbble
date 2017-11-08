@@ -8,6 +8,8 @@
     android:layout_height="match_parent">
 
     <com.zheng.project.android.dribbble.view.base.TranslateDraweeView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:fresco="http://schemas.android.com/apk/res-auto"
         android:id="@+id/user_detail_user_picture"
         android:layout_width="@dimen/nav_header_user_picture_size"
         android:layout_height="@dimen/nav_header_user_picture_size"

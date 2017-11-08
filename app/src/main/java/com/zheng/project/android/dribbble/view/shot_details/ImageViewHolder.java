@@ -13,7 +13,7 @@ import com.zheng.project.android.dribbble.view.base.TranslateDraweeView;
 import butterknife.BindView;
 
 public class ImageViewHolder extends BaseViewHolder{
-    @BindView(R.id.shot_image) public TranslateDraweeView simpleDraweeView;
+    @BindView(R.id.shot_image) public SimpleDraweeView simpleDraweeView;
     @BindView(R.id.like_fab) public FloatingActionButton fab;
 
     public ImageViewHolder(View itemView) {

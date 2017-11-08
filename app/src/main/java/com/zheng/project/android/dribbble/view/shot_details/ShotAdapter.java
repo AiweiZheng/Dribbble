@@ -213,7 +213,7 @@ public class ShotAdapter extends RecyclerView.Adapter{
         shotDetailVh.viewCount.setText(String.valueOf(shot.views_count));
 
         HtmlUtils.setHtmlText(shotDetailVh.description, shot.description, false);
-       // shotDetailViewHolder.authorPicture.setImageURI(Uri.parse(shot.user.avatar_url));
+   //     shotDetailVh.authorPicture.setImageURI(Uri.parse(shot.user.avatar_url));
         Picasso.with(shotDetailVh.authorPicture.getContext())
                 .load(shot.user.avatar_url)
                 .noFade()
