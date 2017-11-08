@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/shot_image_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    xmlns:fresco="http://schemas.android.com/tools">
 
-<com.facebook.drawee.view.SimpleDraweeView
-    android:id="@+id/shot_image"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:adjustViewBounds="true"
-    fresco:viewAspectRatio="1.33"
-    fresco:placeholderImage="@drawable/shot_image_place_holder"
-    fresco:placeholderImageScaleType="fitCenter"
-    fresco:progressBarImage="@drawable/ic_loop_black_24dp"
-    fresco:progressBarAutoRotateInterval = "1000"
-    android:contentDescription="@string/shot_image_content_description"/>
-   <!--<include layout="@layout/progressbar" />  -->
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.zheng.project.android.dribbble.view.base.TranslateDraweeView
+            android:id="@+id/shot_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            fresco:viewAspectRatio="1.33"
+            fresco:placeholderImage="@drawable/shot_image_place_holder"
+            fresco:placeholderImageScaleType="fitCenter"
+            fresco:progressBarImage="@drawable/ic_loop_black_24dp"
+            android:contentDescription="@string/shot_image_content_description"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacing_medium"/>
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/like_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/fab_margin"
+        style="?attr/backgroundTintItem"
+        android:src="@drawable/asl_trimclip_heart_"
+        app:layout_anchor="@id/shot_image"
+        app:layout_anchorGravity="bottom|right|end"/>
+
+</android.support.design.widget.CoordinatorLayout>
 
 

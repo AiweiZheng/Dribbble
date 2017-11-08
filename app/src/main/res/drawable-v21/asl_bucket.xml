@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bucketed"
+        android:drawable="@drawable/ic_inbox_dribbble_18dp"
+        android:state_checked="true"/>
+
+    <item
+        android:id="@+id/not_bucketed"
+        android:drawable="@drawable/ic_inbox_black_18dp"/>
+
+    <transition
+        android:drawable="@drawable/ic_inbox_dribbble_18dp"
+        android:fromId="@id/not_bucketed"
+        android:toId="@id/bucketed"/>
+
+    <transition
+        android:drawable="@drawable/ic_inbox_black_18dp"
+        android:fromId="@id/bucketed"
+        android:toId="@id/not_bucketed"/>
+
+</animated-selector>
