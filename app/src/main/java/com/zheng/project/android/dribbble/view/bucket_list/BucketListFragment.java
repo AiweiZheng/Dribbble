@@ -344,7 +344,7 @@ public class BucketListFragment extends InfiniteFragment<Bucket> {
         @Override
         protected void onSuccess(Void aVoid) {
             adapter.removeBucket(bucketId);
-            Displayer.ShowOnToast(getContext(), "'" + bucketName + "'" + " has been deleted");
+            Displayer.ShowOnToast(getContext(), "'" + bucketName + "' " + R.string.has_been_deleted);
 
         }
 
